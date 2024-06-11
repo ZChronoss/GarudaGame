@@ -107,9 +107,11 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         playerVelocity = joystick.joystickTouchesEnded()
         for touch in touches {
-            if touch == joystick {
-//                playerVelocity = .zero
-                
+            if let node = activeTouches[touch] {
+                if node == joystick {
+                    playerVelocity = joystick.joystickTouchesEnded()
+                }
+                activeTouches.removeValue(forKey: touch)
             }
         }
     }
