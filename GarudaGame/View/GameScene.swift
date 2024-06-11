@@ -7,13 +7,9 @@ class GameScene: SKScene {
     var platform = SKShapeNode()
     var jumpButton = SKShapeNode()
     
-    var joystickBase = SKShapeNode()
-    var joystickStick = SKShapeNode()
-    
-    var joystickActive = false
-    var joystickStartPoint = CGPoint.zero
-    var joystickTouch: UITouch?
     var playerVelocity = CGVector.zero
+    
+    var joystick = JoystickView()
     
     override func didMove(to view: SKView) {
         // Setup player
@@ -32,17 +28,8 @@ class GameScene: SKScene {
         platform.physicsBody?.affectedByGravity = false
         platform.physicsBody?.restitution = 0
         
-        // Setup joystick base
-        joystickBase = SKShapeNode(circleOfRadius: 100)
-        joystickBase.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
-        joystickBase.alpha = 0.5
-        addChild(joystickBase)
-        
-        // Setup joystick stick
-        joystickStick = SKShapeNode(circleOfRadius: 30)
-        joystickStick.fillColor = .gray
-        joystickStick.position = joystickBase.position
-        addChild(joystickStick)
+        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
+        addChild(joystick)
         
         jumpButton = SKShapeNode(circleOfRadius: 40)
         jumpButton.fillColor = .blue
@@ -57,12 +44,9 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.location(in: self)
-            if joystickBase.frame.contains(location) {
-                joystickActive = true
-                joystickStartPoint = location
-                joystickTouch = touch
-            }
-            else if jumpButton.frame.contains(location) {
+            let localLocation = convert(location, to: joystick)
+            joystick.joystickTouchesBegan(location: localLocation)
+            if jumpButton.frame.contains(location) {
                 // Handle jump button press
                 if isOnGround() {
                     player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 80))
@@ -72,33 +56,18 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if joystickActive, let touch = touches.first {
+        if let touch = touches.first {
             let location = touch.location(in: self)
-            let offset = CGPoint(x: location.x - joystickStartPoint.x, y: location.y - joystickStartPoint.y)
-            let direction = CGVector(dx: offset.x, dy: offset.y)
-            let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
-            
-            // Limit the stick movement to the joystick base
-            let maxDistance: CGFloat = 50
-            let clampedDistance = min(length, maxDistance)
-            let clampedDirection = CGVector(dx: direction.dx / length * clampedDistance, dy: direction.dy / length * clampedDistance)
-            
-            joystickStick.position = CGPoint(x: joystickBase.position.x + clampedDirection.dx, y: joystickBase.position.y + clampedDirection.dy)
-            
-            // Calculate player velocity
-            playerVelocity = CGVector(dx: clampedDirection.dx * 0.1, dy: clampedDirection.dy * 0.2) // Adjust multiplier as needed
+            let localLocation = convert(location, to: joystick)
+            if let velocity = joystick.joystickTouchesMoved(location: localLocation){
+                playerVelocity = velocity
+            }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            if touch == joystickTouch {
-                joystickActive = false
-                joystickStick.position = joystickBase.position
-                playerVelocity = CGVector.zero
-                joystickTouch = nil
-            }
-        }
+        joystick.joystickTouchesEnded()
+        playerVelocity = .zero
     }
     
     override func update(_ currentTime: TimeInterval) {

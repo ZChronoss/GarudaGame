@@ -15,6 +15,7 @@
 		110B00262C11978A00228202 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 110B00252C11978A00228202 /* Base */; };
 		110B00282C11978C00228202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110B00272C11978C00228202 /* Assets.xcassets */; };
 		110B002B2C11978C00228202 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 110B002A2C11978C00228202 /* Base */; };
+		113629282C1845A3006DC20B /* JoystickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629272C1845A3006DC20B /* JoystickView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		110B00252C11978A00228202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		110B00272C11978C00228202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		110B002A2C11978C00228202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		113629272C1845A3006DC20B /* JoystickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,16 +61,25 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
+				113629262C184592006DC20B /* View */,
 				110B001A2C11978A00228202 /* AppDelegate.swift */,
 				110B001C2C11978A00228202 /* GameScene.sks */,
 				110B001E2C11978A00228202 /* Actions.sks */,
-				110B00202C11978A00228202 /* GameScene.swift */,
 				110B00222C11978A00228202 /* GameViewController.swift */,
 				110B00242C11978A00228202 /* Main.storyboard */,
 				110B00272C11978C00228202 /* Assets.xcassets */,
 				110B00292C11978C00228202 /* LaunchScreen.storyboard */,
 			);
 			path = GarudaGame;
+			sourceTree = "<group>";
+		};
+		113629262C184592006DC20B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				110B00202C11978A00228202 /* GameScene.swift */,
+				113629272C1845A3006DC20B /* JoystickView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				113629282C1845A3006DC20B /* JoystickView.swift in Sources */,
 				110B00212C11978A00228202 /* GameScene.swift in Sources */,
 				110B00232C11978A00228202 /* GameViewController.swift in Sources */,
 				110B001B2C11978A00228202 /* AppDelegate.swift in Sources */,
