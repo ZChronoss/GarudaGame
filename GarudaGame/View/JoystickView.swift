@@ -38,7 +38,6 @@ class JoystickView: SKNode {
         if joystickBase.frame.contains(location) {
             joystickActive = true
             joystickStartPoint = location
-            print("touched")
         }
     }
     
@@ -57,15 +56,18 @@ class JoystickView: SKNode {
         joystickStick.position = CGPoint(x: joystickBase.position.x + clampedDirection.dx, y: joystickBase.position.y + clampedDirection.dy)
         
         // Calculate player velocity
-        let velocity = CGVector(dx: clampedDirection.dx * 0.1, dy: clampedDirection.dy * 0.2) // Adjust multiplier as needed
+        let velocity = CGVector(dx: clampedDirection.dx * 0.1, dy: clampedDirection.dy * 0) // Adjust multiplier as needed
         
         return velocity
     }
     
-    func joystickTouchesEnded() {
+    func joystickTouchesEnded() -> CGVector {
         if joystickActive {
             joystickActive = false
             joystickStick.position = joystickBase.position
         }
+        
+        return .zero
+        
     }
 }

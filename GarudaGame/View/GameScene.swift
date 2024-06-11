@@ -59,7 +59,7 @@ class GameScene: SKScene {
         jumpButton.fillColor = .blue
         jumpButton.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.minY + 250)
         addChild(jumpButton)
-
+        
         // Setup dash button
         dashButton = SKShapeNode(circleOfRadius: 40)
         dashButton.fillColor = .red
@@ -76,12 +76,11 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             let localLocation = convert(location, to: joystick)
             joystick.joystickTouchesBegan(location: localLocation)
-            if jumpButton.frame.contains(location) {
-            if joystickBase.frame.contains(location) {
-                joystickActive = true
-                joystickStartPoint = location
-                activeTouches[touch] = joystickStick
-            } else if dashButton.frame.contains(location) {
+            
+            if joystick.frame.contains(location){
+                activeTouches[touch] = joystick
+            }
+            else if dashButton.frame.contains(location) {
                 activeTouches[touch] = dashButton
                 if !dashCooldown {
                     startDash()
@@ -106,8 +105,13 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        joystick.joystickTouchesEnded()
-        playerVelocity = .zero
+        playerVelocity = joystick.joystickTouchesEnded()
+        for touch in touches {
+            if touch == joystick {
+//                playerVelocity = .zero
+                
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {

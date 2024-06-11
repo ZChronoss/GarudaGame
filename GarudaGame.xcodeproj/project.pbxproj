@@ -61,7 +61,8 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
-				110B00202C11978A00228202 /* GameScene.swift */,
+				1136292A2C1851E1006DC20B /* ViewModel */,
+				113629292C1851B8006DC20B /* Model */,
 				113629262C184592006DC20B /* View */,
 				110B001A2C11978A00228202 /* AppDelegate.swift */,
 				110B001C2C11978A00228202 /* GameScene.sks */,
@@ -77,9 +78,24 @@
 		113629262C184592006DC20B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				110B00202C11978A00228202 /* GameScene.swift */,
 				113629272C1845A3006DC20B /* JoystickView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		113629292C1851B8006DC20B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1136292A2C1851E1006DC20B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,8 +326,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = 53V73K3799;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -340,8 +355,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = 53V73K3799;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
