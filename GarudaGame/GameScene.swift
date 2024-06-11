@@ -5,14 +5,14 @@ class GameScene: SKScene {
     
     var player = SKSpriteNode()
     var platform = SKShapeNode()
-    var leftButton = SKSpriteNode()
-    var rightButton = SKSpriteNode()
+    var jumpButton = SKShapeNode()
     
     var joystickBase = SKShapeNode()
     var joystickStick = SKShapeNode()
     
     var joystickActive = false
     var joystickStartPoint = CGPoint.zero
+    var joystickTouch: UITouch?
     var playerVelocity = CGVector.zero
     
     override func didMove(to view: SKView) {
@@ -43,6 +43,11 @@ class GameScene: SKScene {
         joystickStick.fillColor = .gray
         joystickStick.position = joystickBase.position
         addChild(joystickStick)
+        
+        jumpButton = SKShapeNode(circleOfRadius: 40)
+        jumpButton.fillColor = .blue
+        jumpButton.position = CGPoint(x: size.width / 2 - 150, y: -size.height / 2 + 150)
+        addChild(jumpButton)
     }
     
     func setupSprite(name: String) -> SKShapeNode{
@@ -55,6 +60,13 @@ class GameScene: SKScene {
             if joystickBase.frame.contains(location) {
                 joystickActive = true
                 joystickStartPoint = location
+                joystickTouch = touch
+            }
+            else if jumpButton.frame.contains(location) {
+                // Handle jump button press
+                if isOnGround() {
+                    player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 80))
+                }
             }
         }
     }
@@ -79,15 +91,38 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if joystickActive {
-            joystickActive = false
-            joystickStick.position = joystickBase.position
-            playerVelocity = CGVector.zero
+        for touch in touches {
+            if touch == joystickTouch {
+                joystickActive = false
+                joystickStick.position = joystickBase.position
+                playerVelocity = CGVector.zero
+                joystickTouch = nil
+            }
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
+        // Check if player is on the ground or a platform
+        let isOnGround = self.isOnGround()
+                
+        // Prevent upward movement
+        if playerVelocity.dy > 0 {
+            playerVelocity.dy = 0
+        }
+        
+        // Prevent downward movement when in mid-air
+        if !isOnGround && playerVelocity.dy < 0 {
+            playerVelocity.dy = 0
+        }
+        
         player.position.x += playerVelocity.dx
-        player.position.y += playerVelocity.dy
+    }
+    
+    func isOnGround() -> Bool {
+        if let physicsBody = player.physicsBody {
+            let groundContactMask: UInt32 = 0x1 << 1 // Ground category bit mask
+            return physicsBody.allContactedBodies().contains { $0.categoryBitMask & groundContactMask != 0 }
+        }
+        return false
     }
 }
