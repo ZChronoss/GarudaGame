@@ -61,6 +61,7 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
+				110B00202C11978A00228202 /* GameScene.swift */,
 				113629262C184592006DC20B /* View */,
 				110B001A2C11978A00228202 /* AppDelegate.swift */,
 				110B001C2C11978A00228202 /* GameScene.sks */,
@@ -76,7 +77,6 @@
 		113629262C184592006DC20B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				110B00202C11978A00228202 /* GameScene.swift */,
 				113629272C1845A3006DC20B /* JoystickView.swift */,
 			);
 			path = View;
