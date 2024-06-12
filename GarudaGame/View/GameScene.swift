@@ -3,7 +3,6 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var kOntol = SKSpriteNode()
     var player = SKSpriteNode()
     var platform = SKShapeNode()
     
