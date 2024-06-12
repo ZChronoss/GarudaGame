@@ -61,13 +61,15 @@ class JoystickView: SKNode {
         return velocity
     }
     
-    func joystickTouchesEnded() -> CGVector {
+    func joystickTouchesEnded(reset: Bool = true) -> CGVector {
         if joystickActive {
             joystickActive = false
-            joystickStick.position = joystickBase.position
+            if reset {
+                joystickStick.position = joystickBase.position
+            }
+            
         }
         
         return .zero
-        
     }
 }

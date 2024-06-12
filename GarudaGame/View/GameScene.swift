@@ -5,15 +5,10 @@ class GameScene: SKScene {
     
     var player = SKSpriteNode()
     var platform = SKShapeNode()
-    var jumpButton = SKShapeNode()
     
-    var joystickBase = SKShapeNode()
-    var joystickStick = SKShapeNode()
+    var jumpButton = SKShapeNode()
     var dashButton = SKShapeNode()
     
-    var joystickActive = false
-    var joystickStartPoint = CGPoint.zero
-    var joystickTouch: UITouch?
     var playerVelocity = CGVector.zero
     var playerFacing = false
     
@@ -43,13 +38,11 @@ class GameScene: SKScene {
         player.physicsBody?.restitution = 0
         player.physicsBody?.allowsRotation = false
         addChild(player)
-        
-        // Setup platform
-        platform = setupSprite(name: "a")
-        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
-        platform.physicsBody?.isDynamic = false
-        platform.physicsBody?.affectedByGravity = false
-        platform.physicsBody?.restitution = 0
+
+        let platformNames = ["a", "aa", "aaa", "aaaa"]
+        for name in platformNames {
+            setupPlatform(name: name)
+        }
         
         joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
         addChild(joystick)
@@ -67,26 +60,31 @@ class GameScene: SKScene {
         addChild(dashButton)
     }
     
-    func setupSprite(name: String) -> SKShapeNode {
-        return self.childNode(withName: name) as! SKShapeNode
+    func setupPlatform(name: String) {
+        guard let platform = self.childNode(withName: name) as? SKShapeNode else {
+            fatalError("Node with name \(name) not found or not a SKShapeNode")
+        }
+        
+        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
+        platform.physicsBody?.isDynamic = false
+        platform.physicsBody?.affectedByGravity = false
+        platform.physicsBody?.restitution = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             let localLocation = convert(location, to: joystick)
-            joystick.joystickTouchesBegan(location: localLocation)
             
-            if joystick.frame.contains(location){
+            if joystick.joystickBase.frame.contains(localLocation){
+                joystick.joystickTouchesBegan(location: localLocation)
                 activeTouches[touch] = joystick
             }
             else if dashButton.frame.contains(location) {
-                activeTouches[touch] = dashButton
                 if !dashCooldown {
                     startDash()
                 }
             } else if jumpButton.frame.contains(location) {
-                // Handle jump button press
                 if isOnGround() {
                     player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 80))
                 }
@@ -95,31 +93,27 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let location = touch.location(in: self)
-            let localLocation = convert(location, to: joystick)
-            if let velocity = joystick.joystickTouchesMoved(location: localLocation){
-                playerVelocity = velocity
+        for touch in touches {
+            if activeTouches[touch] == joystick {
+                let location = touch.location(in: self)
+                let localLocation = convert(location, to: joystick)
+                if let velocity = joystick.joystickTouchesMoved(location: localLocation){
+                    playerVelocity = velocity
+                }
             }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        playerVelocity = joystick.joystickTouchesEnded()
         for touch in touches {
-            if let node = activeTouches[touch] {
-                if node == joystick {
-                    playerVelocity = joystick.joystickTouchesEnded()
-                }
+            if activeTouches[touch] == joystick  {
+                playerVelocity = joystick.joystickTouchesEnded()
                 activeTouches.removeValue(forKey: touch)
             }
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Check if player is on the ground or a platform
-        let isOnGround = self.isOnGround()
-        
         // Update dash movement
         if isDashing {
             dashCooldown = true
