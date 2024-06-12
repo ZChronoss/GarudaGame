@@ -3,6 +3,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    var dharma = SKSpriteNode()
     var player = SKSpriteNode()
     var platform = SKShapeNode()
     
