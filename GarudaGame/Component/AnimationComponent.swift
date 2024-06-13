@@ -35,7 +35,8 @@ class AnimationComponent: GKComponent {
         let textureAtlas = SKTextureAtlas(named: name + "\(state.rawValue)")
         var frames = [SKTexture]()
         
-//        print(name + "\(state.rawValue)")
+        print(name + "\(state.rawValue)")
+        print(textureAtlas.textureNames.count)
         
         for i in 0...textureAtlas.textureNames.count - 1{
             frames.append(textureAtlas.textureNamed(textureAtlas.textureNames[i]))

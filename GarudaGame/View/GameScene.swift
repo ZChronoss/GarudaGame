@@ -34,23 +34,23 @@ class GameScene: SKScene {
     var joystick = JoystickView()
     
     
-    let kecrek = Enemy(name: "Kecrek")
-    
-    var entityManager: EntityManager!
+//    let kecrek = Enemy(name: "Kecrek")
+//    
+//    var entityManager: EntityManager!
     
     override func didMove(to view: SKView) {
-//        load entity manager
-        entityManager = EntityManager(scene: self)
-        
-//        Load entity enemy bernama "Kecrek"
-        let kecrek = Enemy(name: "Kecrek")
-        if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
-            spriteComponent.node.position = CGPoint(x: frame.midX, y: frame.midY)
-//            spriteComponent.node.size = CGSize(width: 80, height: 80)
-        }
-        entityManager.addEntity(kecrek)
-        entityManager.addPhysic(kecrek)
-        entityManager.startAnimation(kecrek)
+////        load entity manager
+//        entityManager = EntityManager(scene: self)
+//        
+////        Load entity enemy bernama "Kecrek"
+//        let kecrek = Enemy(name: "Kecrek")
+//        if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
+//            spriteComponent.node.position = CGPoint(x: frame.midX, y: frame.midY)
+////            spriteComponent.node.size = CGSize(width: 80, height: 80)
+//        }
+//        entityManager.addEntity(kecrek)
+//        entityManager.addPhysic(kecrek)
+//        entityManager.startAnimation(kecrek)
         
 //        kecrek.addComponent(AnimationComponent())
 //        addChild(kecrek.texture)
@@ -71,8 +71,8 @@ class GameScene: SKScene {
         platform.physicsBody?.affectedByGravity = false
         platform.physicsBody?.restitution = 0
         
-        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
-        addChild(joystick)
+//        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
+//        addChild(joystick)
         
         // Setup jump button
         jumpButton = SKShapeNode(circleOfRadius: 40)

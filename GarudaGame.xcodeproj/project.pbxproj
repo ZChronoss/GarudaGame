@@ -22,6 +22,8 @@
 		113629432C1A1872006DC20B /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629422C1A1872006DC20B /* EntityManager.swift */; };
 		113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629472C1A23C8006DC20B /* PhysicComponent.swift */; };
 		1136294A2C1AD095006DC20B /* ControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629492C1AD095006DC20B /* ControlComponent.swift */; };
+		113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136294F2C1AD9CA006DC20B /* BaseScene.swift */; };
+		113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629512C1ADA7D006DC20B /* LevelOneScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		113629422C1A1872006DC20B /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
 		113629472C1A23C8006DC20B /* PhysicComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicComponent.swift; sourceTree = "<group>"; };
 		113629492C1AD095006DC20B /* ControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlComponent.swift; sourceTree = "<group>"; };
+		1136294F2C1AD9CA006DC20B /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
+		113629512C1ADA7D006DC20B /* LevelOneScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelOneScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,8 @@
 			children = (
 				110B00202C11978A00228202 /* GameScene.swift */,
 				113629272C1845A3006DC20B /* JoystickView.swift */,
+				1136294F2C1AD9CA006DC20B /* BaseScene.swift */,
+				113629512C1ADA7D006DC20B /* LevelOneScene.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -205,7 +211,9 @@
 				113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */,
 				110B00232C11978A00228202 /* GameViewController.swift in Sources */,
 				113629432C1A1872006DC20B /* EntityManager.swift in Sources */,
+				113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */,
 				110B001B2C11978A00228202 /* AppDelegate.swift in Sources */,
+				113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */,
 				1136294A2C1AD095006DC20B /* ControlComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,7 +373,6 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -394,7 +401,6 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

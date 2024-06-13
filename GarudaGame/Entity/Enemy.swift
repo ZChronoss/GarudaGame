@@ -19,6 +19,7 @@ class Enemy: GKEntity {
         
 //        Texture
         self.texture = SKTexture(imageNamed: name + "Node")
+        print(name)
         
 //        Sprite
         let spriteComponent = SpriteComponent(texture, size: nodeSize)

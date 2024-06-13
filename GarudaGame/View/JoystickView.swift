@@ -17,16 +17,18 @@ class JoystickView: SKNode {
     var joystickStartPoint = CGPoint.zero
     
     override init(){
-        joystickBase = SKShapeNode(circleOfRadius: 100)
-        joystickStick = SKShapeNode(circleOfRadius: 30)
+        joystickBase = SKShapeNode(circleOfRadius: 75)
+        joystickStick = SKShapeNode(circleOfRadius: 25)
         
         super.init()
         
         joystickBase.alpha = 0.5
+        joystickBase.zPosition = 99
         addChild(joystickBase)
         
         joystickStick.fillColor = .gray
         joystickStick.position = joystickBase.position
+        joystickStick.zPosition = 99
         addChild(joystickStick)
     }
     
