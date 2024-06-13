@@ -8,6 +8,7 @@ class GameScene: SKScene {
     
     var jumpButton = SKShapeNode()
     var dashButton = SKShapeNode()
+    var longDashButton = SKShapeNode()
     
     var playerVelocity = CGVector.zero
     var playerFacing = false
@@ -18,6 +19,7 @@ class GameScene: SKScene {
     var isDashing = false
     var dashVelocity = CGVector.zero
     let dashSpeed: CGFloat = 800.0
+    let longDashSpeed: CGFloat = 400.0
     let dashDuration: CGFloat = 0.2
     var dashTimeElapsed: CGFloat = 0.0
     
@@ -81,9 +83,13 @@ class GameScene: SKScene {
                 activeTouches[touch] = joystick
             }
             else if dashButton.frame.contains(location) {
-                if !dashCooldown {
-                    startDash()
-                }
+                    if !dashCooldown && isOnGround(){
+                        startDash()
+                    }else if !dashCooldown && !isOnGround() && !isDashing{
+                        startLongDash()
+                    }else if !isOnGround() && isDashing{
+                        stopLongDash()
+                    }
             } else if jumpButton.frame.contains(location) {
                 if isOnGround() {
                     player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 80))
@@ -124,6 +130,8 @@ class GameScene: SKScene {
             } else {
                 isDashing = false
                 dashVelocity = CGVector.zero
+                player.physicsBody?.affectedByGravity = true
+                joystick.allowYControl = 0.0
             }
         }
         
@@ -153,6 +161,18 @@ class GameScene: SKScene {
         isDashing = true
         dashTimeElapsed = 0.0
         dashVelocity = playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)
+    }
+    
+    func startLongDash() {
+        player.physicsBody?.affectedByGravity = false
+        joystick.allowYControl = 0.1
+        isDashing = true
+        dashTimeElapsed = -0.5
+        dashVelocity = playerFacing ? CGVector(dx: longDashSpeed, dy: 0) : CGVector(dx: -longDashSpeed, dy: 0)
+    }
+    
+    func stopLongDash() {
+        dashTimeElapsed = 0.2
     }
     
     func isOnGround() -> Bool {
