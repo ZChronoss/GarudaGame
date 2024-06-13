@@ -16,6 +16,12 @@
 		110B00282C11978C00228202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110B00272C11978C00228202 /* Assets.xcassets */; };
 		110B002B2C11978C00228202 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 110B002A2C11978C00228202 /* Base */; };
 		113629282C1845A3006DC20B /* JoystickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629272C1845A3006DC20B /* JoystickView.swift */; };
+		1136293D2C19A4FC006DC20B /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136293C2C19A4FC006DC20B /* Enemy.swift */; };
+		1136293F2C19B2AC006DC20B /* AnimationComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136293E2C19B2AC006DC20B /* AnimationComponent.swift */; };
+		113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629402C1A174F006DC20B /* SpriteComponent.swift */; };
+		113629432C1A1872006DC20B /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629422C1A1872006DC20B /* EntityManager.swift */; };
+		113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629472C1A23C8006DC20B /* PhysicComponent.swift */; };
+		1136294A2C1AD095006DC20B /* ControlComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629492C1AD095006DC20B /* ControlComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +35,12 @@
 		110B00272C11978C00228202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		110B002A2C11978C00228202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		113629272C1845A3006DC20B /* JoystickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickView.swift; sourceTree = "<group>"; };
+		1136293C2C19A4FC006DC20B /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		1136293E2C19B2AC006DC20B /* AnimationComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationComponent.swift; sourceTree = "<group>"; };
+		113629402C1A174F006DC20B /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
+		113629422C1A1872006DC20B /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
+		113629472C1A23C8006DC20B /* PhysicComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicComponent.swift; sourceTree = "<group>"; };
+		113629492C1AD095006DC20B /* ControlComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +73,9 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
-				1136292A2C1851E1006DC20B /* ViewModel */,
-				113629292C1851B8006DC20B /* Model */,
+				113629442C1A1FB5006DC20B /* StateMachine */,
+				113629392C19A1F0006DC20B /* Component */,
+				113629382C19A08F006DC20B /* Entity */,
 				113629262C184592006DC20B /* View */,
 				110B001A2C11978A00228202 /* AppDelegate.swift */,
 				110B001C2C11978A00228202 /* GameScene.sks */,
@@ -84,18 +97,31 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		113629292C1851B8006DC20B /* Model */ = {
+		113629382C19A08F006DC20B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				1136293C2C19A4FC006DC20B /* Enemy.swift */,
+				113629422C1A1872006DC20B /* EntityManager.swift */,
 			);
-			path = Model;
+			path = Entity;
 			sourceTree = "<group>";
 		};
-		1136292A2C1851E1006DC20B /* ViewModel */ = {
+		113629392C19A1F0006DC20B /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				1136293E2C19B2AC006DC20B /* AnimationComponent.swift */,
+				113629402C1A174F006DC20B /* SpriteComponent.swift */,
+				113629472C1A23C8006DC20B /* PhysicComponent.swift */,
+				113629492C1AD095006DC20B /* ControlComponent.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		113629442C1A1FB5006DC20B /* StateMachine */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = ViewModel;
+			path = StateMachine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,10 +197,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1136293F2C19B2AC006DC20B /* AnimationComponent.swift in Sources */,
 				113629282C1845A3006DC20B /* JoystickView.swift in Sources */,
+				113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */,
+				1136293D2C19A4FC006DC20B /* Enemy.swift in Sources */,
 				110B00212C11978A00228202 /* GameScene.swift in Sources */,
+				113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */,
 				110B00232C11978A00228202 /* GameViewController.swift in Sources */,
+				113629432C1A1872006DC20B /* EntityManager.swift in Sources */,
 				110B001B2C11978A00228202 /* AppDelegate.swift in Sources */,
+				1136294A2C1AD095006DC20B /* ControlComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

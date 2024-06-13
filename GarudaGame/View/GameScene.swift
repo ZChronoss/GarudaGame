@@ -33,7 +33,27 @@ class GameScene: SKScene {
     
     var joystick = JoystickView()
     
+    
+    let kecrek = Enemy(name: "Kecrek")
+    
+    var entityManager: EntityManager!
+    
     override func didMove(to view: SKView) {
+//        load entity manager
+        entityManager = EntityManager(scene: self)
+        
+//        Load entity enemy bernama "Kecrek"
+        let kecrek = Enemy(name: "Kecrek")
+        if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
+            spriteComponent.node.position = CGPoint(x: frame.midX, y: frame.midY)
+//            spriteComponent.node.size = CGSize(width: 80, height: 80)
+        }
+        entityManager.addEntity(kecrek)
+        entityManager.addPhysic(kecrek)
+        entityManager.startAnimation(kecrek)
+        
+//        kecrek.addComponent(AnimationComponent())
+//        addChild(kecrek.texture)
         // Setup player
         player = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
         player.position = CGPoint(x: 0, y: 0)
@@ -168,4 +188,6 @@ class GameScene: SKScene {
         }
         return false
     }
+    
+    
 }
