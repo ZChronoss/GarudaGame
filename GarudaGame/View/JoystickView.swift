@@ -15,6 +15,7 @@ class JoystickView: SKNode {
     
     var joystickActive = false
     var joystickStartPoint = CGPoint.zero
+    var allowYControl = 0.0
     
     override init(){
         joystickBase = SKShapeNode(circleOfRadius: 75)
@@ -58,18 +59,20 @@ class JoystickView: SKNode {
         joystickStick.position = CGPoint(x: joystickBase.position.x + clampedDirection.dx, y: joystickBase.position.y + clampedDirection.dy)
         
         // Calculate player velocity
-        let velocity = CGVector(dx: clampedDirection.dx * 0.1, dy: clampedDirection.dy * 0) // Adjust multiplier as needed
+        let velocity = CGVector(dx: clampedDirection.dx * 0.1, dy: clampedDirection.dy * allowYControl) // Adjust multiplier as needed
         
         return velocity
     }
     
-    func joystickTouchesEnded() -> CGVector {
+    func joystickTouchesEnded(reset: Bool = true) -> CGVector {
         if joystickActive {
             joystickActive = false
-            joystickStick.position = joystickBase.position
+            if reset {
+                joystickStick.position = joystickBase.position
+            }
+            
         }
         
         return .zero
-        
     }
 }

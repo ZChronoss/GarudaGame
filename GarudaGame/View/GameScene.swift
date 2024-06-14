@@ -4,16 +4,13 @@ import GameplayKit
 class GameScene: SKScene {
     
     var player = SKSpriteNode()
+    var cameraNode = SKCameraNode()
     var platform = SKShapeNode()
+    
     var jumpButton = SKShapeNode()
-    
-    var joystickBase = SKShapeNode()
-    var joystickStick = SKShapeNode()
     var dashButton = SKShapeNode()
+    var longDashButton = SKShapeNode()
     
-    var joystickActive = false
-    var joystickStartPoint = CGPoint.zero
-    var joystickTouch: UITouch?
     var playerVelocity = CGVector.zero
     var playerFacing = false
     
@@ -23,6 +20,7 @@ class GameScene: SKScene {
     var isDashing = false
     var dashVelocity = CGVector.zero
     let dashSpeed: CGFloat = 800.0
+    let longDashSpeed: CGFloat = 400.0
     let dashDuration: CGFloat = 0.2
     var dashTimeElapsed: CGFloat = 0.0
     
@@ -64,49 +62,62 @@ class GameScene: SKScene {
         player.physicsBody?.allowsRotation = false
         addChild(player)
         
-        // Setup platform
-        platform = setupSprite(name: "a")
-        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
-        platform.physicsBody?.isDynamic = false
-        platform.physicsBody?.affectedByGravity = false
-        platform.physicsBody?.restitution = 0
+        cameraNode = SKCameraNode()
+        camera = cameraNode
+        cameraNode.position = player.position
+        addChild(cameraNode)
+
+        let platformNames = (1...7).map { "\($0)" }
+        for name in platformNames {
+            setupPlatform(name: name)
+        }
         
-//        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
-//        addChild(joystick)
+        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
+        cameraNode.addChild(joystick)
         
         // Setup jump button
         jumpButton = SKShapeNode(circleOfRadius: 40)
         jumpButton.fillColor = .blue
         jumpButton.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.minY + 250)
-        addChild(jumpButton)
+        cameraNode.addChild(jumpButton)
         
         // Setup dash button
         dashButton = SKShapeNode(circleOfRadius: 40)
         dashButton.fillColor = .red
         dashButton.position = CGPoint(x: self.frame.maxX - 200, y: self.frame.minY + 150)
-        addChild(dashButton)
+        cameraNode.addChild(dashButton)
     }
     
-    func setupSprite(name: String) -> SKShapeNode {
-        return self.childNode(withName: name) as! SKShapeNode
+    func setupPlatform(name: String) {
+        guard let platform = self.childNode(withName: name) as? SKShapeNode else {
+            fatalError("Node with name \(name) not found or not a SKShapeNode")
+        }
+        
+        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
+        platform.physicsBody?.isDynamic = false
+        platform.physicsBody?.affectedByGravity = false
+        platform.physicsBody?.restitution = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             let localLocation = convert(location, to: joystick)
-            joystick.joystickTouchesBegan(location: localLocation)
+            let cameraLocation = convert(location, to: cameraNode)
             
-            if joystick.frame.contains(location){
+            if joystick.joystickBase.frame.contains(localLocation){
+                joystick.joystickTouchesBegan(location: localLocation)
                 activeTouches[touch] = joystick
             }
-            else if dashButton.frame.contains(location) {
-                activeTouches[touch] = dashButton
-                if !dashCooldown {
-                    startDash()
-                }
-            } else if jumpButton.frame.contains(location) {
-                // Handle jump button press
+            else if dashButton.frame.contains(cameraLocation) {
+                    if !dashCooldown && isOnGround(){
+                        startDash()
+                    }else if !dashCooldown && !isOnGround() && !isDashing{
+                        startLongDash()
+                    }else if !isOnGround() && isDashing{
+                        stopLongDash()
+                    }
+            } else if jumpButton.frame.contains(cameraLocation) {
                 if isOnGround() {
                     player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 80))
                 }
@@ -115,31 +126,40 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let location = touch.location(in: self)
-            let localLocation = convert(location, to: joystick)
-            if let velocity = joystick.joystickTouchesMoved(location: localLocation){
-                playerVelocity = velocity
+        for touch in touches {
+            if activeTouches[touch] == joystick {
+                let location = touch.location(in: self)
+                let localLocation = convert(location, to: joystick)
+                if let velocity = joystick.joystickTouchesMoved(location: localLocation){
+                    playerVelocity = velocity
+                }
             }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        playerVelocity = joystick.joystickTouchesEnded()
         for touch in touches {
-            if let node = activeTouches[touch] {
-                if node == joystick {
-                    playerVelocity = joystick.joystickTouchesEnded()
-                }
+            if activeTouches[touch] == joystick  {
+                playerVelocity = joystick.joystickTouchesEnded()
                 activeTouches.removeValue(forKey: touch)
             }
         }
     }
     
+    func lerp(a: CGFloat, b: CGFloat, t: CGFloat) -> CGFloat {
+            return a + (b - a) * t
+        }
+    
     override func update(_ currentTime: TimeInterval) {
-        // Check if player is on the ground or a platform
-        let isOnGround = self.isOnGround()
-        
+        // Camera follows player with dampening effect
+                let targetPosition = player.position
+                let cameraPosition = cameraNode.position
+                
+                // Interpolate camera position towards player position
+                let newX = lerp(a: cameraPosition.x, b: targetPosition.x, t: 0.1) // Adjust t to control speed
+                let newY = lerp(a: cameraPosition.y, b: targetPosition.y, t: 0.1) // Adjust t to control speed
+                
+                cameraNode.position = CGPoint(x: newX, y: newY)
         // Update dash movement
         if isDashing {
             dashCooldown = true
@@ -150,6 +170,8 @@ class GameScene: SKScene {
             } else {
                 isDashing = false
                 dashVelocity = CGVector.zero
+                player.physicsBody?.affectedByGravity = true
+                joystick.allowYControl = 0.0
             }
         }
         
@@ -181,13 +203,31 @@ class GameScene: SKScene {
         dashVelocity = playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)
     }
     
+    func startLongDash() {
+        player.physicsBody?.affectedByGravity = false
+        joystick.allowYControl = 0.1
+        isDashing = true
+        dashTimeElapsed = -0.5
+        dashVelocity = playerFacing ? CGVector(dx: longDashSpeed, dy: 0) : CGVector(dx: -longDashSpeed, dy: 0)
+    }
+    
+    func stopLongDash() {
+        dashTimeElapsed = 0.2
+    }
+    
+    //MARK: Masih bug pas nyentuh dinding bisa loncat, gara2 dihitungnya contacted
     func isOnGround() -> Bool {
-        if let physicsBody = player.physicsBody {
-            let groundContactMask: UInt32 = 0x1 << 1 // Ground category bit mask
-            return physicsBody.allContactedBodies().contains { $0.categoryBitMask & groundContactMask != 0 }
+        for platform in self.children {
+            if let platformNode = platform as? SKShapeNode, platformNode.name != nil {
+                if player.physicsBody?.allContactedBodies().contains(platformNode.physicsBody!) ?? false {
+                    return true
+                }
+            }
         }
         return false
     }
+
+
     
     
 }
