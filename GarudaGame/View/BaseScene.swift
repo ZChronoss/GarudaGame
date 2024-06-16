@@ -13,6 +13,7 @@ class BaseScene: SKScene{
     var joystick = JoystickView()
     var dashButton = SKShapeNode()
     var jumpButton = SKShapeNode()
+    var cameraNode = SKCameraNode()
     
     var playerVelocity = CGVector.zero
     var playerFacing = false
@@ -32,21 +33,26 @@ class BaseScene: SKScene{
     var dashCooldownTimeElapsed: CGFloat = 0.0
     
     override func didMove(to view: SKView) {
+        
+        cameraNode = SKCameraNode()
+        camera = cameraNode
+        addChild(cameraNode)
+        
         // Setup joystick
-        joystick.position = CGPoint(x: self.frame.minX + 120, y: self.frame.minY + 100)
-        addChild(joystick)
+        joystick.position = CGPoint(x: -size.width / 2 + 150, y: -size.height / 2 + 100)
+        cameraNode.addChild(joystick)
         
         // Setup jump button
-        jumpButton = SKShapeNode(circleOfRadius: 25)
+        jumpButton = SKShapeNode(circleOfRadius: 40)
         jumpButton.fillColor = .blue
-        jumpButton.position = CGPoint(x: self.frame.maxX - 80, y: self.frame.minY + 150)
-        addChild(jumpButton)
+        jumpButton.position = CGPoint(x: self.frame.minX+350 , y: self.frame.minY-20)
+        cameraNode.addChild(jumpButton)
         
         // Setup dash button
-        dashButton = SKShapeNode(circleOfRadius: 25)
+        dashButton = SKShapeNode(circleOfRadius: 40)
         dashButton.fillColor = .red
-        dashButton.position = CGPoint(x: self.frame.maxX - 150, y: self.frame.minY + 50)
-        addChild(dashButton)
+        dashButton.position = CGPoint(x: self.frame.minX+250, y: self.frame.minY-125)
+        cameraNode.addChild(dashButton)
         
         joystick.zPosition = CGFloat(99)
         jumpButton.zPosition = CGFloat(99)
@@ -63,43 +69,28 @@ class BaseScene: SKScene{
             let localLocation = convert(location, to: joystick)
             joystick.joystickTouchesBegan(location: localLocation)
             
-            if joystick.frame.contains(location){
+            if joystick.joystickBase.frame.contains(localLocation){
                 activeTouches[touch] = joystick
-            }
-            else if dashButton.frame.contains(location) {
-                activeTouches[touch] = dashButton
-                if !dashCooldown {
-                    startDash()
-                }
-                
-                print("Dash")
-            } else if jumpButton.frame.contains(location) {
-                // Handle jump button press
-//                if isOnGround() {
-//                    player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 80))
-//                }
-                print("Jump")
             }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let location = touch.location(in: self)
-            let localLocation = convert(location, to: joystick)
-            if let velocity = joystick.joystickTouchesMoved(location: localLocation){
-                playerVelocity = velocity
+        for touch in touches {
+            if activeTouches[touch] == joystick {
+                let location = touch.location(in: self)
+                let localLocation = convert(location, to: joystick)
+                if let velocity = joystick.joystickTouchesMoved(location: localLocation){
+                    playerVelocity = velocity
+                }
             }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        playerVelocity = joystick.joystickTouchesEnded()
         for touch in touches {
-            if let node = activeTouches[touch] {
-                if node == joystick {
-                    playerVelocity = joystick.joystickTouchesEnded()
-                }
+            if activeTouches[touch] == joystick  {
+                playerVelocity = joystick.joystickTouchesEnded()
                 activeTouches.removeValue(forKey: touch)
             }
         }
@@ -112,12 +103,4 @@ class BaseScene: SKScene{
         dashTimeElapsed = 0.0
         dashVelocity = playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)
     }
-    
-//    func isOnGround() -> Bool {
-//        if let physicsBody = player.physicsBody {
-//            let groundContactMask: UInt32 = 0x1 << 1 // Ground category bit mask
-//            return physicsBody.allContactedBodies().contains { $0.categoryBitMask & groundContactMask != 0 }
-//        }
-//        return false
-//    }
 }
