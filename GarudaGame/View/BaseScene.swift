@@ -39,19 +39,19 @@ class BaseScene: SKScene{
         addChild(cameraNode)
         
         // Setup joystick
-        joystick.position = CGPoint(x: -size.width / 2 + 150, y: -size.height / 2 + 100)
+        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
         cameraNode.addChild(joystick)
         
         // Setup jump button
         jumpButton = SKShapeNode(circleOfRadius: 40)
         jumpButton.fillColor = .blue
-        jumpButton.position = CGPoint(x: self.frame.minX+350 , y: self.frame.minY-20)
+        jumpButton.position = CGPoint(x: self.frame.maxX-100 , y: self.frame.minY+250)
         cameraNode.addChild(jumpButton)
         
         // Setup dash button
         dashButton = SKShapeNode(circleOfRadius: 40)
         dashButton.fillColor = .red
-        dashButton.position = CGPoint(x: self.frame.minX+250, y: self.frame.minY-125)
+        dashButton.position = CGPoint(x: self.frame.maxX-200, y: self.frame.minY+150)
         cameraNode.addChild(dashButton)
         
         joystick.zPosition = CGFloat(99)

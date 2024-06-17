@@ -15,7 +15,11 @@ class LevelOneScene: BaseScene{
     var garuda = Player(name: "Garuda")
     var dashSystem = DashSystem()
     
+    var jumpCooldown = false
+    let jumpCooldownDuration: TimeInterval = 0.5
+    
     override func didMove(to view: SKView) {
+        super.didMove(to: view)
         entityManager = EntityManager(scene: self)
         
         if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
@@ -34,25 +38,10 @@ class LevelOneScene: BaseScene{
         
         camera?.position = (garuda.component(ofType: SpriteComponent.self)?.node.position)!
         
-        //        if let scene = SKScene(fileNamed: "BaseScene.sks"){
-        //            self.addChild(scene)
-        //        }
-        
-        super.didMove(to: view)
-        //        let platformNames = (1...7).map { "\($0)" }
-        //        for name in platformNames {
-        //            setupPlatform(name: name)
-        //        }
-        let platform = SKShapeNode(rectOf: CGSize(width: self.frame.width, height: 200))
-        platform.name = "platform"
-        platform.fillColor = .brown
-        platform.position = CGPoint(x: self.frame.midX, y: self.frame.minY)
-        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
-        platform.physicsBody?.affectedByGravity = false
-        platform.physicsBody?.isDynamic = false
-        platform.physicsBody?.restitution = 0
-        platform.physicsBody?.allowsRotation = false
-        addChild(platform)
+        let platformNames = (1...7).map { "\($0)" }
+        for name in platformNames {
+            setupPlatform(name: name)
+        }
     }
     
     func setupPlatform(name: String) {
@@ -60,10 +49,13 @@ class LevelOneScene: BaseScene{
             fatalError("Node with name \(name) not found or not a SKShapeNode")
         }
         
+        print("Setting up platform: \(name)")
+        
         platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
         platform.physicsBody?.isDynamic = false
         platform.physicsBody?.affectedByGravity = false
         platform.physicsBody?.restitution = 0
+        platform.physicsBody?.allowsRotation = false
     }
     
     func lerp(a: CGFloat, b: CGFloat, t: CGFloat) -> CGFloat {
@@ -89,12 +81,12 @@ class LevelOneScene: BaseScene{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         for touch in touches {
-            
             let location = touch.location(in: cameraNode)
             
             if jumpButton.frame.contains(location) {
-                if isOnGround(){
+                if isOnGround() && !jumpCooldown {
                     garuda.component(ofType: MovementComponent.self)?.jump()
+                    activateJumpCooldown()
                 }
             }else if dashButton.frame.contains(location) {
                 if !dashCooldown && isOnGround(){
@@ -108,9 +100,16 @@ class LevelOneScene: BaseScene{
         }
     }
     
+    func activateJumpCooldown() {
+        jumpCooldown = true
+        Timer.scheduledTimer(withTimeInterval: jumpCooldownDuration, repeats: false) { _ in
+            self.jumpCooldown = false
+        }
+    }
+    
     func isOnGround() -> Bool {
         for platform in self.children {
-            if let platformNode = platform as? SKShapeNode, platformNode.name == "platform" {
+            if let platformNode = platform as? SKShapeNode, platformNode.name != nil {
                 if garuda.component(ofType: PhysicComponent.self)?.physicBody.allContactedBodies().contains(platformNode.physicsBody!) ?? false {
                     return true
                 }
@@ -118,4 +117,5 @@ class LevelOneScene: BaseScene{
         }
         return false
     }
+    
 }

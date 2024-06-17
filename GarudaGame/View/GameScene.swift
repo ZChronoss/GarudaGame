@@ -152,14 +152,14 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Camera follows player with dampening effect
-                let targetPosition = player.position
-                let cameraPosition = cameraNode.position
-                
-                // Interpolate camera position towards player position
-                let newX = lerp(a: cameraPosition.x, b: targetPosition.x, t: 0.1) // Adjust t to control speed
-                let newY = lerp(a: cameraPosition.y, b: targetPosition.y, t: 0.1) // Adjust t to control speed
-                
-                cameraNode.position = CGPoint(x: newX, y: newY)
+        let targetPosition = player.position
+        let cameraPosition = cameraNode.position
+        
+        // Interpolate camera position towards player position
+        let newX = lerp(a: cameraPosition.x, b: targetPosition.x, t: 0.1) // Adjust t to control speed
+        let newY = lerp(a: cameraPosition.y, b: targetPosition.y, t: 0.1) // Adjust t to control speed
+        
+        cameraNode.position = CGPoint(x: newX, y: newY)
         // Update dash movement
         if isDashing {
             dashCooldown = true
