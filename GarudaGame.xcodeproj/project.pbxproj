@@ -28,6 +28,7 @@
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
 		5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
+		76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F97BA82C22C2EE00950597 /* ChaseComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
 		5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatComponent.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
+		76F97BA82C22C2EE00950597 /* ChaseComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaseComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				113629472C1A23C8006DC20B /* PhysicComponent.swift */,
 				5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */,
 				5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */,
+				76F97BA82C22C2EE00950597 /* ChaseComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				110B00212C11978A00228202 /* GameScene.swift in Sources */,
 				5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */,
 				113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */,
+				76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */,
 				5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */,
 				110B00232C11978A00228202 /* GameViewController.swift in Sources */,
 				113629432C1A1872006DC20B /* EntityManager.swift in Sources */,
@@ -390,7 +394,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = NRAJG6453M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -418,7 +422,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = NRAJG6453M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

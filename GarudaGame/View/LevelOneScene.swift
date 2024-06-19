@@ -11,10 +11,11 @@ import SpriteKit
 
 class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
     var entityManager: EntityManager!
-    var kecrek = Enemy(name: "Kecrek", health: 3)
-    var garuda = Player(name: "Garuda", health: 3)
+    var garuda: Player!
+    var enemies = [Enemy]()
     var dashSystem = DashSystem()
     
+    var joystickDisabled = false
     var jumpCooldown = false
     let jumpCooldownDuration: TimeInterval = 0.5
     
@@ -22,6 +23,7 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         super.didMove(to: view)
         entityManager = EntityManager(scene: self)
+        garuda = Player(name: "Garuda", health: 3)
         
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
             spriteComponent.node.position = CGPoint(x: frame.midX-250, y: frame.midY)
@@ -30,12 +32,8 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         entityManager.startAnimation(garuda)
         entityManager.addPhysic(garuda)
         
-        if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
-            spriteComponent.node.position = CGPoint(x: frame.midX + 30, y: frame.midY)
-        }
-        entityManager.addEntity(kecrek)
-        entityManager.startAnimation(kecrek)
-        entityManager.addPhysic(kecrek)
+        summonKecrek(at: CGPoint(x: frame.midX + 30, y: frame.midY))
+        summonKecrek(at: CGPoint(x: frame.midX + 300, y: frame.midY+100))
         
         camera?.position = (garuda.component(ofType: SpriteComponent.self)?.node.position)!
         
@@ -45,22 +43,55 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         }
     }
     
+    //Taking damage
     func didBegin(_ contact: SKPhysicsContact) {
         let nodeA = contact.bodyA
         let nodeB = contact.bodyB
         
         if (nodeA.contactTestBitMask == 0x1 << 2 && nodeB.contactTestBitMask == 0x1 << 1) || (nodeA.contactTestBitMask == 0x1 << 1 && nodeB.contactTestBitMask == 0x1 << 2)
         {
+            let player = nodeA.node as! SKSpriteNode
+            let otherNode = nodeB.node as! SKSpriteNode
+            
             garuda.health -= 1
+            
+            // Calculate the direction of the knockback
+            let knockbackVector = CGVector(dx: player.position.x - otherNode.position.x, dy: player.position.y - otherNode.position.y)
+            
+            // Normalize the knockback vector
+            let length = sqrt(knockbackVector.dx * knockbackVector.dx + knockbackVector.dy * knockbackVector.dy)
+            let normalizedVector = CGVector(dx: knockbackVector.dx / length, dy: knockbackVector.dy / length)
+            
+            // Apply the impulse to the garuda
+            let knockbackStrength: CGFloat = 80.0 // Adjust this value as needed
+            let impulse = CGVector(dx: normalizedVector.dx * knockbackStrength, dy: normalizedVector.dy * knockbackStrength)
+            player.physicsBody?.applyImpulse(impulse)
+            
+            joystickDisabled = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                self?.joystickDisabled = false
+            }
         }
+    }
+    
+    func summonKecrek(at position: CGPoint) {
+        let kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
+
+        if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
+            spriteComponent.node.position = position
+        }
+
+        entityManager.addEntity(kecrek)
+        entityManager.startAnimation(kecrek)
+        entityManager.addPhysic(kecrek)
+        
+        enemies.append(kecrek)
     }
     
     func setupPlatform(name: String) {
         guard let platform = self.childNode(withName: name) as? SKShapeNode else {
             fatalError("Node with name \(name) not found or not a SKShapeNode")
         }
-        
-        print("Setting up platform: \(name)")
         
         platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
         platform.physicsBody?.isDynamic = false
@@ -86,7 +117,11 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         let newY = lerp(a: cameraPosition.y, b: targetPosition!.y, t: 0.1) // Adjust t to control speed
         cameraNode.position = CGPoint(x: newX, y: newY)
         
-        garuda.component(ofType: MovementComponent.self)?.move(playerVelocity: playerVelocity)
+        garuda.component(ofType: MovementComponent.self)?.move(playerVelocity: playerVelocity, joystickDisabled: joystickDisabled)
+        for enemy in enemies {
+            enemy.component(ofType: ChaseComponent.self)?.update(deltaTime: 0.1)
+        }
+        
         dashSystem.playerFacing(player: garuda, Velocity: playerVelocity)
         dashSystem.update(player: garuda, currentTime: currentTime, joystick: joystick)
         

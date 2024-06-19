@@ -14,7 +14,7 @@ class Enemy: GKEntity {
     let nodeSize = CGSize(width: 80, height: 80)
     var health: Int = 0
     
-    init(name: String, health: Int) {
+    init(name: String, health: Int, target: GKEntity) {
         self.name = name
         self.health = health
         super.init()
@@ -35,7 +35,8 @@ class Enemy: GKEntity {
         let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: 0x1 << 1, collision: 0x1 << 3, contact: 0x1 << 2)
         addComponent(physicComponent)
         
-        
+        let chaseComponent = ChaseComponent(target: target)
+        addComponent(chaseComponent)
     }
     
     required init?(coder: NSCoder) {
