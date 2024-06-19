@@ -40,7 +40,7 @@ class Player: GKEntity {
         print(name)
         
 //        Sprite
-        let spriteComponent = SpriteComponent(texture, size: nodeSize)
+        let spriteComponent = SpriteComponent(texture, size: nodeSize, zPos: 5)
         addComponent(spriteComponent)
         
 //        Animation
@@ -48,7 +48,7 @@ class Player: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: 0x1 << 2, collision: 0x1 << 3, contact: 0x1 << 1)
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform , contact: PhysicsCategory.enemy)
         addComponent(physicComponent)
         
 //        Movement
