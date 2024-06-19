@@ -28,8 +28,11 @@ class Player: GKEntity {
     
     var playerFacing: Bool = true
     
-    init(name: String) {
+    var health = 0
+    
+    init(name: String, health: Int) {
         self.name = name
+        self.health = health
         super.init()
         
 //        Texture
@@ -45,7 +48,7 @@ class Player: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize))
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: 0x1 << 2, collision: 0x1 << 3, contact: 0x1 << 1)
         addComponent(physicComponent)
         
 //        Movement

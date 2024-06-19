@@ -95,12 +95,4 @@ class BaseScene: SKScene{
             }
         }
     }
-    
-    private var lastUpdateTime: TimeInterval?
-    
-    func startDash() {
-        isDashing = true
-        dashTimeElapsed = 0.0
-        dashVelocity = playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)
-    }
 }

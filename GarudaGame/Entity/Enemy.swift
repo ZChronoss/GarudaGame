@@ -12,9 +12,11 @@ class Enemy: GKEntity {
     var name = ""
     var texture = SKTexture()
     let nodeSize = CGSize(width: 80, height: 80)
+    var health: Int = 0
     
-    init(name: String) {
+    init(name: String, health: Int) {
         self.name = name
+        self.health = health
         super.init()
         
 //        Texture
@@ -30,7 +32,7 @@ class Enemy: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize))
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: 0x1 << 1, collision: 0x1 << 3, contact: 0x1 << 2)
         addComponent(physicComponent)
         
         

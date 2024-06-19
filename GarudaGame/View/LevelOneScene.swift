@@ -9,18 +9,26 @@ import Foundation
 import GameplayKit
 import SpriteKit
 
-class LevelOneScene: BaseScene{
+class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
     var entityManager: EntityManager!
-    var kecrek = Enemy(name: "Kecrek")
-    var garuda = Player(name: "Garuda")
+    var kecrek = Enemy(name: "Kecrek", health: 3)
+    var garuda = Player(name: "Garuda", health: 3)
     var dashSystem = DashSystem()
     
     var jumpCooldown = false
     let jumpCooldownDuration: TimeInterval = 0.5
     
     override func didMove(to view: SKView) {
+        physicsWorld.contactDelegate = self
         super.didMove(to: view)
         entityManager = EntityManager(scene: self)
+        
+        if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
+            spriteComponent.node.position = CGPoint(x: frame.midX-250, y: frame.midY)
+        }
+        entityManager.addEntity(garuda)
+        entityManager.startAnimation(garuda)
+        entityManager.addPhysic(garuda)
         
         if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
             spriteComponent.node.position = CGPoint(x: frame.midX + 30, y: frame.midY)
@@ -29,18 +37,21 @@ class LevelOneScene: BaseScene{
         entityManager.startAnimation(kecrek)
         entityManager.addPhysic(kecrek)
         
-        if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
-            spriteComponent.node.position = CGPoint(x: frame.midX, y: frame.midY)
-        }
-        entityManager.addEntity(garuda)
-        entityManager.startAnimation(garuda)
-        entityManager.addPhysic(garuda)
-        
         camera?.position = (garuda.component(ofType: SpriteComponent.self)?.node.position)!
         
         let platformNames = (1...7).map { "\($0)" }
         for name in platformNames {
             setupPlatform(name: name)
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let nodeA = contact.bodyA
+        let nodeB = contact.bodyB
+        
+        if (nodeA.contactTestBitMask == 0x1 << 2 && nodeB.contactTestBitMask == 0x1 << 1) || (nodeA.contactTestBitMask == 0x1 << 1 && nodeB.contactTestBitMask == 0x1 << 2)
+        {
+            garuda.health -= 1
         }
     }
     
@@ -56,6 +67,8 @@ class LevelOneScene: BaseScene{
         platform.physicsBody?.affectedByGravity = false
         platform.physicsBody?.restitution = 0
         platform.physicsBody?.allowsRotation = false
+        platform.physicsBody?.categoryBitMask = 0x1 << 3
+        platform.physicsBody?.collisionBitMask = 0x1 << 1 | 0x1 << 2
     }
     
     func lerp(a: CGFloat, b: CGFloat, t: CGFloat) -> CGFloat {
@@ -76,6 +89,11 @@ class LevelOneScene: BaseScene{
         garuda.component(ofType: MovementComponent.self)?.move(playerVelocity: playerVelocity)
         dashSystem.playerFacing(player: garuda, Velocity: playerVelocity)
         dashSystem.update(player: garuda, currentTime: currentTime, joystick: joystick)
+        
+        // Optionally, remove node3 if health is zero or less
+        if garuda.health <= 0 {
+            garuda.component(ofType: SpriteComponent.self)?.node.removeFromParent()
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
