@@ -24,6 +24,11 @@
 		113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629512C1ADA7D006DC20B /* LevelOneScene.swift */; };
 		113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629532C22C3E6006DC20B /* StartMenuScene.swift */; };
 		113629582C22D171006DC20B /* DialogueScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629572C22D171006DC20B /* DialogueScene.swift */; };
+		1136295B2C24255A006DC20B /* RangedEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136295A2C24255A006DC20B /* RangedEnemy.swift */; };
+		1136295D2C242604006DC20B /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136295C2C242604006DC20B /* Bullet.swift */; };
+		1136295F2C24297E006DC20B /* BulletComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136295E2C24297E006DC20B /* BulletComponent.swift */; };
+		113629612C242A9F006DC20B /* PositionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629602C242A9F006DC20B /* PositionComponent.swift */; };
+		113629632C243EBD006DC20B /* BulletSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629622C243EBD006DC20B /* BulletSystem.swift */; };
 		5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */; };
 		5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AC2C1C203E006ABAFB /* Player.swift */; };
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
@@ -54,6 +59,11 @@
 		113629512C1ADA7D006DC20B /* LevelOneScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelOneScene.swift; sourceTree = "<group>"; };
 		113629532C22C3E6006DC20B /* StartMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMenuScene.swift; sourceTree = "<group>"; };
 		113629572C22D171006DC20B /* DialogueScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogueScene.swift; sourceTree = "<group>"; };
+		1136295A2C24255A006DC20B /* RangedEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangedEnemy.swift; sourceTree = "<group>"; };
+		1136295C2C242604006DC20B /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
+		1136295E2C24297E006DC20B /* BulletComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletComponent.swift; sourceTree = "<group>"; };
+		113629602C242A9F006DC20B /* PositionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionComponent.swift; sourceTree = "<group>"; };
+		113629622C243EBD006DC20B /* BulletSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletSystem.swift; sourceTree = "<group>"; };
 		5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
 		5F6BB6AC2C1C203E006ABAFB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
@@ -128,6 +138,7 @@
 		113629382C19A08F006DC20B /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				113629592C24253A006DC20B /* RangedEnemy */,
 				1136293C2C19A4FC006DC20B /* Enemy.swift */,
 				113629422C1A1872006DC20B /* EntityManager.swift */,
 				5F6BB6AC2C1C203E006ABAFB /* Player.swift */,
@@ -139,11 +150,13 @@
 			isa = PBXGroup;
 			children = (
 				1136293E2C19B2AC006DC20B /* AnimationComponent.swift */,
+				113629602C242A9F006DC20B /* PositionComponent.swift */,
 				113629402C1A174F006DC20B /* SpriteComponent.swift */,
 				113629472C1A23C8006DC20B /* PhysicComponent.swift */,
 				5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */,
 				5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */,
 				76F97BA82C22C2EE00950597 /* ChaseComponent.swift */,
+				1136295E2C24297E006DC20B /* BulletComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -155,11 +168,21 @@
 			path = StateMachine;
 			sourceTree = "<group>";
 		};
+		113629592C24253A006DC20B /* RangedEnemy */ = {
+			isa = PBXGroup;
+			children = (
+				1136295A2C24255A006DC20B /* RangedEnemy.swift */,
+				1136295C2C242604006DC20B /* Bullet.swift */,
+			);
+			path = RangedEnemy;
+			sourceTree = "<group>";
+		};
 		5F6BB6B02C1E8F4C006ABAFB /* System */ = {
 			isa = PBXGroup;
 			children = (
 				5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */,
 				760CB75C2C200F6200CCCF41 /* CombatSystem.swift */,
+				113629622C243EBD006DC20B /* BulletSystem.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -254,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1136295B2C24255A006DC20B /* RangedEnemy.swift in Sources */,
 				5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */,
 				113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */,
 				113629582C22D171006DC20B /* DialogueScene.swift in Sources */,
@@ -272,10 +296,14 @@
 				5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */,
 				110B00232C11978A00228202 /* GameViewController.swift in Sources */,
 				113629432C1A1872006DC20B /* EntityManager.swift in Sources */,
+				1136295F2C24297E006DC20B /* BulletComponent.swift in Sources */,
+				113629612C242A9F006DC20B /* PositionComponent.swift in Sources */,
+				113629632C243EBD006DC20B /* BulletSystem.swift in Sources */,
 				113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */,
 				760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */,
 				110B001B2C11978A00228202 /* AppDelegate.swift in Sources */,
 				113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */,
+				1136295D2C242604006DC20B /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

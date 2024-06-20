@@ -17,7 +17,6 @@ class Enemy: GKEntity {
     init(name: String, health: Int, target: GKEntity) {
         self.name = name
         super.init()
-        
 //        Texture
         self.texture = SKTexture(imageNamed: name + "Node")
         print(name)

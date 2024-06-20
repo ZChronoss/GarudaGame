@@ -12,9 +12,14 @@ import SpriteKit
 class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
     var entityManager: EntityManager!
     var garuda: Player!
-    var enemies = [Enemy]()
+    var kecreks = [Enemy]()
     var dashSystem = DashSystem()
     var combatSystem: CombatSystem?
+    
+    var rangedEnemy: RangedEnemy!
+    var rangedEnemy2: RangedEnemy!
+    
+    var lastUpdateTime: TimeInterval = 0.0
     
     var joystickDisabled = false
     var jumpCooldown = false
@@ -39,6 +44,15 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         summonKecrek(at: CGPoint(x: frame.midX + 300, y: frame.midY+100))
         summonKecrek(at: CGPoint(x: frame.midX + 500, y: frame.midY+100))
         
+        rangedEnemy = RangedEnemy(name: "Kecrek", health: 3, target: garuda)
+        if let spriteComponent = rangedEnemy.component(ofType: SpriteComponent.self) {
+            spriteComponent.node.position = CGPoint(x: frame.midX+250, y: frame.midY)
+        }
+        entityManager.addEntity(rangedEnemy)
+        entityManager.startAnimation(rangedEnemy)
+        entityManager.addPhysic(rangedEnemy)
+        rangedEnemy.shootBullet(target: garuda)
+        
         camera?.position = (garuda.component(ofType: SpriteComponent.self)?.node.position)!
         
         let platformNames = (1...7).map { "\($0)" }
@@ -47,6 +61,8 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         }
         
         combatSystem = CombatSystem(scene: self)
+        
+        
     }
     
     //Taking damage
@@ -54,8 +70,10 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         let nodeA = contact.bodyA
         let nodeB = contact.bodyB
         
-        if (nodeA.categoryBitMask == PhysicsCategory.player && nodeB.categoryBitMask == PhysicsCategory.enemy) && !garuda.isDashing
-        {
+        let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        switch mask {
+        case PhysicsCategory.player | PhysicsCategory.enemy:
             let player = nodeA.node as? SKSpriteNode
             let otherNode = nodeB.node as? SKSpriteNode
             
@@ -68,21 +86,70 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 self?.joystickDisabled = false
             }
-        }
-        
-        if (nodeA.categoryBitMask == PhysicsCategory.enemy && nodeB.categoryBitMask == PhysicsCategory.hitbox)
-        {
+            
+        case PhysicsCategory.enemy | PhysicsCategory.hitbox:
             combatSystem?.knockback(nodeA: nodeA.node as? SKSpriteNode, nodeB: garuda.component(ofType: SpriteComponent.self)?.node as? SKSpriteNode)
-            for kecrek in enemies{
+            for kecrek in kecreks{
                 if kecrek.component(ofType: SpriteComponent.self)?.node == nodeA.node {
                     kecrek.component(ofType: CombatComponent.self)?.health -= 1
                 }
                 if kecrek.component(ofType: CombatComponent.self)?.health == 0 {
-                    enemies.remove(kecrek)
+                    kecreks.remove(kecrek)
                     entityManager.removeEntity(kecrek)
                 }
             }
+            
+        case PhysicsCategory.bullet | PhysicsCategory.player:
+            let player: SKSpriteNode
+            let bullet: SKSpriteNode
+            if nodeA.categoryBitMask == PhysicsCategory.player {
+                player = nodeA.node as! SKSpriteNode
+                bullet = nodeB.node as! SKSpriteNode
+            }else{
+                player = nodeB.node as! SKSpriteNode
+                bullet = nodeA.node as! SKSpriteNode
+            }
+            bullet.removeFromParent()
+            combatSystem?.knockback(nodeA: player, nodeB: bullet)
+            
+        case PhysicsCategory.platform | PhysicsCategory.bullet:
+            if let bullet = (nodeA.categoryBitMask == PhysicsCategory.bullet ? nodeA.node : nodeB.node) as? SKSpriteNode {
+                bullet.removeAllActions()
+                bullet.removeFromParent()
+            }
+        default:
+            break
         }
+        
+//        if (nodeA.categoryBitMask == PhysicsCategory.player && nodeB.categoryBitMask == PhysicsCategory.enemy) && !garuda.isDashing
+//        {
+//            let player = nodeA.node as? SKSpriteNode
+//            let otherNode = nodeB.node as? SKSpriteNode
+//            
+//            garuda.health -= 1
+//            print(garuda.health)
+//            
+//            combatSystem?.knockback(nodeA: player, nodeB: otherNode)
+//            
+//            joystickDisabled = true
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+//                self?.joystickDisabled = false
+//            }
+//        }
+//        
+//        if (nodeA.categoryBitMask == PhysicsCategory.enemy && nodeB.categoryBitMask == PhysicsCategory.hitbox)
+//        {
+//            combatSystem?.knockback(nodeA: nodeA.node as? SKSpriteNode, nodeB: garuda.component(ofType: SpriteComponent.self)?.node as? SKSpriteNode)
+//            for kecrek in kecreks{
+//                if kecrek.component(ofType: SpriteComponent.self)?.node == nodeA.node {
+//                    kecrek.component(ofType: CombatComponent.self)?.health -= 1
+//                }
+//                if kecrek.component(ofType: CombatComponent.self)?.health == 0 {
+//                    kecreks.remove(kecrek)
+//                    entityManager.removeEntity(kecrek)
+//                }
+//            }
+//        }
     }
     
     func summonKecrek(at position: CGPoint) {
@@ -96,7 +163,7 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         entityManager.startAnimation(kecrek)
         entityManager.addPhysic(kecrek)
         
-        enemies.append(kecrek)
+        kecreks.append(kecrek)
     }
     
     func setupPlatform(name: String) {
@@ -110,7 +177,7 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         platform.physicsBody?.restitution = 0
         platform.physicsBody?.allowsRotation = false
         platform.physicsBody?.categoryBitMask = PhysicsCategory.platform
-        platform.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy
+        platform.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
         platform.physicsBody?.friction = 1
     }
     
@@ -131,8 +198,8 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         cameraNode.position = CGPoint(x: newX, y: newY)
         
         garuda.component(ofType: MovementComponent.self)?.move(playerVelocity: playerVelocity, joystickDisabled: joystickDisabled)
-        for enemy in enemies {
-            enemy.component(ofType: ChaseComponent.self)?.update(deltaTime: 0.1)
+        for kecrek in kecreks {
+            kecrek.component(ofType: ChaseComponent.self)?.update(deltaTime: 0.1)
         }
         
         dashSystem.playerFacing(player: garuda, Velocity: playerVelocity)
@@ -143,10 +210,20 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
             entityManager.removeEntity(garuda)
         }
         
-        for kecrek in enemies{
+        for kecrek in kecreks{
             if (combatSystem?.checkIfNodeInBetween(node1: garuda.component(ofType: SpriteComponent.self)!.node, node2: kecrek.component(ofType: SpriteComponent.self)!.node) == false){
                 garuda.targetEnemies.append(kecrek.component(ofType: SpriteComponent.self)!.node.position)
             }
+        }
+        
+        let deltaTime = currentTime - lastUpdateTime
+        lastUpdateTime = currentTime
+        
+        rangedEnemy.timeSinceLastShot += deltaTime
+        if rangedEnemy.timeSinceLastShot >= rangedEnemy.shootCooldown {
+//            let playerPosition = garuda.component(ofType: PositionComponent.self)!.position
+            rangedEnemy.shootBullet(target: garuda)
+            rangedEnemy.timeSinceLastShot = 0.0
         }
     }
     
