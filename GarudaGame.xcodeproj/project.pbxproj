@@ -241,12 +241,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */,
-<<<<<<< HEAD
 				113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */,
 				113629582C22D171006DC20B /* DialogueScene.swift in Sources */,
-=======
 				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
->>>>>>> a4f3a4ebe171639a0860776eadd6d699f69a9e2a
+				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
 				1136293F2C19B2AC006DC20B /* AnimationComponent.swift in Sources */,
 				113629282C1845A3006DC20B /* JoystickView.swift in Sources */,
 				113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */,
