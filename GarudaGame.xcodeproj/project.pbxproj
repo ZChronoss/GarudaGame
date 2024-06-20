@@ -29,6 +29,8 @@
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
 		5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */; };
 		5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */; };
+		5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BC2C24144F006ABAFB /* CGRect.swift */; };
+		5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BE2C241D28006ABAFB /* Array.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
 		76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F97BA82C22C2EE00950597 /* ChaseComponent.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +59,8 @@
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
 		5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatComponent.swift; sourceTree = "<group>"; };
 		5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
+		5F6BB6BC2C24144F006ABAFB /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		5F6BB6BE2C241D28006ABAFB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
 		76F97BA82C22C2EE00950597 /* ChaseComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaseComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +95,7 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
+				5F6BB6BB2C241444006ABAFB /* Extension */,
 				5F6BB6B82C22C56C006ABAFB /* Constants */,
 				5F6BB6B02C1E8F4C006ABAFB /* System */,
 				113629442C1A1FB5006DC20B /* StateMachine */,
@@ -165,6 +170,15 @@
 				5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		5F6BB6BB2C241444006ABAFB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5F6BB6BC2C24144F006ABAFB /* CGRect.swift */,
+				5F6BB6BE2C241D28006ABAFB /* Array.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,7 +264,9 @@
 				113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */,
 				1136293D2C19A4FC006DC20B /* Enemy.swift in Sources */,
 				5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */,
+				5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */,
 				5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */,
+				5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */,
 				113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */,
 				76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */,
 				5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */,
@@ -411,7 +427,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
+				DEVELOPMENT_TEAM = RHGD2V8746;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -439,7 +455,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
+				DEVELOPMENT_TEAM = RHGD2V8746;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

@@ -17,21 +17,8 @@ class BaseScene: SKScene{
     var cameraNode = SKCameraNode()
     
     var playerVelocity = CGVector.zero
-    var playerFacing = false
     
     var activeTouches = [UITouch: SKNode]()
-    
-    // Dash properties
-    var isDashing = false
-    var dashVelocity = CGVector.zero
-    let dashSpeed: CGFloat = 800.0
-    let dashDuration: CGFloat = 0.2
-    var dashTimeElapsed: CGFloat = 0.0
-    
-    // Cooldown properties
-    var dashCooldown = false
-    let dashCooldownDuration: CGFloat = 1.0
-    var dashCooldownTimeElapsed: CGFloat = 0.0
     
     
     

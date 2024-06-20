@@ -19,6 +19,7 @@ import GameplayKit
 
 class CombatComponent: GKComponent {
     var health: Int = 0
+    var canBeSeen: Bool = false
     
     init(_ health: Int) {
         super.init()
