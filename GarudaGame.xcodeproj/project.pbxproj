@@ -23,6 +23,8 @@
 		113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629472C1A23C8006DC20B /* PhysicComponent.swift */; };
 		113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136294F2C1AD9CA006DC20B /* BaseScene.swift */; };
 		113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629512C1ADA7D006DC20B /* LevelOneScene.swift */; };
+		113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629532C22C3E6006DC20B /* StartMenuScene.swift */; };
+		113629582C22D171006DC20B /* DialogueScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629572C22D171006DC20B /* DialogueScene.swift */; };
 		5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */; };
 		5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AC2C1C203E006ABAFB /* Player.swift */; };
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
@@ -48,6 +50,8 @@
 		113629472C1A23C8006DC20B /* PhysicComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicComponent.swift; sourceTree = "<group>"; };
 		1136294F2C1AD9CA006DC20B /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		113629512C1ADA7D006DC20B /* LevelOneScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelOneScene.swift; sourceTree = "<group>"; };
+		113629532C22C3E6006DC20B /* StartMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMenuScene.swift; sourceTree = "<group>"; };
+		113629572C22D171006DC20B /* DialogueScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogueScene.swift; sourceTree = "<group>"; };
 		5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
 		5F6BB6AC2C1C203E006ABAFB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 				113629272C1845A3006DC20B /* JoystickView.swift */,
 				1136294F2C1AD9CA006DC20B /* BaseScene.swift */,
 				113629512C1ADA7D006DC20B /* LevelOneScene.swift */,
+				113629532C22C3E6006DC20B /* StartMenuScene.swift */,
+				113629572C22D171006DC20B /* DialogueScene.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -224,6 +230,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */,
+				113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */,
+				113629582C22D171006DC20B /* DialogueScene.swift in Sources */,
 				1136293F2C19B2AC006DC20B /* AnimationComponent.swift in Sources */,
 				113629282C1845A3006DC20B /* JoystickView.swift in Sources */,
 				113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */,
