@@ -12,11 +12,9 @@ class Enemy: GKEntity {
     var name = ""
     var texture = SKTexture()
     let nodeSize = CGSize(width: 80, height: 80)
-    var health: Int = 0
     
-    init(name: String, health: Int) {
+    init(name: String, health: Int, target: GKEntity) {
         self.name = name
-        self.health = health
         super.init()
         
 //        Texture
@@ -24,7 +22,7 @@ class Enemy: GKEntity {
         print(name)
         
 //        Sprite
-        let spriteComponent = SpriteComponent(texture, size: nodeSize)
+        let spriteComponent = SpriteComponent(texture, size: nodeSize, zPos: 4)
         addComponent(spriteComponent)
         
 //        Animation
@@ -32,10 +30,14 @@ class Enemy: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: 0x1 << 1, collision: 0x1 << 3, contact: 0x1 << 2)
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.enemy, collision: PhysicsCategory.platform, contact: (PhysicsCategory.player | PhysicsCategory.hitbox))
         addComponent(physicComponent)
         
+        let chaseComponent = ChaseComponent(target: target)
+        addComponent(chaseComponent)
         
+        let combatComponent = CombatComponent(health)
+        addComponent(combatComponent)
     }
     
     required init?(coder: NSCoder) {

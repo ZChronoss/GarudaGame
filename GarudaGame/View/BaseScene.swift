@@ -13,6 +13,7 @@ class BaseScene: SKScene{
     var joystick = JoystickView()
     var dashButton = SKShapeNode()
     var jumpButton = SKShapeNode()
+    var attackButton = SKShapeNode()
     var cameraNode = SKCameraNode()
     
     var playerVelocity = CGVector.zero
@@ -52,13 +53,20 @@ class BaseScene: SKScene{
         
         // Setup dash button
         dashButton = SKShapeNode(circleOfRadius: 40)
-        dashButton.fillColor = .red
+        dashButton.fillColor = .green
         dashButton.position = CGPoint(x: self.frame.maxX-200, y: self.frame.minY+150)
         cameraNode.addChild(dashButton)
+        
+        // Setup attack button
+        attackButton = SKShapeNode(circleOfRadius: 40)
+        attackButton.fillColor = .red
+        attackButton.position = CGPoint(x: self.frame.maxX-300, y: self.frame.minY+250)
+        cameraNode.addChild(attackButton)
         
         joystick.zPosition = CGFloat(99)
         jumpButton.zPosition = CGFloat(99)
         dashButton.zPosition = CGFloat(99)
+        attackButton.zPosition = CGFloat(99)
     }
     
     override func update(_ currentTime: TimeInterval) {

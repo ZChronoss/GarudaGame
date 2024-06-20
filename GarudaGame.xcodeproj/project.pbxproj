@@ -10,7 +10,6 @@
 		110B001B2C11978A00228202 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110B001A2C11978A00228202 /* AppDelegate.swift */; };
 		110B001D2C11978A00228202 /* LevelOneScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 110B001C2C11978A00228202 /* LevelOneScene.sks */; };
 		110B001F2C11978A00228202 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 110B001E2C11978A00228202 /* Actions.sks */; };
-		110B00212C11978A00228202 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110B00202C11978A00228202 /* GameScene.swift */; };
 		110B00232C11978A00228202 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110B00222C11978A00228202 /* GameViewController.swift */; };
 		110B00262C11978A00228202 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 110B00252C11978A00228202 /* Base */; };
 		110B00282C11978C00228202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110B00272C11978C00228202 /* Assets.xcassets */; };
@@ -29,7 +28,9 @@
 		5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AC2C1C203E006ABAFB /* Player.swift */; };
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
 		5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */; };
+		5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
+		76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F97BA82C22C2EE00950597 /* ChaseComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +38,6 @@
 		110B001A2C11978A00228202 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		110B001C2C11978A00228202 /* LevelOneScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelOneScene.sks; sourceTree = "<group>"; };
 		110B001E2C11978A00228202 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		110B00202C11978A00228202 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		110B00222C11978A00228202 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		110B00252C11978A00228202 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		110B00272C11978C00228202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -56,7 +56,9 @@
 		5F6BB6AC2C1C203E006ABAFB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
 		5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatComponent.swift; sourceTree = "<group>"; };
+		5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
+		76F97BA82C22C2EE00950597 /* ChaseComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaseComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
+				5F6BB6B82C22C56C006ABAFB /* Constants */,
 				5F6BB6B02C1E8F4C006ABAFB /* System */,
 				113629442C1A1FB5006DC20B /* StateMachine */,
 				113629392C19A1F0006DC20B /* Component */,
@@ -108,7 +111,6 @@
 		113629262C184592006DC20B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				110B00202C11978A00228202 /* GameScene.swift */,
 				113629272C1845A3006DC20B /* JoystickView.swift */,
 				1136294F2C1AD9CA006DC20B /* BaseScene.swift */,
 				113629512C1ADA7D006DC20B /* LevelOneScene.swift */,
@@ -136,6 +138,7 @@
 				113629472C1A23C8006DC20B /* PhysicComponent.swift */,
 				5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */,
 				5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */,
+				76F97BA82C22C2EE00950597 /* ChaseComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -154,6 +157,14 @@
 				760CB75C2C200F6200CCCF41 /* CombatSystem.swift */,
 			);
 			path = System;
+			sourceTree = "<group>";
+		};
+		5F6BB6B82C22C56C006ABAFB /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,16 +241,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */,
+<<<<<<< HEAD
 				113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */,
 				113629582C22D171006DC20B /* DialogueScene.swift in Sources */,
+=======
+				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
+>>>>>>> a4f3a4ebe171639a0860776eadd6d699f69a9e2a
 				1136293F2C19B2AC006DC20B /* AnimationComponent.swift in Sources */,
 				113629282C1845A3006DC20B /* JoystickView.swift in Sources */,
 				113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */,
 				1136293D2C19A4FC006DC20B /* Enemy.swift in Sources */,
 				5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */,
-				110B00212C11978A00228202 /* GameScene.swift in Sources */,
 				5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */,
 				113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */,
+				76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */,
 				5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */,
 				110B00232C11978A00228202 /* GameViewController.swift in Sources */,
 				113629432C1A1872006DC20B /* EntityManager.swift in Sources */,
@@ -398,7 +413,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = NRAJG6453M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -426,7 +441,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = NRAJG6453M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

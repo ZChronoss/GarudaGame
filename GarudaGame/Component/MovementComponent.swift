@@ -24,8 +24,10 @@ class MovementComponent: GKComponent {
         physicsBody?.applyImpulse(jumpVector)
     }
     
-    func move(playerVelocity: CGVector) {
-        spriteNode?.position.x += playerVelocity.dx
-        spriteNode?.position.y += playerVelocity.dy
+    func move(playerVelocity: CGVector, joystickDisabled: Bool) {
+        if joystickDisabled == false {
+            spriteNode?.position.x += playerVelocity.dx
+            spriteNode?.position.y += playerVelocity.dy
+        }
     }
 }
