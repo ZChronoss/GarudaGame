@@ -25,6 +25,7 @@ class Player: GKEntity {
     var dashCooldown = false
     let dashCooldownDuration: CGFloat = 1.0
     var dashCooldownTimeElapsed: CGFloat = 0.0
+    var targetEnemies: [CGPoint] = []
     
     var playerFacing: Bool = true
     

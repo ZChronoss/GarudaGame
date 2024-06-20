@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import GameplayKit
 
-class DashSystem{
+class DashSystem: GKComponentSystem<MovementComponent>{
     private var lastUpdateTime: TimeInterval?
     
     func update(player: Player, currentTime: TimeInterval, joystick: JoystickView) {
@@ -64,5 +65,10 @@ class DashSystem{
     
     func stopLongDash(player: Player) {
         player.dashTimeElapsed = 0.2
+    }
+    
+    func targettedDash(player: Player, target: CGPoint){
+        let move = SKAction.move(to: target, duration: 0.1)
+        player.component(ofType: SpriteComponent.self)?.node.run(move)
     }
 }

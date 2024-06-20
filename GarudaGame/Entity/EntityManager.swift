@@ -33,6 +33,7 @@ class EntityManager {
         if let spriteNode = entity.component(ofType: SpriteComponent.self)?.node {
             spriteNode.removeFromParent()
         }
+        entity.removeComponent(ofType: SpriteComponent.self)
         
         entities.remove(entity)
     }

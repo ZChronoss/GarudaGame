@@ -13,6 +13,7 @@ class Enemy: GKEntity {
     var texture = SKTexture()
     let nodeSize = CGSize(width: 80, height: 80)
     
+    
     init(name: String, health: Int, target: GKEntity) {
         self.name = name
         super.init()
