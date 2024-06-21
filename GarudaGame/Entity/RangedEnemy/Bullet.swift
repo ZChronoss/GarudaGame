@@ -15,7 +15,6 @@ class Bullet: GKEntity {
         
         let spriteComponent = SpriteComponent(texture, size: CGSize(width: 10, height: 10), zPos: 4)
         addComponent(spriteComponent)
-        
         addComponent(PositionComponent(position: position))
         addComponent(BulletComponent(direction: direction, node: spriteComponent.node))
     }

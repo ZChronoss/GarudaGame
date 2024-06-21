@@ -34,14 +34,14 @@ class CombatSystem: GKRuleSystem {
         hitbox.run(SKAction.sequence([moveAction, removeAction]))
     }
     
-    func checkIfNodeInBetween(node1: SKSpriteNode, node2: SKSpriteNode) -> Bool {
-        let rayStart = node1.position
-        let rayEnd = node2.position
+    func checkIfNodeInBetween(node1: SKSpriteNode?, node2: SKSpriteNode?) -> Bool {
+        let rayStart = node1?.position
+        let rayEnd = node2?.position
         
         var nodesInBetween: [SKNode] = []
         
         // Perform the raycast
-        scene.physicsWorld.enumerateBodies(alongRayStart: rayStart, end: rayEnd) { (body, point, normal, stop) in
+        scene.physicsWorld.enumerateBodies(alongRayStart: rayStart ?? CGPointZero, end: rayEnd ?? CGPointZero) { (body, point, normal, stop) in
             if let node = body.node {
                 // Ensure the node is not nodeA or nodeB
                 if node.physicsBody?.categoryBitMask == PhysicsCategory.platform{

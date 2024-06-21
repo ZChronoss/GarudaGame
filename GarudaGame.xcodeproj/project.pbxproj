@@ -36,6 +36,7 @@
 		5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */; };
 		5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BC2C24144F006ABAFB /* CGRect.swift */; };
 		5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BE2C241D28006ABAFB /* Array.swift */; };
+		5F6BB6C12C2564B4006ABAFB /* ColorChange.metal in Resources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C02C2564B4006ABAFB /* ColorChange.metal */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
 		76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F97BA82C22C2EE00950597 /* ChaseComponent.swift */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		5F6BB6BC2C24144F006ABAFB /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		5F6BB6BE2C241D28006ABAFB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		5F6BB6C02C2564B4006ABAFB /* ColorChange.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ColorChange.metal; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
 		76F97BA82C22C2EE00950597 /* ChaseComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaseComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */,
+				5F6BB6C02C2564B4006ABAFB /* ColorChange.metal */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				110B00282C11978C00228202 /* Assets.xcassets in Resources */,
 				110B001F2C11978A00228202 /* Actions.sks in Resources */,
 				110B002B2C11978C00228202 /* Base in Resources */,
+				5F6BB6C12C2564B4006ABAFB /* ColorChange.metal in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

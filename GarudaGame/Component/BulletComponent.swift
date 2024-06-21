@@ -21,7 +21,7 @@ class BulletComponent: GKComponent {
         bulletPhysic.restitution = 0
         bulletPhysic.isDynamic = true
         bulletPhysic.categoryBitMask = PhysicsCategory.bullet
-        bulletPhysic.collisionBitMask = PhysicsCategory.platform | PhysicsCategory.player
+        bulletPhysic.collisionBitMask = PhysicsCategory.none
         bulletPhysic.contactTestBitMask = PhysicsCategory.player | PhysicsCategory.platform
         node.physicsBody = bulletPhysic
         super.init()
