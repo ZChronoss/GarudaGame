@@ -11,19 +11,20 @@ import GameplayKit
 
 class BaseScene: SKScene{
     var joystick = JoystickView()
-    var dashButton = SKShapeNode()
-    var jumpButton = SKShapeNode()
-    var attackButton = SKShapeNode()
+    var dashButton = SKSpriteNode()
+    var jumpButton = SKSpriteNode()
+    var attackButton = SKSpriteNode()
     var cameraNode = SKCameraNode()
     
     var playerVelocity = CGVector.zero
     
     var activeTouches = [UITouch: SKNode]()
     
-    
+    var attackButtonStateMachine: GKStateMachine!
+    var dashButtonStateMachine: GKStateMachine!
+    var jumpButtonStateMachine: GKStateMachine!
     
     override func didMove(to view: SKView) {
-        
         cameraNode = SKCameraNode()
         camera = cameraNode
         addChild(cameraNode)
@@ -33,20 +34,20 @@ class BaseScene: SKScene{
         cameraNode.addChild(joystick)
         
         // Setup jump button
-        jumpButton = SKShapeNode(circleOfRadius: 40)
-        jumpButton.fillColor = .blue
+        jumpButton = SKSpriteNode()
+        jumpButton.size = CGSize(width: 70, height: 70)
         jumpButton.position = CGPoint(x: self.frame.maxX-100 , y: self.frame.minY+250)
         cameraNode.addChild(jumpButton)
         
         // Setup dash button
-        dashButton = SKShapeNode(circleOfRadius: 40)
-        dashButton.fillColor = .green
+        dashButton = SKSpriteNode()
+        dashButton.size = CGSize(width: 70, height: 70)
         dashButton.position = CGPoint(x: self.frame.maxX-200, y: self.frame.minY+150)
         cameraNode.addChild(dashButton)
         
         // Setup attack button
-        attackButton = SKShapeNode(circleOfRadius: 40)
-        attackButton.fillColor = .red
+        attackButton = SKSpriteNode()
+        attackButton.size = CGSize(width: 100, height: 100)
         attackButton.position = CGPoint(x: self.frame.maxX-300, y: self.frame.minY+250)
         cameraNode.addChild(attackButton)
         
@@ -54,6 +55,27 @@ class BaseScene: SKScene{
         jumpButton.zPosition = CGFloat(99)
         dashButton.zPosition = CGFloat(99)
         attackButton.zPosition = CGFloat(99)
+        
+        // Attack Button State
+        let attackDesc = "AttackButton"
+        let atkBtnNormal = ButtonNormalState(button: attackButton, action: attackDesc)
+        let atkBtnPressed = ButtonPressedState(button: attackButton, action: attackDesc)
+        attackButtonStateMachine = GKStateMachine(states: [atkBtnNormal, atkBtnPressed])
+        attackButtonStateMachine.enter(ButtonNormalState.self)
+        
+        // Dash Button State
+        let dashDesc = "DashButton"
+        let dashBtnNormal = ButtonNormalState(button: dashButton, action: dashDesc)
+        let dashBtnPressed = ButtonPressedState(button: dashButton, action: dashDesc)
+        dashButtonStateMachine = GKStateMachine(states: [dashBtnNormal, dashBtnPressed])
+        dashButtonStateMachine.enter(ButtonNormalState.self)
+        
+        // Jump Button State
+        let jumpDesc = "JumpButton"
+        let jumpBtnNormal = ButtonNormalState(button: jumpButton, action: jumpDesc)
+        let jumpBtnPressed = ButtonPressedState(button: jumpButton, action: jumpDesc)
+        jumpButtonStateMachine = GKStateMachine(states: [jumpBtnNormal, jumpBtnPressed])
+        jumpButtonStateMachine.enter(ButtonNormalState.self)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -68,6 +90,16 @@ class BaseScene: SKScene{
             
             if joystick.joystickBase.frame.contains(localLocation){
                 activeTouches[touch] = joystick
+            }
+            
+            let cameraLocation = touch.location(in: cameraNode)
+            let pressedState = ButtonPressedState.self
+            if attackButton.frame.contains(cameraLocation){
+                attackButtonStateMachine.enter(pressedState)
+            }else if dashButton.frame.contains(cameraLocation){
+                dashButtonStateMachine.enter(pressedState)
+            }else if jumpButton.frame.contains(cameraLocation){
+                jumpButtonStateMachine.enter(pressedState)
             }
         }
     }
@@ -89,6 +121,16 @@ class BaseScene: SKScene{
             if activeTouches[touch] == joystick  {
                 playerVelocity = joystick.joystickTouchesEnded()
                 activeTouches.removeValue(forKey: touch)
+            }
+            
+            let location = touch.location(in: cameraNode)
+            let normalState = ButtonNormalState.self
+            if attackButton.frame.contains(location){
+                attackButtonStateMachine.enter(normalState)
+            }else if dashButton.frame.contains(location){
+                dashButtonStateMachine.enter(normalState)
+            }else if jumpButton.frame.contains(location){
+                jumpButtonStateMachine.enter(normalState)
             }
         }
     }

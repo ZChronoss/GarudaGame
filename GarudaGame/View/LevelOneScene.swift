@@ -120,36 +120,6 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         default:
             break
         }
-        
-//        if (nodeA.categoryBitMask == PhysicsCategory.player && nodeB.categoryBitMask == PhysicsCategory.enemy) && !garuda.isDashing
-//        {
-//            let player = nodeA.node as? SKSpriteNode
-//            let otherNode = nodeB.node as? SKSpriteNode
-//            
-//            garuda.health -= 1
-//            print(garuda.health)
-//            
-//            combatSystem?.knockback(nodeA: player, nodeB: otherNode)
-//            
-//            joystickDisabled = true
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-//                self?.joystickDisabled = false
-//            }
-//        }
-//        
-//        if (nodeA.categoryBitMask == PhysicsCategory.enemy && nodeB.categoryBitMask == PhysicsCategory.hitbox)
-//        {
-//            combatSystem?.knockback(nodeA: nodeA.node as? SKSpriteNode, nodeB: garuda.component(ofType: SpriteComponent.self)?.node as? SKSpriteNode)
-//            for kecrek in kecreks{
-//                if kecrek.component(ofType: SpriteComponent.self)?.node == nodeA.node {
-//                    kecrek.component(ofType: CombatComponent.self)?.health -= 1
-//                }
-//                if kecrek.component(ofType: CombatComponent.self)?.health == 0 {
-//                    kecreks.remove(kecrek)
-//                    entityManager.removeEntity(kecrek)
-//                }
-//            }
-//        }
     }
     
     func summonKecrek(at position: CGPoint) {
@@ -245,7 +215,8 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
                 }else if !isOnGround() && garuda.isDashing{
                     dashSystem.stopLongDash(player: garuda)
                 }
-            }else if attackButton.frame.contains(location) {
+            }
+            else if attackButton.frame.contains(location) {
                 if !attackCooldown && garuda.isDashing && !isOnGround() && !garuda.targetEnemies.isEmpty{
                     let target = CGRect.minimalRect(containing: garuda.targetEnemies)!
                     dashSystem.targettedDash(player: garuda, target: target)
@@ -254,10 +225,12 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
                         dashSystem.stopLongDash(player: garuda)
                     }
                     activateAttackCooldown()
+                    
                 }else if !attackCooldown{
                     combatSystem?.spawnHitbox(attacker: garuda.component(ofType: SpriteComponent.self)!.node, size: CGSize(width: 80, height: 60), position: CGPoint(x: garuda.playerFacing ? 50 : -50, y: 0))
                     activateAttackCooldown()
                 }
+//                buttonStateMachine.enter(ButtonPressedState.self)
             }
         }
     }
