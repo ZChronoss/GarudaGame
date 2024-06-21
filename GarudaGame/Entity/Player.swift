@@ -55,6 +55,9 @@ class Player: GKEntity {
 //        Movement
         let movementComponent = MovementComponent()
         addComponent(movementComponent)
+        
+        let combatComponent = CombatComponent(health)
+        addComponent(combatComponent)
     }
     
     required init?(coder: NSCoder) {

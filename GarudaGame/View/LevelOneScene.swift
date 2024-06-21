@@ -32,7 +32,7 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         super.didMove(to: view)
         entityManager = EntityManager(scene: self)
-        garuda = Player(name: "Garuda", health: 10)
+        garuda = Player(name: "Garuda", health: 3)
         
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
             spriteComponent.node.position = CGPoint(x: frame.midX-250, y: frame.midY)
@@ -71,8 +71,8 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
                 let player = nodeA.node as? SKSpriteNode
                 let otherNode = nodeB.node as? SKSpriteNode
                 
-                garuda.health -= 1
-                print(garuda.health)
+                garuda.component(ofType: CombatComponent.self)?.health -= 1
+                updateHealthBar()
                 
                 combatSystem?.knockback(nodeA: player, nodeB: otherNode)
                 
@@ -105,6 +105,16 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
             }
         default:
             break
+        }
+    }
+    
+    func updateHealthBar() {
+        for (index, healthNode) in healthNodes.enumerated() {
+            if index < garuda.component(ofType: CombatComponent.self)?.health ?? 0 {
+                healthNode.fillColor = .red
+            } else {
+                healthNode.fillColor = .clear
+            }
         }
     }
     
@@ -177,7 +187,7 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         dashSystem.playerFacing(player: garuda, Velocity: playerVelocity)
         dashSystem.update(player: garuda, currentTime: currentTime, joystick: joystick)
         
-        if garuda.health <= 0 {
+        if garuda.component(ofType: CombatComponent.self)?.health ?? 0 <= 0 {
             garuda.removeComponent(ofType: PhysicComponent.self)
             entityManager.removeEntity(garuda)
         }

@@ -38,6 +38,8 @@
 		5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BE2C241D28006ABAFB /* Array.swift */; };
 		5F6BB6C12C2564B4006ABAFB /* ColorChange.metal in Resources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C02C2564B4006ABAFB /* ColorChange.metal */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
+		761E96E02C2572D500EF6C7C /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96DF2C2572D500EF6C7C /* HealthSystem.swift */; };
+		761E96E22C25819900EF6C7C /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96E12C25819900EF6C7C /* FlyingEnemy.swift */; };
 		76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F97BA82C22C2EE00950597 /* ChaseComponent.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,8 @@
 		5F6BB6BE2C241D28006ABAFB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		5F6BB6C02C2564B4006ABAFB /* ColorChange.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ColorChange.metal; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
+		761E96DF2C2572D500EF6C7C /* HealthSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
+		761E96E12C25819900EF6C7C /* FlyingEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
 		76F97BA82C22C2EE00950597 /* ChaseComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaseComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,6 +148,7 @@
 				1136293C2C19A4FC006DC20B /* Enemy.swift */,
 				113629422C1A1872006DC20B /* EntityManager.swift */,
 				5F6BB6AC2C1C203E006ABAFB /* Player.swift */,
+				761E96E12C25819900EF6C7C /* FlyingEnemy.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */,
 				760CB75C2C200F6200CCCF41 /* CombatSystem.swift */,
 				113629622C243EBD006DC20B /* BulletSystem.swift */,
+				761E96DF2C2572D500EF6C7C /* HealthSystem.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -285,6 +291,7 @@
 				5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */,
 				113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */,
 				113629582C22D171006DC20B /* DialogueScene.swift in Sources */,
+				761E96E02C2572D500EF6C7C /* HealthSystem.swift in Sources */,
 				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
 				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
 				1136293F2C19B2AC006DC20B /* AnimationComponent.swift in Sources */,
@@ -292,6 +299,7 @@
 				113629412C1A174F006DC20B /* SpriteComponent.swift in Sources */,
 				1136293D2C19A4FC006DC20B /* Enemy.swift in Sources */,
 				5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */,
+				761E96E22C25819900EF6C7C /* FlyingEnemy.swift in Sources */,
 				5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */,
 				5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */,
 				5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */,
@@ -459,7 +467,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = NRAJG6453M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -487,7 +495,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RHGD2V8746;
+				DEVELOPMENT_TEAM = NRAJG6453M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

@@ -15,6 +15,7 @@ class BaseScene: SKScene{
     var jumpButton = SKShapeNode()
     var attackButton = SKShapeNode()
     var cameraNode = SKCameraNode()
+    var healthNodes: [SKShapeNode] = []
     
     var playerVelocity = CGVector.zero
     
@@ -50,15 +51,21 @@ class BaseScene: SKScene{
         attackButton.position = CGPoint(x: self.frame.maxX-300, y: self.frame.minY+250)
         cameraNode.addChild(attackButton)
         
+        for i in 0..<3 {
+            let health = SKShapeNode(circleOfRadius: 20)
+            health.fillColor = .red
+            health.position = CGPoint(x: self.frame.minX + 100 + CGFloat(i) * 50, y: self.frame.maxY - 100)
+            health.zPosition = CGFloat(99)
+            healthNodes.append(health)
+            cameraNode.addChild(health)
+        }
+        
         joystick.zPosition = CGFloat(99)
         jumpButton.zPosition = CGFloat(99)
         dashButton.zPosition = CGFloat(99)
         attackButton.zPosition = CGFloat(99)
     }
     
-    override func update(_ currentTime: TimeInterval) {
-        
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
