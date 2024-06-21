@@ -295,12 +295,17 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         
         switch mask {
         case PhysicsCategory.player | PhysicsCategory.enemy, PhysicsCategory.player | PhysicsCategory.bullet:
-            if !garuda.isDashing{
+            if !(garuda.isDashing || garuda.invincibility){
                 let player = nodeA.node as? SKSpriteNode
                 let otherNode = nodeB.node as? SKSpriteNode
                 
                 garuda.component(ofType: CombatComponent.self)?.health -= 1
                 updateHealthBar()
+                
+                garuda.invincibility = true
+                Timer.scheduledTimer(withTimeInterval: garuda.iFramesTime, repeats: false) { _ in
+                    self.garuda.invincibility = false
+                }
                 
                 combatSystem?.knockback(nodeA: player, nodeB: otherNode)
                 
