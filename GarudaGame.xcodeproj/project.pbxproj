@@ -29,6 +29,8 @@
 		1136295F2C24297E006DC20B /* BulletComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136295E2C24297E006DC20B /* BulletComponent.swift */; };
 		113629612C242A9F006DC20B /* PositionComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629602C242A9F006DC20B /* PositionComponent.swift */; };
 		113629632C243EBD006DC20B /* BulletSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629622C243EBD006DC20B /* BulletSystem.swift */; };
+		113629662C256C80006DC20B /* ButtonNormalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629652C256C80006DC20B /* ButtonNormalState.swift */; };
+		113629682C25709A006DC20B /* ButtonPressedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629672C25709A006DC20B /* ButtonPressedState.swift */; };
 		5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */; };
 		5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AC2C1C203E006ABAFB /* Player.swift */; };
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
@@ -67,6 +69,8 @@
 		1136295E2C24297E006DC20B /* BulletComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletComponent.swift; sourceTree = "<group>"; };
 		113629602C242A9F006DC20B /* PositionComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionComponent.swift; sourceTree = "<group>"; };
 		113629622C243EBD006DC20B /* BulletSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletSystem.swift; sourceTree = "<group>"; };
+		113629652C256C80006DC20B /* ButtonNormalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNormalState.swift; sourceTree = "<group>"; };
+		113629672C25709A006DC20B /* ButtonPressedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPressedState.swift; sourceTree = "<group>"; };
 		5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
 		5F6BB6AC2C1C203E006ABAFB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
@@ -114,7 +118,7 @@
 				5F6BB6BB2C241444006ABAFB /* Extension */,
 				5F6BB6B82C22C56C006ABAFB /* Constants */,
 				5F6BB6B02C1E8F4C006ABAFB /* System */,
-				113629442C1A1FB5006DC20B /* StateMachine */,
+				113629442C1A1FB5006DC20B /* State */,
 				113629392C19A1F0006DC20B /* Component */,
 				113629382C19A08F006DC20B /* Entity */,
 				113629262C184592006DC20B /* View */,
@@ -168,11 +172,12 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		113629442C1A1FB5006DC20B /* StateMachine */ = {
+		113629442C1A1FB5006DC20B /* State */ = {
 			isa = PBXGroup;
 			children = (
+				113629642C256C62006DC20B /* Button */,
 			);
-			path = StateMachine;
+			path = State;
 			sourceTree = "<group>";
 		};
 		113629592C24253A006DC20B /* RangedEnemy */ = {
@@ -182,6 +187,15 @@
 				1136295C2C242604006DC20B /* Bullet.swift */,
 			);
 			path = RangedEnemy;
+			sourceTree = "<group>";
+		};
+		113629642C256C62006DC20B /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				113629652C256C80006DC20B /* ButtonNormalState.swift */,
+				113629672C25709A006DC20B /* ButtonPressedState.swift */,
+			);
+			path = Button;
 			sourceTree = "<group>";
 		};
 		5F6BB6B02C1E8F4C006ABAFB /* System */ = {
@@ -312,9 +326,11 @@
 				113629612C242A9F006DC20B /* PositionComponent.swift in Sources */,
 				113629632C243EBD006DC20B /* BulletSystem.swift in Sources */,
 				113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */,
+				113629682C25709A006DC20B /* ButtonPressedState.swift in Sources */,
 				760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */,
 				110B001B2C11978A00228202 /* AppDelegate.swift in Sources */,
 				113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */,
+				113629662C256C80006DC20B /* ButtonNormalState.swift in Sources */,
 				1136295D2C242604006DC20B /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
