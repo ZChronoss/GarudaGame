@@ -25,11 +25,13 @@ class Player: GKEntity {
     var dashCooldown = false
     let dashCooldownDuration: CGFloat = 1.0
     var dashCooldownTimeElapsed: CGFloat = 0.0
+    
     var targetEnemies: [CGPoint] = []
-    
     var playerFacing: Bool = true
-    
     var health = 0
+    
+    let iFramesTime = 1.0
+    var invincibility: Bool = false
     
     init(name: String, health: Int) {
         self.name = name
@@ -38,7 +40,6 @@ class Player: GKEntity {
         
 //        Texture
         self.texture = SKTexture(imageNamed: name + "Node")
-        print(name)
         
 //        Sprite
         let spriteComponent = SpriteComponent(texture, size: nodeSize, zPos: 5)

@@ -32,7 +32,7 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         super.didMove(to: view)
         entityManager = EntityManager(scene: self)
-        garuda = Player(name: "Garuda", health: 10)
+        garuda = Player(name: "Garuda", health: 1000)
         
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
             spriteComponent.node.position = CGPoint(x: frame.midX-250, y: frame.midY)
@@ -67,12 +67,17 @@ class LevelOneScene: BaseScene, SKPhysicsContactDelegate{
         
         switch mask {
         case PhysicsCategory.player | PhysicsCategory.enemy, PhysicsCategory.player | PhysicsCategory.bullet:
-            if !garuda.isDashing{
+            if !(garuda.isDashing || garuda.invincibility) {
                 let player = nodeA.node as? SKSpriteNode
                 let otherNode = nodeB.node as? SKSpriteNode
                 
                 garuda.health -= 1
                 print(garuda.health)
+                
+                garuda.invincibility = true
+                Timer.scheduledTimer(withTimeInterval: garuda.iFramesTime, repeats: false) { _ in
+                    self.garuda.invincibility = false
+                }
                 
                 combatSystem?.knockback(nodeA: player, nodeB: otherNode)
                 

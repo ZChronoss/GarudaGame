@@ -19,15 +19,11 @@ class SpriteComponent: GKComponent {
         self.node.size = size
         self.node.zPosition = zPos
         
-        let shader = SKShader(fileNamed: "ColorChange.metal")
-        
-        // Set the color change uniform (RGBA)
-        let colorChange = vector_float4(1.0, 1.0, 1.0, 1.0) // Change to desired color
-        let uniforms = SKUniform(name: "colorChange", vectorFloat4: colorChange)
-        shader.uniforms = [uniforms]
-        
-        // Apply the shader to the sprite
-        self.node.shader = shader
+        //Liquid Shader
+//        let negativeShader = SKShader(source: "void main() { float speed = u_time * 0.35; float frequency = 14.0; float intensity = 0.006; vec2 coord = v_tex_coord; coord.x += cos((coord.x + speed) * frequency) * intensity; coord.y += sin((coord.y + speed) * frequency) * intensity; vec4 targetPixelColor = texture2D(u_texture, coord); gl_FragColor = targetPixelColor; }")
+//        
+//        // Apply the shader to the sprite
+//        self.node.shader = negativeShader
     }
     
     required init?(coder: NSCoder) {
