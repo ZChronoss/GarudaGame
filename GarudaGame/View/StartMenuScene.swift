@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 class StartMenuScene: SKScene {
-    let gameTitle = SKLabelNode(text: "Garuda Game")
+    let gameTitle = SKLabelNode(text: "Legend of Garuda")
     let startGame = SKLabelNode(text: "Tap the screen to start!")
     
     override func didMove(to view: SKView) {

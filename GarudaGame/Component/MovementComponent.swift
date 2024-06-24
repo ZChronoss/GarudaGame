@@ -29,5 +29,7 @@ class MovementComponent: GKComponent {
             spriteNode?.position.x += playerVelocity.dx
             spriteNode?.position.y += playerVelocity.dy
         }
+        
+        
     }
 }

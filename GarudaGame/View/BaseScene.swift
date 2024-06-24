@@ -40,6 +40,14 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     var dashButtonStateMachine: GKStateMachine!
     var jumpButtonStateMachine: GKStateMachine!
     
+    var isGarudaWalking = false
+    var garudaAnimationStateMachine: GKStateMachine!
+    
+    var kecrekAnimationStateMachine: GKStateMachine!
+    
+    var currentScene = ""
+    let gameOverNode = GameOverNode()
+    
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         entityManager = EntityManager(scene: self)
@@ -111,6 +119,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
+        gameOverNode.touchesBegan(touches, with: event)
         for touch in touches {
             let location = touch.location(in: self)
             let localLocation = convert(location, to: joystick)
@@ -218,6 +227,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         if garuda.component(ofType: CombatComponent.self)?.health ?? 0 <= 0 {
             garuda.removeComponent(ofType: PhysicComponent.self)
             entityManager.removeEntity(garuda)
+            gameOver()
         }
         
         for kecrek in enemies{
@@ -228,16 +238,36 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 bulletSystem.update(player: garuda, enemy: rangedKecrek, currentTime: currentTime)
             }
         }
+        
+        if abs(playerVelocity.dx) > 0 {
+            if !isGarudaWalking {
+                garudaAnimationStateMachine.enter(WalkState.self)
+                isGarudaWalking = true
+            }
+            garuda.component(ofType: SpriteComponent.self)?.node.xScale = (garuda.playerFacing ? 1 : -1)
+        }else {
+            if isGarudaWalking {
+                garuda.component(ofType: SpriteComponent.self)?.node.xScale = (garuda.playerFacing ? 1 : -1)
+                garudaAnimationStateMachine.enter(IdleState.self)
+                isGarudaWalking = false
+            }
+        }
     }
     
     func summonGaruda(at position: CGPoint) {
         garuda = Player(name: "Garuda", health: 3)
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
             spriteComponent.node.position = position
+            
+            let garudaIdleState = IdleState(node: spriteComponent.node, name: "Garuda")
+            let garudaWalkState = WalkState(node: spriteComponent.node, name: "Garuda")
+            
+            garudaAnimationStateMachine = GKStateMachine(states: [garudaIdleState, garudaWalkState])
+            garudaAnimationStateMachine.enter(IdleState.self)
         }
         
         entityManager.addEntity(garuda)
-        entityManager.startAnimation(garuda)
+//        entityManager.startAnimation(garuda)
         entityManager.addPhysic(garuda)
     }
     
@@ -374,5 +404,34 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             }
         }
         return false
+    }
+    
+    func gameOver(){
+        gameOverNode.position = CGPoint(x: frame.midX, y: frame.midY)
+        gameOverNode.zPosition = 100
+        cameraNode.addChild(gameOverNode)
+        
+        joystick.isHidden = true
+        jumpButton.isHidden = true
+        attackButton.isHidden = true
+        dashButton.isHidden = true
+    }
+    
+    func restartLevel() {
+        if let currentScene = scene {
+            let newScene = SKScene(fileNamed: self.currentScene)
+            newScene!.scaleMode = currentScene.scaleMode
+            let transition = SKTransition.fade(withDuration: 1.0)
+            scene?.view?.presentScene(newScene!, transition: transition)
+        }
+    }
+    
+    func returnToMainMenu(){
+        if let currentScene = scene {
+            let newScene = StartMenuScene(size: (view?.bounds.size)!)
+            newScene.scaleMode = currentScene.scaleMode
+            let transition = SKTransition.fade(withDuration: 1.0)
+            scene?.view?.presentScene(newScene, transition: transition)
+        }
     }
 }

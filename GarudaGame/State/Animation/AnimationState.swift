@@ -1,32 +1,21 @@
 //
-//  AnimationComponent.swift
+//  AnimationState.swift
 //  GarudaGame
 //
-//  Created by Renaldi Antonio on 12/06/24.
+//  Created by Renaldi Antonio on 24/06/24.
 //
 
 import Foundation
 import GameplayKit
 
-enum AnimationStateName: String {
-    case idle = "Idle"
-    case walk = "Walk"
-}
-
-class AnimationComponent: GKComponent {
-    var frames = [SKTexture]()
+class AnimationState: GKState {
+    var node: SKSpriteNode
+    var name: String
     
-    init(name: String) {
+    init(node: SKSpriteNode, name: String) {
+        self.node = node
+        self.name = name
         super.init()
-        self.frames = createAnimationFrame(name, state: AnimationStateName.idle)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    convenience override init() {
-        self.init()
     }
     
     func createAnimationFrame(_ name: String, state: AnimationStateName) -> [SKTexture]{
