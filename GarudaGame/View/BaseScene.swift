@@ -31,8 +31,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     var lastUpdateTime: TimeInterval = 0.0
     
     var joystickDisabled = false
-    var jumpCooldown = false
-    let jumpCooldownDuration: TimeInterval = 0.5
     var attackCooldown = false
     let attackCooldownDuration: TimeInterval = 0.5
     
@@ -124,7 +122,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             let pressedState = ButtonPressedState.self
             if attackButton.frame.contains(cameraLocation){
                 attackButtonStateMachine.enter(pressedState)
-                if !attackCooldown && garuda.isDashing && !isOnGround() && !garuda.targetEnemies.isEmpty{
+                if !attackCooldown && garuda.isDashing && !garuda.isOnGround && !garuda.targetEnemies.isEmpty{
                     let target = combatSystem?.closestPoint(from: garuda.targetEnemies, to: garuda.component(ofType: SpriteComponent.self)!.node.position)
                     dashSystem.targettedDash(player: garuda, target: target!)
                     Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
@@ -143,18 +141,17 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 }
             }else if dashButton.frame.contains(cameraLocation){
                 dashButtonStateMachine.enter(pressedState)
-                if !garuda.dashCooldown && isOnGround(){
+                if !garuda.dashCooldown && garuda.isOnGround{
                     dashSystem.dash(player: garuda, dashSpeed: 800.0)
-                }else if !garuda.dashCooldown && !isOnGround() && !garuda.isDashing{
+                }else if !garuda.dashCooldown && !garuda.isOnGround && !garuda.isDashing{
                     dashSystem.longDash(player: garuda, dashSpeed: 400.0, joystick: joystick)
-                }else if !isOnGround() && garuda.isDashing{
+                }else if !garuda.isOnGround && garuda.isDashing{
                     dashSystem.stopLongDash(player: garuda)
                 }
             }else if jumpButton.frame.contains(cameraLocation){
                 jumpButtonStateMachine.enter(pressedState)
-                if isOnGround() && !jumpCooldown {
+                if garuda.isOnGround {
                     garuda.component(ofType: MovementComponent.self)?.jump()
-                    activateJumpCooldown()
                 }
             }
         }
@@ -229,7 +226,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 garuda.targetEnemies.append(kecrek.component(ofType: SpriteComponent.self)!.node.position)
             }
             if let rangedKecrek = kecrek as? RangedEnemy {
-                if kecrek.isActivated{                
+                if kecrek.isActivated{
                     bulletSystem.update(player: garuda, enemy: rangedKecrek, currentTime: currentTime)
                 }
             }
@@ -270,7 +267,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             entityManager.addEntity(kecrek)
             entityManager.startAnimation(kecrek)
             entityManager.addPhysic(kecrek)
-//            kecrek.shootBullet(target: garuda)
+            //            kecrek.shootBullet(target: garuda)
             
             enemies.append(kecrek)
         default:
@@ -279,7 +276,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func setupPlatform(name: String) {
-        guard let platform = self.childNode(withName: name) as? SKShapeNode else {
+        guard let platform = self.childNode(withName: name) as? SKSpriteNode else {
             fatalError("Node with name \(name) not found or not a SKShapeNode")
         }
         
@@ -290,24 +287,25 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         platform.physicsBody?.allowsRotation = false
         platform.physicsBody?.categoryBitMask = PhysicsCategory.platform
         platform.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+        platform.physicsBody?.collisionBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
         platform.physicsBody?.friction = 1
     }
     
     //Taking damage
     func didBegin(_ contact: SKPhysicsContact) {
-        let nodeA = contact.bodyA
-        let nodeB = contact.bodyB
+        let nodeA = contact.bodyA.node as? SKSpriteNode
+        let nodeB = contact.bodyB.node as? SKSpriteNode
         
         let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         switch mask {
         case PhysicsCategory.player | PhysicsCategory.enemy, PhysicsCategory.player | PhysicsCategory.bullet:
-            if !(garuda.isDashing || garuda.invincibility){
-                let player = nodeA.node as? SKSpriteNode
-                let otherNode = nodeB.node as? SKSpriteNode
+            if !(garuda.isDashing || garuda.invincibility) {
+                let player = nodeA
+                let otherNode = nodeB
                 
-                garuda.component(ofType: CombatComponent.self)?.health -= 1
-                updateHealthBar()
+                garuda.health -= 1
+                print(garuda.health)
                 
                 garuda.invincibility = true
                 Timer.scheduledTimer(withTimeInterval: garuda.iFramesTime, repeats: false) { _ in
@@ -321,15 +319,15 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     joystickDisabled = false
                 }
                 
-                if otherNode?.physicsBody?.categoryBitMask == PhysicsCategory.bullet{
-                    otherNode?.removeFromParent()
+                if otherNode!.physicsBody?.categoryBitMask == PhysicsCategory.bullet{
+                    otherNode!.removeFromParent()
                 }
             }
             
         case PhysicsCategory.enemy | PhysicsCategory.hitbox:
-            combatSystem?.knockback(nodeA: nodeA.node as? SKSpriteNode, nodeB: garuda.component(ofType: SpriteComponent.self)?.node as? SKSpriteNode)
+            combatSystem?.knockback(nodeA: nodeA, nodeB: garuda.component(ofType: SpriteComponent.self)?.node as? SKSpriteNode)
             for kecrek in enemies{
-                if kecrek.component(ofType: SpriteComponent.self)?.node == nodeA.node {
+                if kecrek.component(ofType: SpriteComponent.self)?.node == nodeA {
                     kecrek.component(ofType: CombatComponent.self)?.health -= 1
                 }
                 if kecrek.component(ofType: CombatComponent.self)?.health == 0 {
@@ -339,10 +337,23 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             }
             
         case PhysicsCategory.platform | PhysicsCategory.bullet:
-            if let bullet = (nodeA.categoryBitMask == PhysicsCategory.bullet ? nodeA.node : nodeB.node) as? SKSpriteNode {
-                bullet.removeAllActions()
-                bullet.removeFromParent()
-            }
+            let bullet = (contact.bodyA.categoryBitMask == PhysicsCategory.bullet ? nodeA : nodeB)
+            bullet!.removeAllActions()
+            bullet!.removeFromParent()
+            
+        case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker:
+            garuda.isOnGround = true
+            
+        default:
+            break
+        }
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch mask{
+        case PhysicsCategory.platform | PhysicsCategory.groundChecker:
+            garuda.isOnGround = false
         default:
             break
         }
@@ -358,28 +369,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    func activateJumpCooldown() {
-        jumpCooldown = true
-        Timer.scheduledTimer(withTimeInterval: jumpCooldownDuration, repeats: false) { _ in
-            self.jumpCooldown = false
-        }
-    }
-    
     func activateAttackCooldown() {
         attackCooldown = true
         Timer.scheduledTimer(withTimeInterval: attackCooldownDuration, repeats: false) { _ in
             self.attackCooldown = false
         }
-    }
-    
-    func isOnGround() -> Bool {
-        for platform in self.children {
-            if let platformNode = platform as? SKShapeNode, platformNode.name != nil {
-                if garuda.component(ofType: PhysicComponent.self)?.physicBody.allContactedBodies().contains(platformNode.physicsBody!) ?? false {
-                    return true
-                }
-            }
-        }
-        return false
     }
 }

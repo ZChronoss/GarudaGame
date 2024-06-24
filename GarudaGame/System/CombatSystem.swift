@@ -91,4 +91,6 @@ class CombatSystem: GKRuleSystem {
         let dy = point1.y - point2.y
         return sqrt(dx * dx + dy * dy)
     }
+    
+    
 }

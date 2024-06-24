@@ -10,6 +10,7 @@ import GameplayKit
 
 class ChaseComponent: GKComponent {
     var target: GKEntity
+    var wanderingCooldown = 5
     
     init(target: GKEntity) {
         self.target = target
@@ -42,6 +43,8 @@ class ChaseComponent: GKComponent {
                 }
                 
                 enemyNode.position.x += moveX
+            }else{
+                let enemyNode = entity?.component(ofType: SpriteComponent.self)?.node
             }
         }
 
