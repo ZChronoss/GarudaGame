@@ -125,8 +125,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             if attackButton.frame.contains(cameraLocation){
                 attackButtonStateMachine.enter(pressedState)
                 if !attackCooldown && garuda.isDashing && !isOnGround() && !garuda.targetEnemies.isEmpty{
-                    let target = CGRect.minimalRect(containing: garuda.targetEnemies)!
-                    dashSystem.targettedDash(player: garuda, target: target)
+                    let target = combatSystem?.closestPoint(from: garuda.targetEnemies, to: garuda.component(ofType: SpriteComponent.self)!.node.position)
+                    dashSystem.targettedDash(player: garuda, target: target!)
                     Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
                         if let player = garuda.component(ofType: SpriteComponent.self)?.node{
                             combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 150, height: 60), position: CGPoint(x: 0, y: -20))
