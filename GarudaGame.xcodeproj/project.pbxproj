@@ -36,7 +36,6 @@
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
 		5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */; };
 		5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */; };
-		5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BC2C24144F006ABAFB /* CGRect.swift */; };
 		5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BE2C241D28006ABAFB /* Array.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
 		761E96E02C2572D500EF6C7C /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96DF2C2572D500EF6C7C /* HealthSystem.swift */; };
@@ -75,7 +74,6 @@
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
 		5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatComponent.swift; sourceTree = "<group>"; };
 		5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
-		5F6BB6BC2C24144F006ABAFB /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		5F6BB6BE2C241D28006ABAFB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
 		761E96DF2C2572D500EF6C7C /* HealthSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
@@ -218,7 +216,6 @@
 		5F6BB6BB2C241444006ABAFB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				5F6BB6BC2C24144F006ABAFB /* CGRect.swift */,
 				5F6BB6BE2C241D28006ABAFB /* Array.swift */,
 			);
 			path = Extension;

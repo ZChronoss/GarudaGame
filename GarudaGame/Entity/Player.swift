@@ -30,7 +30,7 @@ class Player: GKEntity {
     var playerFacing: Bool = true
     var health = 0
     
-    let iFramesTime = 1.0
+    let iFramesTime = 0.5
     var invincibility: Bool = false
     
     init(name: String, health: Int) {

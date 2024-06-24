@@ -21,25 +21,29 @@ class ChaseComponent: GKComponent {
     }
     
     override func update(deltaTime seconds: TimeInterval) {
-        guard let targetNode = target.component(ofType: SpriteComponent.self)?.node,
-              let enemyNode = entity?.component(ofType: SpriteComponent.self)?.node else {
-            return
+        if let enemy = entity as? Enemy{
+            if enemy.isActivated{
+                guard let targetNode = target.component(ofType: SpriteComponent.self)?.node,
+                      let enemyNode = entity?.component(ofType: SpriteComponent.self)?.node else {
+                    return
+                }
+                
+                let targetPosition = targetNode.position
+                let enemyPosition = enemyNode.position
+                
+                //Untuk ground enemy
+                let velocity: CGFloat = 10.0 // Adjust the speed as needed
+                let moveX: CGFloat
+                
+                if targetPosition.x > enemyPosition.x {
+                    moveX = velocity * CGFloat(seconds)
+                } else {
+                    moveX = -velocity * CGFloat(seconds)
+                }
+                
+                enemyNode.position.x += moveX
+            }
         }
-        
-        let targetPosition = targetNode.position
-        let enemyPosition = enemyNode.position
-        
-        //Untuk ground enemy
-        let velocity: CGFloat = 10.0 // Adjust the speed as needed
-        let moveX: CGFloat
-
-        if targetPosition.x > enemyPosition.x {
-            moveX = velocity * CGFloat(seconds)
-        } else {
-            moveX = -velocity * CGFloat(seconds)
-        }
-
-        enemyNode.position.x += moveX
 
         //Untuk flying enemy
 //        let dx = targetPosition.x - enemyPosition.x

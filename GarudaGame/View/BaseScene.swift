@@ -187,6 +187,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 dashButtonStateMachine.enter(normalState)
             }else if jumpButton.frame.contains(location){
                 jumpButtonStateMachine.enter(normalState)
+            }else{
+                attackButtonStateMachine.enter(normalState)
+                dashButtonStateMachine.enter(normalState)
+                jumpButtonStateMachine.enter(normalState)
             }
         }
     }
@@ -225,8 +229,11 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 garuda.targetEnemies.append(kecrek.component(ofType: SpriteComponent.self)!.node.position)
             }
             if let rangedKecrek = kecrek as? RangedEnemy {
-                bulletSystem.update(player: garuda, enemy: rangedKecrek, currentTime: currentTime)
+                if kecrek.isActivated{                
+                    bulletSystem.update(player: garuda, enemy: rangedKecrek, currentTime: currentTime)
+                }
             }
+            (combatSystem?.distance(from: garuda.component(ofType: SpriteComponent.self)?.node.position ?? CGPointZero, to: kecrek.component(ofType: SpriteComponent.self)!.node.position))! < 200 ? kecrek.isActivated = true : nil
         }
     }
     
