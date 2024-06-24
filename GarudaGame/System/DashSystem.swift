@@ -23,6 +23,7 @@ class DashSystem: GKComponentSystem<MovementComponent>{
                 player.dashVelocity = CGVector.zero
                 player.component(ofType: PhysicComponent.self)?.physicBody.affectedByGravity = true
                 joystick.allowYControl = 0.0
+                joystick.allowXControl = 0.1
             }
         }
         
@@ -57,6 +58,7 @@ class DashSystem: GKComponentSystem<MovementComponent>{
         if !player.dashCooldown{
             player.component(ofType: PhysicComponent.self)?.physicBody.affectedByGravity = false
             joystick.allowYControl = 0.1
+            joystick.allowXControl = 0.0
             player.isDashing = true
             player.dashTimeElapsed = -0.5
             player.dashVelocity = player.playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)

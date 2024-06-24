@@ -68,4 +68,29 @@ class CombatSystem: GKRuleSystem {
         
         nodeA?.physicsBody?.applyImpulse(impulse)
     }
+    
+    func closestPoint(from points: [CGPoint], to target: CGPoint) -> CGPoint? {
+        guard !points.isEmpty else { return nil }
+
+        var closestPoint = points[0]
+        var shortestDistance = distance(from: closestPoint, to: target)
+
+        for point in points.dropFirst() {
+            let currentDistance = distance(from: point, to: target)
+            if currentDistance < shortestDistance {
+                shortestDistance = currentDistance
+                closestPoint = point
+            }
+        }
+
+        return closestPoint
+    }
+
+    func distance(from point1: CGPoint, to point2: CGPoint) -> CGFloat {
+        let dx = point1.x - point2.x
+        let dy = point1.y - point2.y
+        return sqrt(dx * dx + dy * dy)
+    }
+    
+    
 }

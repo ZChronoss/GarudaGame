@@ -14,4 +14,5 @@ struct PhysicsCategory {
     static let platform: UInt32 = 0x1 << 2
     static let hitbox: UInt32 = 0x1 << 3
     static let bullet: UInt32 = 0x1 << 4
+    static let groundChecker: UInt32 = 0x1 << 5
 }

@@ -30,8 +30,9 @@ class Player: GKEntity {
     var playerFacing: Bool = true
     var health = 0
     
-    let iFramesTime = 1.0
+    let iFramesTime = 0.5
     var invincibility: Bool = false
+    var isOnGround: Bool = false
     
     init(name: String, health: Int) {
         self.name = name
@@ -50,7 +51,7 @@ class Player: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform , contact: PhysicsCategory.enemy)
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform , contact: PhysicsCategory.enemy | PhysicsCategory.platform)
         addComponent(physicComponent)
         
 //        Movement
@@ -59,6 +60,9 @@ class Player: GKEntity {
         
         let combatComponent = CombatComponent(health)
         addComponent(combatComponent)
+        
+        let groundedComponent = GroundedComponent(self)
+        addComponent(groundedComponent)
     }
     
     required init?(coder: NSCoder) {

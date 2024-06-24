@@ -40,8 +40,8 @@
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
 		5F6BB6B42C22A37C006ABAFB /* CombatComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */; };
 		5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */; };
-		5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BC2C24144F006ABAFB /* CGRect.swift */; };
 		5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BE2C241D28006ABAFB /* Array.swift */; };
+		5F6BB6C32C29786F006ABAFB /* GroundedComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
 		761E96E02C2572D500EF6C7C /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96DF2C2572D500EF6C7C /* HealthSystem.swift */; };
 		761E96E22C25819900EF6C7C /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96E12C25819900EF6C7C /* FlyingEnemy.swift */; };
@@ -83,8 +83,8 @@
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
 		5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatComponent.swift; sourceTree = "<group>"; };
 		5F6BB6B92C22C575006ABAFB /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
-		5F6BB6BC2C24144F006ABAFB /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		5F6BB6BE2C241D28006ABAFB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedComponent.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
 		761E96DF2C2572D500EF6C7C /* HealthSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
 		761E96E12C25819900EF6C7C /* FlyingEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
@@ -175,6 +175,7 @@
 				5F6BB6B32C22A37C006ABAFB /* CombatComponent.swift */,
 				76F97BA82C22C2EE00950597 /* ChaseComponent.swift */,
 				1136295E2C24297E006DC20B /* BulletComponent.swift */,
+				5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -238,7 +239,6 @@
 		5F6BB6BB2C241444006ABAFB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				5F6BB6BC2C24144F006ABAFB /* CGRect.swift */,
 				5F6BB6BE2C241D28006ABAFB /* Array.swift */,
 			);
 			path = Extension;
@@ -332,7 +332,6 @@
 				1136293D2C19A4FC006DC20B /* Enemy.swift in Sources */,
 				5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */,
 				761E96E22C25819900EF6C7C /* FlyingEnemy.swift in Sources */,
-				5F6BB6BD2C24144F006ABAFB /* CGRect.swift in Sources */,
 				5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */,
 				5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */,
 				113629482C1A23C8006DC20B /* PhysicComponent.swift in Sources */,
@@ -348,6 +347,7 @@
 				113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */,
 				113629682C25709A006DC20B /* ButtonPressedState.swift in Sources */,
 				760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */,
+				5F6BB6C32C29786F006ABAFB /* GroundedComponent.swift in Sources */,
 				110B001B2C11978A00228202 /* AppDelegate.swift in Sources */,
 				113629522C1ADA7D006DC20B /* LevelOneScene.swift in Sources */,
 				113629662C256C80006DC20B /* ButtonNormalState.swift in Sources */,
@@ -503,7 +503,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
+				DEVELOPMENT_TEAM = RHGD2V8746;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -531,7 +531,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
+				DEVELOPMENT_TEAM = RHGD2V8746;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
