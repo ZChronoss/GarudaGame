@@ -35,19 +35,6 @@ class ChaseComponent: GKComponent {
                       let enemyNode = entity?.component(ofType: SpriteComponent.self)?.node else {
                     return
                 }
-//                if abs(playerVelocity.dx) > 0 {
-//                    if !isGarudaWalking {
-//                        garudaAnimationStateMachine.enter(WalkState.self)
-//                        isGarudaWalking = true
-//                    }
-//                    garuda.component(ofType: SpriteComponent.self)?.node.xScale = (garuda.playerFacing ? 1 : -1)
-//                }else {
-//                    if isGarudaWalking {
-//                        garuda.component(ofType: SpriteComponent.self)?.node.xScale = (garuda.playerFacing ? 1 : -1)
-//                        garudaAnimationStateMachine.enter(IdleState.self)
-//                        isGarudaWalking = false
-//                    }
-//                }
                 let targetPosition = targetNode.position
                 let enemyPosition = enemyNode.position
                 
@@ -55,7 +42,6 @@ class ChaseComponent: GKComponent {
                 let velocity: CGFloat = 10.0 // Adjust the speed as needed
                 let moveX: CGFloat
                 
-                let ownedEntity = entity as? Enemy
                 if targetPosition.x > enemyPosition.x {
                     moveX = velocity * CGFloat(seconds)
                     enemyNode.xScale = -1
@@ -65,7 +51,7 @@ class ChaseComponent: GKComponent {
                 }
                 
                 if !isWalking {
-                    ownedEntity?.enemyStateMachine.enter(WalkState.self)
+                    enemy.enemyStateMachine.enter(WalkState.self)
                     isWalking = true
                 }
                 

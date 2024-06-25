@@ -14,9 +14,9 @@ class LevelOneScene: BaseScene{
         self.currentScene = "LevelOneScene"
         super.didMove(to: view)
         summonGaruda(at: CGPoint(x: frame.midX - 250, y: frame.midY))
-        summonKecrek(at: CGPoint(x: frame.midX + 30, y: frame.midY), type: 1)
+//        summonKecrek(at: CGPoint(x: frame.midX + 30, y: frame.midY), type: 1)
 //        summonKecrek(at: CGPoint(x: frame.midX + 250, y: frame.midY+100), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX + 340, y: frame.midY+100), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX + 40, y: frame.midY), type: 2)
 //        summonKecrek(at: CGPoint(x: frame.midX + 1000, y: frame.midY+150), type: 2)
 //        summonKecrek(at: CGPoint(x: frame.midX + 1200, y: frame.midY+150), type: 2)
         

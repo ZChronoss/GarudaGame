@@ -11,10 +11,12 @@ import GameplayKit
 class Bullet: GKEntity {
     init(position: CGPoint, direction: CGVector) {
         super.init()
-        let texture = SKTexture(imageNamed: "redball")
+        let texture = SKTexture(imageNamed: "BulletNode")
         
-        let spriteComponent = SpriteComponent(texture, size: CGSize(width: 10, height: 10), zPos: 4)
+        let spriteComponent = SpriteComponent(texture, size: CGSize(width: 30, height: 30), zPos: 4)
         addComponent(spriteComponent)
+        let animationComponent = AnimationComponent(name: "Bullet")
+        addComponent(animationComponent)
         addComponent(PositionComponent(position: position))
         addComponent(BulletComponent(direction: direction, node: spriteComponent.node))
     }

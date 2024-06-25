@@ -35,7 +35,15 @@ class RangedEnemy: Enemy {
                     let moveBullet = SKAction.move(by: direction, duration: 1)
                     let removeBullet = SKAction.removeFromParent()
                     let bulletAction = SKAction.sequence([moveBullet, removeBullet])
-                    bulletNode.run(bulletAction)
+                    var bulletAnimation = SKAction()
+                    if let frames = bullet.component(ofType: AnimationComponent.self)?.frames {
+                        let animation = SKAction.animate(with: frames,
+                                                         timePerFrame: TimeInterval(0.5))
+                        bulletAnimation = SKAction.repeatForever(animation)
+//                        bulletNode.run(SKAction.repeatForever(animation))
+                    }
+                    let bulletActionWithAnimation = SKAction.group([bulletAction, bulletAnimation])
+                    bulletNode.run(bulletActionWithAnimation)
                 }
             }
         }

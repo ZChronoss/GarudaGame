@@ -241,7 +241,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 garuda.targetEnemies.append(kecrek.component(ofType: SpriteComponent.self)!.node.position)
             }
             if let rangedKecrek = kecrek as? RangedEnemy {
-                if kecrek.isActivated{
+                if rangedKecrek.isActivated{
                     bulletSystem.update(player: garuda, enemy: rangedKecrek, currentTime: currentTime)
                 }
             }
@@ -282,28 +282,27 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func summonKecrek(at position: CGPoint, type: Int) {
-        let kecrek: Enemy
-        let spriteComponent: SKSpriteNode
         switch type{
         case 1:
-            kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
-            spriteComponent = kecrek.component(ofType: SpriteComponent.self)!.node
-            spriteComponent.position = position
-            
+            let kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
+            if let spriteComponent = kecrek.component(ofType: SpriteComponent.self)?.node {
+                spriteComponent.position = position
+            }
             entityManager.addEntity(kecrek)
-//            entityManager.startAnimation(kecrek)
+            //            entityManager.startAnimation(kecrek)
             entityManager.addPhysic(kecrek)
             
             enemies.append(kecrek)
         case 2:
-            kecrek = Enemy(name: "Kecrek", health: 2, target: garuda)
-            spriteComponent = kecrek.component(ofType: SpriteComponent.self)!.node
-            spriteComponent.position = position
+            let kecrek = RangedEnemy(name: "Kecrek", health: 2, target: garuda)
+            if let spriteComponent = kecrek.component(ofType: SpriteComponent.self)?.node{
+                spriteComponent.position = position
+            }
             
             entityManager.addEntity(kecrek)
 //            entityManager.startAnimation(kecrek)
             entityManager.addPhysic(kecrek)
-            //            kecrek.shootBullet(target: garuda)
+//            kecrek.shootBullet(target: garuda)
             
             enemies.append(kecrek)
         default:
