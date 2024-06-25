@@ -27,7 +27,7 @@ class LevelOneScene: BaseScene{
         }
         
         for node in self.children {
-                if (node.name == "LevelOne"){
+                if (node.name == "LevelOne") {
                     if let someTileMap: SKTileMapNode = node as? SKTileMapNode {
                         giveTileMapPhysicsBody(map: someTileMap)
 

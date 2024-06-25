@@ -337,9 +337,11 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     let tileTextures = tileArray[0] // first texture of tileArray
                     let x = CGFloat(col) * tileSize.width - halfWidth + ( tileSize.width / 2 ) // X-coordinate for the current tile's position
                     let y = CGFloat(row) * tileSize.height - halfHeight + ( tileSize.height / 2 ) // Y-coordinate for the current tile's position
-                       
+                    
                     // Make new sprite node for the tile map
+                    
                     let tileNode = SKSpriteNode(texture: tileTextures)
+                    print(tileNode.texture?.description.contains("Dirt_Deep"))
                     tileNode.position = CGPoint(x: x, y: y)
                     tileNode.size = CGSize(width: 64, height: 64)
                     
@@ -347,31 +349,40 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: CGSize(width: 64, height: 64))
                     
                     // Give some details to the physics body
-                    tileNode.physicsBody?.categoryBitMask = PhysicsCategory.platform
-                    tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet | PhysicsCategory.groundChecker
+                    let platDesc = tileNode.texture?.description
+                    if platDesc?.contains("Dirt_Top") == true {
+                        tileNode.physicsBody?.categoryBitMask = PhysicsCategory.platform
+                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet | PhysicsCategory.groundChecker
+                    }else if platDesc?.contains("Spike") == true {
+                        tileNode.physicsBody?.categoryBitMask = PhysicsCategory.spike
+                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+                    }
                     tileNode.physicsBody?.affectedByGravity = false
                     tileNode.physicsBody?.isDynamic = false
                     tileNode.physicsBody?.friction = 1
                     tileNode.physicsBody?.restitution = 0
-//                    tileNode.zPosition = 5
+                    //                    tileNode.zPosition = 5
                     
                     tileNode.position = CGPoint(x: tileNode.position.x + startLocation.x, y: tileNode.position.y + startLocation.y)
                     self.addChild(tileNode)
                 }
             }
+        }
+    }
+    
     func setupSpike(name: String) {
-        guard let spike = self.childNode(withName: name) as? SKSpriteNode else {
-            fatalError("Node with name \(name) not found or not a SKSpriteNode")
+        if let spike = self.childNode(withName: name) as? SKSpriteNode {
+//            fatalError("Node with name \(name) not found or not a SKSpriteNode")
+            spike.physicsBody = SKPhysicsBody(rectangleOf: spike.frame.size)
+            spike.physicsBody?.isDynamic = false
+            spike.physicsBody?.affectedByGravity = false
+            spike.physicsBody?.restitution = 0
+            spike.physicsBody?.allowsRotation = false
+            spike.physicsBody?.categoryBitMask = PhysicsCategory.spike
+            spike.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+            spike.physicsBody?.friction = 1
         }
         
-        spike.physicsBody = SKPhysicsBody(rectangleOf: spike.frame.size)
-        spike.physicsBody?.isDynamic = false
-        spike.physicsBody?.affectedByGravity = false
-        spike.physicsBody?.restitution = 0
-        spike.physicsBody?.allowsRotation = false
-        spike.physicsBody?.categoryBitMask = PhysicsCategory.spike
-        spike.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
-        spike.physicsBody?.friction = 1
     }
     
     //Taking damage
@@ -428,7 +439,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker:
             garuda.isOnGround += 1
             print(garuda.isOnGround)
-            garuda.isOnGround = true
+//            garuda.isOnGround = true
         case PhysicsCategory.player | PhysicsCategory.spike:
             if !garuda.invincibility {
                 garuda.component(ofType: CombatComponent.self)?.health -= 1
