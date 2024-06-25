@@ -20,6 +20,7 @@ class MovementComponent: GKComponent {
     
     /// Tells this entity's geometry component to jump.
     func jump() {
+        entity?.component(ofType: PhysicComponent.self)?.physicBody.velocity = CGVector.zero
         let jumpVector = CGVector(dx: 0, dy: 180)
         physicsBody?.applyImpulse(jumpVector)
     }

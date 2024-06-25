@@ -17,6 +17,7 @@ class Player: GKEntity {
     
     // Dash properties
     var isDashing = false
+    var isLongDashing = false
     var dashVelocity = CGVector.zero
     let dashDuration: CGFloat = 0.2
     var dashTimeElapsed: CGFloat = 0.0
@@ -30,9 +31,10 @@ class Player: GKEntity {
     var playerFacing: Bool = true
     var health = 0
     
-    let iFramesTime = 0.5
+    let iFramesTime = 0.7
     var invincibility: Bool = false
     var isOnGround: Int = 0
+    var isOnPlatform: Bool = false
     
     init(name: String, health: Int) {
         self.name = name
