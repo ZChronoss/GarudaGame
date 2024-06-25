@@ -15,6 +15,8 @@ class Enemy: GKEntity {
     var isActivated: Bool = false
     var isOnEdge: Int = 0
     
+    var enemyStateMachine: GKStateMachine!
+    
     init(name: String, health: Int, target: GKEntity) {
         self.name = name
         super.init()
@@ -49,6 +51,11 @@ class Enemy: GKEntity {
         
         let noFallingComponent = NoFallingComponent(self)
         addComponent(noFallingComponent)
+        
+        let idleState = IdleState(node: spriteNode, name: name)
+        let walkState = WalkState(node: spriteNode, name: name)
+        self.enemyStateMachine = GKStateMachine(states: [idleState, walkState])
+        self.enemyStateMachine.enter(IdleState.self)
     }
     
     required init?(coder: NSCoder) {

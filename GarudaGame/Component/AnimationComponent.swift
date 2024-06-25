@@ -11,6 +11,7 @@ import GameplayKit
 enum AnimationStateName: String {
     case idle = "Idle"
     case walk = "Walk"
+    case jump = "Jump"
 }
 
 class AnimationComponent: GKComponent {

@@ -41,7 +41,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     var isGarudaWalking = false
     var garudaAnimationStateMachine: GKStateMachine!
     
-    var kecrekAnimationStateMachine: GKStateMachine!
+    var kecrekAnimationStateMachine: [GKStateMachine]!
     
     var currentScene = ""
     let gameOverNode = GameOverNode()
@@ -165,6 +165,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 jumpButtonStateMachine.enter(pressedState)
                 if garuda.isOnGround != 0 {
                     garuda.component(ofType: MovementComponent.self)?.jump()
+                    garudaAnimationStateMachine.enter(JumpState.self)
                 }
             }
         }
@@ -269,8 +270,9 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             
             let garudaIdleState = IdleState(node: spriteComponent.node, name: "Garuda")
             let garudaWalkState = WalkState(node: spriteComponent.node, name: "Garuda")
+            let garudaJumpState = JumpState(node: spriteComponent.node, name: "Garuda")
             
-            garudaAnimationStateMachine = GKStateMachine(states: [garudaIdleState, garudaWalkState])
+            garudaAnimationStateMachine = GKStateMachine(states: [garudaIdleState, garudaWalkState, garudaJumpState])
             garudaAnimationStateMachine.enter(IdleState.self)
         }
         
@@ -280,26 +282,26 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func summonKecrek(at position: CGPoint, type: Int) {
+        let kecrek: Enemy
+        let spriteComponent: SKSpriteNode
         switch type{
         case 1:
-            let kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
-            if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
-                spriteComponent.node.position = position
-            }
+            kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
+            spriteComponent = kecrek.component(ofType: SpriteComponent.self)!.node
+            spriteComponent.position = position
             
             entityManager.addEntity(kecrek)
-            entityManager.startAnimation(kecrek)
+//            entityManager.startAnimation(kecrek)
             entityManager.addPhysic(kecrek)
             
             enemies.append(kecrek)
         case 2:
-            let kecrek = RangedEnemy(name: "Kecrek", health: 2, target: garuda)
-            if let spriteComponent = kecrek.component(ofType: SpriteComponent.self) {
-                spriteComponent.node.position = position
-            }
+            kecrek = Enemy(name: "Kecrek", health: 2, target: garuda)
+            spriteComponent = kecrek.component(ofType: SpriteComponent.self)!.node
+            spriteComponent.position = position
             
             entityManager.addEntity(kecrek)
-            entityManager.startAnimation(kecrek)
+//            entityManager.startAnimation(kecrek)
             entityManager.addPhysic(kecrek)
             //            kecrek.shootBullet(target: garuda)
             
