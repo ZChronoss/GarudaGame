@@ -131,7 +131,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             let pressedState = ButtonPressedState.self
             if attackButton.frame.contains(cameraLocation){
                 attackButtonStateMachine.enter(pressedState)
-                if !attackCooldown && garuda.isDashing && !garuda.isOnGround && !garuda.targetEnemies.isEmpty{
+                if !attackCooldown && garuda.isDashing && garuda.isOnGround == 0 && !garuda.targetEnemies.isEmpty{
                     let target = combatSystem?.closestPoint(from: garuda.targetEnemies, to: garuda.component(ofType: SpriteComponent.self)!.node.position)
                     dashSystem.targettedDash(player: garuda, target: target!)
                     Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
@@ -150,16 +150,16 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 }
             }else if dashButton.frame.contains(cameraLocation){
                 dashButtonStateMachine.enter(pressedState)
-                if !garuda.dashCooldown && garuda.isOnGround{
+                if !garuda.dashCooldown && garuda.isOnGround != 0{
                     dashSystem.dash(player: garuda, dashSpeed: 800.0)
-                }else if !garuda.dashCooldown && !garuda.isOnGround && !garuda.isDashing{
+                }else if !garuda.dashCooldown && garuda.isOnGround==0 && !garuda.isDashing{
                     dashSystem.longDash(player: garuda, dashSpeed: 400.0, joystick: joystick)
-                }else if !garuda.isOnGround && garuda.isDashing{
+                }else if garuda.isOnGround==0 && garuda.isDashing{
                     dashSystem.stopLongDash(player: garuda)
                 }
             }else if jumpButton.frame.contains(cameraLocation){
                 jumpButtonStateMachine.enter(pressedState)
-                if garuda.isOnGround {
+                if garuda.isOnGround != 0 {
                     garuda.component(ofType: MovementComponent.self)?.jump()
                 }
             }
@@ -321,6 +321,47 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         platform.physicsBody?.friction = 1
     }
     
+    /// SETUP LEVEL USING TILE MAP NODE
+    func giveTileMapPhysicsBody(map: SKTileMapNode) {
+        let tileMap = map // the tile map that we want to give physics body
+        let startLocation: CGPoint = tileMap.position // initial position of the tile map
+        let tileSize = tileMap.tileSize // the size of each tile map
+        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width // half the width of the tile map
+        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height // half height of the tile map
+        
+        for col in 0..<tileMap.numberOfColumns {
+            for row in 0..<tileMap.numberOfRows {
+                if let tileDefinition = tileMap.tileDefinition(atColumn: col, row: row) {
+                    // initialize variables
+                    let tileArray = tileDefinition.textures // stores an array of textures for a specific tile
+                    let tileTextures = tileArray[0] // first texture of tileArray
+                    let x = CGFloat(col) * tileSize.width - halfWidth + ( tileSize.width / 2 ) // X-coordinate for the current tile's position
+                    let y = CGFloat(row) * tileSize.height - halfHeight + ( tileSize.height / 2 ) // Y-coordinate for the current tile's position
+                       
+                    // Make new sprite node for the tile map
+                    let tileNode = SKSpriteNode(texture: tileTextures)
+                    tileNode.position = CGPoint(x: x, y: y)
+                    tileNode.size = CGSize(width: 64, height: 64)
+                    
+                    // Give the node some physics body
+                    tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: CGSize(width: 64, height: 64))
+                    
+                    // Give some details to the physics body
+                    tileNode.physicsBody?.categoryBitMask = PhysicsCategory.platform
+                    tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet | PhysicsCategory.groundChecker
+                    tileNode.physicsBody?.affectedByGravity = false
+                    tileNode.physicsBody?.isDynamic = false
+                    tileNode.physicsBody?.friction = 1
+                    tileNode.physicsBody?.restitution = 0
+//                    tileNode.zPosition = 5
+                    
+                    tileNode.position = CGPoint(x: tileNode.position.x + startLocation.x, y: tileNode.position.y + startLocation.y)
+                    self.addChild(tileNode)
+                }
+            }
+        }
+    }
+    
     //Taking damage
     func didBegin(_ contact: SKPhysicsContact) {
         let nodeA = contact.bodyA.node as? SKSpriteNode
@@ -372,8 +413,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             bullet!.removeFromParent()
             
         case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker:
-            garuda.isOnGround = true
-            
+            garuda.isOnGround += 1
+            print(garuda.isOnGround)
         default:
             break
         }
@@ -383,7 +424,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch mask{
         case PhysicsCategory.platform | PhysicsCategory.groundChecker:
-            garuda.isOnGround = false
+            garuda.isOnGround -= 1
+            print(garuda.isOnGround)
         default:
             break
         }

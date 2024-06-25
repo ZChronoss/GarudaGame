@@ -35,6 +35,8 @@
 		1136296D2C27F23E006DC20B /* WalkState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136296C2C27F23E006DC20B /* WalkState.swift */; };
 		113629712C295827006DC20B /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629702C295827006DC20B /* GameOverNode.swift */; };
 		113629752C297C92006DC20B /* AnimationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113629742C297C92006DC20B /* AnimationState.swift */; };
+		113629782C29D384006DC20B /* Environment.sks in Resources */ = {isa = PBXBuildFile; fileRef = 113629762C29D384006DC20B /* Environment.sks */; };
+		113629792C29D384006DC20B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 113629772C29D384006DC20B /* Assets.xcassets */; };
 		5F6BB6AB2C1C1E72006ABAFB /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */; };
 		5F6BB6AD2C1C203E006ABAFB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6AC2C1C203E006ABAFB /* Player.swift */; };
 		5F6BB6B22C1E8F5F006ABAFB /* DashSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */; };
@@ -78,6 +80,8 @@
 		1136296C2C27F23E006DC20B /* WalkState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkState.swift; sourceTree = "<group>"; };
 		113629702C295827006DC20B /* GameOverNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
 		113629742C297C92006DC20B /* AnimationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationState.swift; sourceTree = "<group>"; };
+		113629762C29D384006DC20B /* Environment.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Environment.sks; sourceTree = "<group>"; };
+		113629772C29D384006DC20B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5F6BB6AA2C1C1E72006ABAFB /* MovementComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
 		5F6BB6AC2C1C203E006ABAFB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashSystem.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 		110B00192C11978A00228202 /* GarudaGame */ = {
 			isa = PBXGroup;
 			children = (
+				1136297A2C29D397006DC20B /* Grid Tile Set */,
 				5F6BB6BB2C241444006ABAFB /* Extension */,
 				5F6BB6B82C22C56C006ABAFB /* Constants */,
 				5F6BB6B02C1E8F4C006ABAFB /* System */,
@@ -217,6 +222,15 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		1136297A2C29D397006DC20B /* Grid Tile Set */ = {
+			isa = PBXGroup;
+			children = (
+				113629762C29D384006DC20B /* Environment.sks */,
+				113629772C29D384006DC20B /* Assets.xcassets */,
+			);
+			path = "Grid Tile Set";
+			sourceTree = "<group>";
+		};
 		5F6BB6B02C1E8F4C006ABAFB /* System */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +319,8 @@
 				110B001D2C11978A00228202 /* LevelOneScene.sks in Resources */,
 				110B00262C11978A00228202 /* Base in Resources */,
 				110B00282C11978C00228202 /* Assets.xcassets in Resources */,
+				113629782C29D384006DC20B /* Environment.sks in Resources */,
+				113629792C29D384006DC20B /* Assets.xcassets in Resources */,
 				110B001F2C11978A00228202 /* Actions.sks in Resources */,
 				110B002B2C11978C00228202 /* Base in Resources */,
 			);

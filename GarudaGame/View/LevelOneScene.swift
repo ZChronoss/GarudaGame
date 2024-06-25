@@ -25,6 +25,16 @@ class LevelOneScene: BaseScene{
         for name in platformNames {
             setupPlatform(name: name)
         }
+        
+        for node in self.children {
+                if (node.name == "LevelOne"){
+                    if let someTileMap: SKTileMapNode = node as? SKTileMapNode {
+                        giveTileMapPhysicsBody(map: someTileMap)
+
+                        someTileMap.removeFromParent()
+                    }
+                }
+            }
     }
     
 }
