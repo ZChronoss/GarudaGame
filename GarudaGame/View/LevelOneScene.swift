@@ -35,6 +35,7 @@ class LevelOneScene: BaseScene{
                     }
                 }
             }
+        setupSpike(name: "spike")
     }
     
 }
