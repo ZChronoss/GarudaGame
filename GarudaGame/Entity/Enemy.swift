@@ -13,6 +13,7 @@ class Enemy: GKEntity {
     var texture = SKTexture()
     let nodeSize = CGSize(width: 80, height: 80)
     var isActivated: Bool = false
+    var isOnEdge: Int = 0
     
     init(name: String, health: Int, target: GKEntity) {
         self.name = name
@@ -29,7 +30,7 @@ class Enemy: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.enemy, collision: PhysicsCategory.platform | PhysicsCategory.spike, contact: (PhysicsCategory.player | PhysicsCategory.hitbox))
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.enemy, collision: PhysicsCategory.platform | PhysicsCategory.spike | PhysicsCategory.softPlatform, contact: (PhysicsCategory.player | PhysicsCategory.hitbox))
         addComponent(physicComponent)
         
         let chaseComponent = ChaseComponent(target: target)
@@ -45,6 +46,9 @@ class Enemy: GKEntity {
         let spriteNode = spriteComponent.node
         healthBarComponent.healthBar.position = CGPoint(x: 0, y: nodeSize.height / 2 + 10)
         spriteNode.addChild(healthBarComponent.healthBar)
+        
+        let noFallingComponent = NoFallingComponent(self)
+        addComponent(noFallingComponent)
     }
     
     required init?(coder: NSCoder) {

@@ -18,7 +18,6 @@ class GameOverNode: SKNode {
         super.init()
         let squareFrame = square.frame
         square.fillColor = .red
-        addChild(square)
         
         gameOverLabel.position = CGPoint(x: squareFrame.midX, y: squareFrame.midY + 70)
         gameOverLabel.fontSize = 100
@@ -32,6 +31,7 @@ class GameOverNode: SKNode {
         mainMenuButton.position = CGPoint(x: squareFrame.midX + 100, y: squareFrame.midY - 70)
         mainMenuButton.fillColor = .green
         square.addChild(mainMenuButton)
+        addChild(square)
     }
     
     required init?(coder aDecoder: NSCoder) {

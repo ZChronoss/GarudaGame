@@ -10,7 +10,9 @@ import GameplayKit
 
 class ChaseComponent: GKComponent {
     var target: GKEntity
-    var wanderingCooldown = 5
+    var wanderingCooldown:Bool = true
+    var wanderX: CGFloat = 1
+    var cdTimer: Timer?
     
     init(target: GKEntity) {
         self.target = target
@@ -22,6 +24,10 @@ class ChaseComponent: GKComponent {
     }
     
     override func update(deltaTime seconds: TimeInterval) {
+//        if let enemy = entity as? RangedEnemy{
+//            
+//        }
+        
         if let enemy = entity as? Enemy{
             if enemy.isActivated{
                 guard let targetNode = target.component(ofType: SpriteComponent.self)?.node,
@@ -43,8 +49,16 @@ class ChaseComponent: GKComponent {
                 }
                 
                 enemyNode.position.x += moveX
+            }else if wanderingCooldown{
+                wanderX = wanderX * -1
+                wanderingCooldown = false
+                cdTimer?.invalidate()
+                cdTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(Float.random(in: 1...3)), repeats: false) { _ in
+                    self.wanderingCooldown = true
+                }
             }else{
                 let enemyNode = entity?.component(ofType: SpriteComponent.self)?.node
+                enemyNode?.position.x += wanderX
             }
         }
 

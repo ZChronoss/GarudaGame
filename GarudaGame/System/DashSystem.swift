@@ -20,6 +20,9 @@ class DashSystem: GKComponentSystem<MovementComponent>{
                 player.component(ofType: SpriteComponent.self)?.node.position.x += player.dashVelocity.dx * CGFloat(currentTime - (lastUpdateTime ?? currentTime))
             } else {
                 player.isDashing = false
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+                    player.isLongDashing = false
+                }
                 player.dashVelocity = CGVector.zero
                 player.component(ofType: PhysicComponent.self)?.physicBody.affectedByGravity = true
                 joystick.allowYControl = 0.0
@@ -40,6 +43,7 @@ class DashSystem: GKComponentSystem<MovementComponent>{
     
     func dash(player:Player, dashSpeed: CGFloat) {
         if !player.dashCooldown{
+            player.component(ofType: PhysicComponent.self)?.physicBody.velocity = CGVector.zero
             player.isDashing = true
             player.dashTimeElapsed = 0.0
             player.dashVelocity = player.playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)
@@ -56,11 +60,14 @@ class DashSystem: GKComponentSystem<MovementComponent>{
     
     func longDash(player:Player, dashSpeed: CGFloat, joystick: JoystickView) {
         if !player.dashCooldown{
-            player.component(ofType: PhysicComponent.self)?.physicBody.affectedByGravity = false
-            joystick.allowYControl = 0.1
+            let playerPhysics = player.component(ofType: PhysicComponent.self)?.physicBody
+            playerPhysics?.velocity = CGVector.zero
+            playerPhysics?.affectedByGravity = false
+            joystick.allowYControl = 0.175
             joystick.allowXControl = 0.0
             player.isDashing = true
-            player.dashTimeElapsed = -0.5
+            player.isLongDashing = true
+            player.dashTimeElapsed = -0.4
             player.dashVelocity = player.playerFacing ? CGVector(dx: dashSpeed, dy: 0) : CGVector(dx: -dashSpeed, dy: 0)
         }
     }

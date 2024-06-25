@@ -24,6 +24,18 @@ class GroundedComponent: GKComponent {
         groundedPhysicsbody.affectedByGravity = false
         groundHitbox.physicsBody = groundedPhysicsbody
         player.component(ofType: SpriteComponent.self)?.node.addChild(groundHitbox)
+        
+        let platformHitbox = SKSpriteNode()
+        platformHitbox.size = CGSize(width: 67, height: 50)
+        platformHitbox.position.y = -50
+        platformHitbox.zPosition = 99
+        let platformCheckPhysics = SKPhysicsBody(rectangleOf: platformHitbox.size)
+        platformCheckPhysics.categoryBitMask = PhysicsCategory.platformChecker
+        platformCheckPhysics.collisionBitMask = PhysicsCategory.none
+        platformCheckPhysics.contactTestBitMask = PhysicsCategory.softPlatform
+        platformCheckPhysics.affectedByGravity = false
+        platformHitbox.physicsBody = platformCheckPhysics
+        player.component(ofType: SpriteComponent.self)?.node.addChild(platformHitbox)
     }
     
     required init?(coder: NSCoder) {

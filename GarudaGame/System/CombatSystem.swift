@@ -44,7 +44,7 @@ class CombatSystem: GKRuleSystem {
         scene.physicsWorld.enumerateBodies(alongRayStart: rayStart ?? CGPointZero, end: rayEnd ?? CGPointZero) { (body, point, normal, stop) in
             if let node = body.node {
                 // Ensure the node is not nodeA or nodeB
-                if node.physicsBody?.categoryBitMask == PhysicsCategory.platform{
+                if node.physicsBody?.categoryBitMask == PhysicsCategory.platform || node.physicsBody?.categoryBitMask == PhysicsCategory.softPlatform{
                         nodesInBetween.append(node)
                         stop.pointee = true // Stop the enumeration if a node is found
                 }
@@ -54,17 +54,9 @@ class CombatSystem: GKRuleSystem {
         return !nodesInBetween.isEmpty
     }
     
-    func knockback(nodeA: SKSpriteNode?, nodeB: SKSpriteNode?){
-        // Calculate the direction of the knockback
-        let knockbackVector = CGVector(dx: (nodeA?.position.x ?? 0) - (nodeB?.position.x ?? 0), dy: (nodeA?.position.y ?? 0) - (nodeB?.position.y ?? 0))
-        
-        // Normalize the knockback vector
-        let length = sqrt(knockbackVector.dx * knockbackVector.dx + knockbackVector.dy * knockbackVector.dy)
-        let normalizedVector = CGVector(dx: knockbackVector.dx / length, dy: knockbackVector.dy / length)
-        
-        // Apply the impulse to the garuda
+    func knockback(nodeA: SKSpriteNode?, knockup: CGFloat, knockback: CGFloat){
         let knockbackStrength: CGFloat = 80.0 // Adjust this value as needed
-        let impulse = CGVector(dx: normalizedVector.dx * knockbackStrength, dy: abs(normalizedVector.dy * knockbackStrength))
+        let impulse = CGVector(dx: knockback * knockbackStrength, dy: abs(knockup * knockbackStrength))
         
         nodeA?.physicsBody?.applyImpulse(impulse)
     }
