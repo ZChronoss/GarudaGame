@@ -325,6 +325,22 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         platform.physicsBody?.friction = 1
     }
     
+    func setupSoftPlatform(name: String) {
+        guard let platform = self.childNode(withName: name) as? SKSpriteNode else {
+            fatalError("Node with name \(name) not found or not a SKSpriteNode")
+        }
+        
+        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
+        platform.physicsBody?.isDynamic = false
+        platform.physicsBody?.affectedByGravity = false
+        platform.physicsBody?.restitution = 0
+        platform.physicsBody?.allowsRotation = false
+        platform.physicsBody?.categoryBitMask = PhysicsCategory.softPlatform
+        platform.physicsBody?.collisionBitMask = PhysicsCategory.enemy | PhysicsCategory.bullet
+        platform.physicsBody?.collisionBitMask = PhysicsCategory.platformChecker
+        platform.physicsBody?.friction = 1
+    }
+    
     /// SETUP LEVEL USING TILE MAP NODE
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
         let tileMap = map // the tile map that we want to give physics body
@@ -376,7 +392,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     
     func setupSpike(name: String) {
         if let spike = self.childNode(withName: name) as? SKSpriteNode {
-//            fatalError("Node with name \(name) not found or not a SKSpriteNode")
+            //            fatalError("Node with name \(name) not found or not a SKSpriteNode")
             spike.physicsBody = SKPhysicsBody(rectangleOf: spike.frame.size)
             spike.physicsBody?.isDynamic = false
             spike.physicsBody?.affectedByGravity = false
@@ -386,16 +402,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             spike.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
             spike.physicsBody?.friction = 1
         }
-        
-        platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
-        platform.physicsBody?.isDynamic = false
-        platform.physicsBody?.affectedByGravity = false
-        platform.physicsBody?.restitution = 0
-        platform.physicsBody?.allowsRotation = false
-        platform.physicsBody?.categoryBitMask = PhysicsCategory.softPlatform
-        platform.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy
-        platform.physicsBody?.collisionBitMask = PhysicsCategory.bullet | PhysicsCategory.platformChecker
-        platform.physicsBody?.friction = 1
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -451,7 +457,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             bullet?.removeAllActions()
             bullet?.removeFromParent()
             
-        case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker:
+        case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.groundChecker | PhysicsCategory.spike:
             garuda.isOnGround += 1
             print(garuda.isOnGround)
 //            garuda.isOnGround = true
@@ -488,7 +494,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         
         let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch mask{
-        case PhysicsCategory.platform | PhysicsCategory.groundChecker:
+        case PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.spike | PhysicsCategory.groundChecker:
             garuda.isOnGround -= 1
         case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform:
             garuda.isOnPlatform = false
