@@ -29,7 +29,7 @@ class Enemy: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.enemy, collision: PhysicsCategory.platform, contact: (PhysicsCategory.player | PhysicsCategory.hitbox))
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.enemy, collision: PhysicsCategory.platform | PhysicsCategory.spike, contact: (PhysicsCategory.player | PhysicsCategory.hitbox))
         addComponent(physicComponent)
         
         let chaseComponent = ChaseComponent(target: target)
@@ -37,6 +37,14 @@ class Enemy: GKEntity {
         
         let combatComponent = CombatComponent(health)
         addComponent(combatComponent)
+        
+        let healthBarSize = CGSize(width: nodeSize.width, height: 10)
+        let healthBarComponent = HealthBarComponent(size: healthBarSize, maxHealth: health, currentHealth: health)
+        addComponent(healthBarComponent)
+        
+        let spriteNode = spriteComponent.node
+        healthBarComponent.healthBar.position = CGPoint(x: 0, y: nodeSize.height / 2 + 10)
+        spriteNode.addChild(healthBarComponent.healthBar)
     }
     
     required init?(coder: NSCoder) {

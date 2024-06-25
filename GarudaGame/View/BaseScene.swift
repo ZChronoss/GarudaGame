@@ -307,7 +307,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     
     func setupPlatform(name: String) {
         guard let platform = self.childNode(withName: name) as? SKSpriteNode else {
-            fatalError("Node with name \(name) not found or not a SKShapeNode")
+            fatalError("Node with name \(name) not found or not a SKSpriteNode")
         }
         
         platform.physicsBody = SKPhysicsBody(rectangleOf: platform.frame.size)
@@ -319,6 +319,21 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         platform.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
         platform.physicsBody?.collisionBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
         platform.physicsBody?.friction = 1
+    }
+    
+    func setupSpike(name: String) {
+        guard let spike = self.childNode(withName: name) as? SKSpriteNode else {
+            fatalError("Node with name \(name) not found or not a SKSpriteNode")
+        }
+        
+        spike.physicsBody = SKPhysicsBody(rectangleOf: spike.frame.size)
+        spike.physicsBody?.isDynamic = false
+        spike.physicsBody?.affectedByGravity = false
+        spike.physicsBody?.restitution = 0
+        spike.physicsBody?.allowsRotation = false
+        spike.physicsBody?.categoryBitMask = PhysicsCategory.spike
+        spike.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+        spike.physicsBody?.friction = 1
     }
     
     //Taking damage
@@ -334,8 +349,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 let player = nodeA
                 let otherNode = nodeB
                 
-                garuda.health -= 1
-                print(garuda.health)
+                garuda.component(ofType: CombatComponent.self)?.health -= 1
+                updateHealthBar()
                 
                 garuda.invincibility = true
                 Timer.scheduledTimer(withTimeInterval: garuda.iFramesTime, repeats: false) { _ in
@@ -359,6 +374,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             for kecrek in enemies{
                 if kecrek.component(ofType: SpriteComponent.self)?.node == nodeA {
                     kecrek.component(ofType: CombatComponent.self)?.health -= 1
+                    kecrek.component(ofType: HealthBarComponent.self)?.takeDamage(1)
                 }
                 if kecrek.component(ofType: CombatComponent.self)?.health == 0 {
                     enemies.remove(kecrek)
@@ -373,7 +389,15 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             
         case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker:
             garuda.isOnGround = true
-            
+        case PhysicsCategory.player | PhysicsCategory.spike:
+            if !garuda.invincibility {
+                garuda.component(ofType: CombatComponent.self)?.health -= 1
+                updateHealthBar()
+                garuda.invincibility = true
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+                    self.garuda.invincibility = false
+                }
+            }
         default:
             break
         }

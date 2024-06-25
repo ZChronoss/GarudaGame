@@ -25,6 +25,7 @@ class LevelOneScene: BaseScene{
         for name in platformNames {
             setupPlatform(name: name)
         }
+        setupSpike(name: "spike")
     }
     
 }

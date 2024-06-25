@@ -51,7 +51,7 @@ class Player: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform , contact: PhysicsCategory.enemy | PhysicsCategory.platform)
+        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform | PhysicsCategory.spike , contact: PhysicsCategory.enemy | PhysicsCategory.spike | PhysicsCategory.platform)
         addComponent(physicComponent)
         
 //        Movement
