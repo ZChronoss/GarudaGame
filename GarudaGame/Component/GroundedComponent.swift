@@ -20,7 +20,7 @@ class GroundedComponent: GKComponent {
         let groundedPhysicsbody = SKPhysicsBody(rectangleOf: groundHitbox.size)
         groundedPhysicsbody.categoryBitMask = PhysicsCategory.groundChecker
         groundedPhysicsbody.collisionBitMask = PhysicsCategory.none
-        groundedPhysicsbody.contactTestBitMask = PhysicsCategory.platform
+        groundedPhysicsbody.contactTestBitMask = PhysicsCategory.platform | PhysicsCategory.spike
         groundedPhysicsbody.affectedByGravity = false
         groundHitbox.physicsBody = groundedPhysicsbody
         player.component(ofType: SpriteComponent.self)?.node.addChild(groundHitbox)

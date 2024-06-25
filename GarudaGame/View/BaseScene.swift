@@ -466,6 +466,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 garuda.component(ofType: CombatComponent.self)?.health -= 1
                 updateHealthBar()
                 garuda.invincibility = true
+                combatSystem?.knockback(nodeA: garuda.component(ofType: SpriteComponent.self)?.node, knockup: 1, knockback: garuda.playerFacing ? -1 : 1)
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
                     self.garuda.invincibility = false
                 }
