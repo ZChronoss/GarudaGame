@@ -14,6 +14,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     var dashButton = SKSpriteNode()
     var jumpButton = SKSpriteNode()
     var attackButton = SKSpriteNode()
+    var backgroundPic = SKSpriteNode()
     var slamIndicator = SKShapeNode()
     var slamIndicator2 = SKShapeNode()
     var cameraNode = SKCameraNode()
@@ -81,6 +82,12 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         attackButton.size = CGSize(width: 100, height: 100)
         attackButton.position = CGPoint(x: self.frame.maxX-300, y: self.frame.minY+250)
         cameraNode.addChild(attackButton)
+        
+        backgroundPic = SKSpriteNode()
+        backgroundPic.texture = SKTexture(imageNamed: "BackgroundNode")
+        backgroundPic.size = CGSize(width: self.size.width, height: self.size.height)
+        backgroundPic.zPosition = -5
+        cameraNode.addChild(backgroundPic)
         
         slamIndicator = SKShapeNode(circleOfRadius: 35)
         slamIndicator.isHidden = true
