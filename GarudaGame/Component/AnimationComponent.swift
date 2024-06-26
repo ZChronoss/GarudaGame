@@ -12,6 +12,8 @@ enum AnimationStateName: String {
     case idle = "Idle"
     case walk = "Walk"
     case jump = "Jump"
+    case attack = "Attack"
+    case dash = "Dash"
 }
 
 class AnimationComponent: GKComponent {

@@ -9,7 +9,6 @@ import Foundation
 import GameplayKit
 
 class IdleState: AnimationState {
-    
     override func didEnter(from previousState: GKState?) {
         let frames = createAnimationFrame(self.name, state: .idle)
         let animation = SKAction.animate(with: frames,

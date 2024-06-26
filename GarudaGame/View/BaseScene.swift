@@ -118,7 +118,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         attackButton.zPosition = CGFloat(99)
         
         // Attack Button State
-        let attackDesc = "attackButton"
+        let attackDesc = "AttackButton"
         let atkBtnNormal = ButtonNormalState(button: attackButton, action: attackDesc)
         let atkBtnPressed = ButtonPressedState(button: attackButton, action: attackDesc)
         attackButtonStateMachine = GKStateMachine(states: [atkBtnNormal, atkBtnPressed])
@@ -174,6 +174,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 }else if !attackCooldown{
                     if let player = garuda.component(ofType: SpriteComponent.self)?.node{
                         combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 80, height: 60), position: CGPoint(x: 50, y: 0))
+                        garudaAnimationStateMachine.enter(AttackState.self)
                     }
                     activateAttackCooldown()
                 }
@@ -181,6 +182,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 dashButtonStateMachine.enter(pressedState)
                 if !garuda.dashCooldown && (garuda.isOnGround != 0 || garuda.isOnPlatform != 0){
                     dashSystem?.dash(player: garuda, dashSpeed: 800.0)
+                    garudaAnimationStateMachine.enter(DashState.self)
                 }else if !garuda.dashCooldown && (garuda.isOnGround == 0 && garuda.isOnPlatform == 0) && !garuda.isDashing{
                     dashSystem?.longDash(player: garuda, dashSpeed: 400.0, joystick: joystick)
                     slamIndicator.isHidden = false
@@ -315,8 +317,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             let garudaIdleState = IdleState(node: newNode, name: "Garuda")
             let garudaWalkState = WalkState(node: newNode, name: "Garuda")
             let garudaJumpState = JumpState(node: newNode, name: "Garuda")
+            let garudaAttackState = AttackState(node: newNode, name: "Garuda")
+            let garudaDashState = DashState(node: newNode, name: "Garuda")
             
-            garudaAnimationStateMachine = GKStateMachine(states: [garudaIdleState, garudaWalkState, garudaJumpState])
+            garudaAnimationStateMachine = GKStateMachine(states: [garudaIdleState, garudaWalkState, garudaJumpState, garudaAttackState, garudaDashState])
             garudaAnimationStateMachine.enter(IdleState.self)
         }
         
