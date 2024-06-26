@@ -50,7 +50,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     var kecrekAnimationStateMachine: [GKStateMachine]!
     
     var currentScene = ""
-    let gameOverNode = GameOverNode()
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -135,7 +134,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        gameOverNode.touchesBegan(touches, with: event)
         for touch in touches {
             let location = touch.location(in: self)
             let localLocation = convert(location, to: joystick)
@@ -259,7 +257,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         if garuda.component(ofType: CombatComponent.self)?.health ?? 0 <= 0 {
             garuda.removeComponent(ofType: PhysicComponent.self)
             entityManager.removeEntity(garuda)
-            gameOver()
+            let nextScene = GameOverScene(size: self.view!.bounds.size)
+            nextScene.scaleMode = .aspectFill
+            let transition = SKTransition.fade(withDuration: 1.0)
+            self.view?.presentScene(nextScene, transition: transition)
         }
         
         if garuda.component(ofType: SpriteComponent.self) != nil {
@@ -340,7 +341,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func summonGaruda(at position: CGPoint) {
-        garuda = Player(name: "Garuda", health: 3)
+        garuda = Player(name: "Garuda", health: 999)
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
             spriteComponent.node.name = "Garuda"
             let newNode = makeNewNode(oldNode: spriteComponent.node)
@@ -548,6 +549,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         case PhysicsCategory.objective | PhysicsCategory.player:
             tirtaAmerta.isDone = true
             tirtaAmerta.component(ofType: SpriteComponent.self)?.node.isHidden = true
+            let nextScene = GameEndScene(size: self.view!.bounds.size)
+            nextScene.scaleMode = .aspectFill
+            let transition = SKTransition.fade(withDuration: 1.0)
+            self.view?.presentScene(nextScene, transition: transition)
         default:
             break
         }
@@ -601,17 +606,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         Timer.scheduledTimer(withTimeInterval: attackCooldownDuration, repeats: false) { _ in
             self.attackCooldown = false
         }
-    }
-    
-    func gameOver(){
-        gameOverNode.position = CGPoint(x: frame.midX, y: frame.midY)
-        gameOverNode.zPosition = 100
-        cameraNode.addChild(gameOverNode)
-        
-        joystick.isHidden = true
-        jumpButton.isHidden = true
-        attackButton.isHidden = true
-        dashButton.isHidden = true
     }
     
     func restartLevel() {
