@@ -16,13 +16,13 @@ class JoystickView: SKNode {
     var joystickActive = false
     var joystickStartPoint = CGPoint.zero
     var allowYControl = 0.0
-    var allowXControl = 0.1
+    var allowXControl = 0.075
     
     var velocity = CGVector.zero
     
     override init(){
-        joystickBase = SKShapeNode(circleOfRadius: 75)
-        joystickStick = SKShapeNode(circleOfRadius: 25)
+        joystickBase = SKShapeNode(circleOfRadius: 100)
+        joystickStick = SKShapeNode(circleOfRadius: 33)
         
         super.init()
         
@@ -55,7 +55,7 @@ class JoystickView: SKNode {
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
         
         // Limit the stick movement to the joystick base
-        let maxDistance: CGFloat = 50
+        let maxDistance: CGFloat = 66
         let clampedDistance = min(length, maxDistance)
         let clampedDirection = CGVector(dx: direction.dx / length * clampedDistance, dy: direction.dy / length * clampedDistance)
         

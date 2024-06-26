@@ -62,25 +62,25 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         addChild(cameraNode)
         
         // Setup joystick
-        joystick.position = CGPoint(x: -size.width / 2 + 200, y: -size.height / 2 + 200)
+        joystick.position = CGPoint(x: -size.width / 2 + 225, y: -size.height / 2 + 225)
         cameraNode.addChild(joystick)
         
         // Setup jump button
         jumpButton = SKSpriteNode()
-        jumpButton.size = CGSize(width: 70, height: 70)
-        jumpButton.position = CGPoint(x: self.frame.maxX-100 , y: self.frame.minY+250)
+        jumpButton.size = CGSize(width: 100, height: 100)
+        jumpButton.position = CGPoint(x: self.frame.maxX-130 , y: self.frame.minY+250)
         cameraNode.addChild(jumpButton)
         
         // Setup dash button
         dashButton = SKSpriteNode()
-        dashButton.size = CGSize(width: 70, height: 70)
-        dashButton.position = CGPoint(x: self.frame.maxX-200, y: self.frame.minY+150)
+        dashButton.size = CGSize(width: 100, height: 100)
+        dashButton.position = CGPoint(x: self.frame.maxX-230, y: self.frame.minY+150)
         cameraNode.addChild(dashButton)
         
         // Setup attack button
         attackButton = SKSpriteNode()
-        attackButton.size = CGSize(width: 100, height: 100)
-        attackButton.position = CGPoint(x: self.frame.maxX-300, y: self.frame.minY+250)
+        attackButton.size = CGSize(width: 140, height: 140)
+        attackButton.position = CGPoint(x: self.frame.maxX-300, y: self.frame.minY+280)
         cameraNode.addChild(attackButton)
         
         backgroundPic = SKSpriteNode()
@@ -89,7 +89,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         backgroundPic.zPosition = -5
         cameraNode.addChild(backgroundPic)
         
-        slamIndicator = SKShapeNode(circleOfRadius: 35)
+        slamIndicator = SKShapeNode(circleOfRadius: 60)
         slamIndicator.isHidden = true
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.slamIndicator.setScale(1)
@@ -97,9 +97,9 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             self.slamIndicator.run(SKAction.scale(by: 2, duration: 1))
             self.slamIndicator.run(SKAction.fadeAlpha(by: -1, duration: 1))
         }
-        slamIndicator2 = SKShapeNode(circleOfRadius: 35)
+        slamIndicator2 = SKShapeNode(circleOfRadius: 60)
         slamIndicator2.isHidden = true
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
             Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 self.slamIndicator2.setScale(1)
                 self.slamIndicator2.alpha = 1
@@ -113,7 +113,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         for i in 0..<3 {
             let health = SKShapeNode(circleOfRadius: 20)
             health.fillColor = .red
-            health.position = CGPoint(x: self.frame.minX + 100 + CGFloat(i) * 50, y: self.frame.maxY - 100)
+            health.position = CGPoint(x: self.frame.minX + 100 + CGFloat(i) * 50, y: self.frame.maxY - 150)
             health.zPosition = CGFloat(99)
             healthNodes.append(health)
             cameraNode.addChild(health)
@@ -165,22 +165,28 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 attackButtonStateMachine.enter(pressedState)
                 if !attackCooldown && garuda.isLongDashing && !garuda.targetEnemies.isEmpty{
                     let target = combatSystem?.closestPoint(from: garuda.targetEnemies, to: garuda.component(ofType: SpriteComponent.self)!.node.position)
-                    dashSystem?.targettedDash(player: garuda, target: target!)
-                    garuda.invincibility = true
-                    Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
-                        if let player = garuda.component(ofType: SpriteComponent.self)?.node{
-                            combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 150, height: 60), position: CGPoint(x: 0, y: 0))
+                    if (combatSystem?.distance(from: garuda.component(ofType: SpriteComponent.self)!.node.position, to: target!))!<600{
+                        dashSystem?.targettedDash(player: garuda, target: target!)
+                        garuda.invincibility = true
+                        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
+                            if let player = garuda.component(ofType: SpriteComponent.self)?.node{
+                                combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 150, height: 60), position: CGPoint(x: 0, y: 0))
+                            }
                         }
+                        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [self] _ in
+                            garuda.invincibility = false
+                        }
+                        dashSystem?.stopLongDash(player: garuda)
+                        activateAttackCooldown()
+                    }else{
+                        if let player = garuda.component(ofType: SpriteComponent.self)?.node{
+                            combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 80, height: 60), position: CGPoint(x: garuda.playerFacing ? 50 : -50, y: 0))
+                        }
+                        activateAttackCooldown()
                     }
-                    Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [self] _ in
-                        garuda.invincibility = false
-                    }
-                    dashSystem?.stopLongDash(player: garuda)
-                    activateAttackCooldown()
-                    
                 }else if !attackCooldown{
                     if let player = garuda.component(ofType: SpriteComponent.self)?.node{
-                        combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 80, height: 60), position: CGPoint(x: 50, y: 0))
+                        combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 80, height: 60), position: CGPoint(x: garuda.playerFacing ? 50 : -50, y: 0))
                     }
                     activateAttackCooldown()
                 }
@@ -190,8 +196,6 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     dashSystem?.dash(player: garuda, dashSpeed: 800.0)
                 }else if !garuda.dashCooldown && (garuda.isOnGround == 0 && garuda.isOnPlatform == 0) && !garuda.isDashing{
                     dashSystem?.longDash(player: garuda, dashSpeed: 400.0, joystick: joystick)
-                    slamIndicator.isHidden = false
-                    slamIndicator2.isHidden = false
                 }else if garuda.isLongDashing{
                     dashSystem?.stopLongDash(player: garuda)
                 }
@@ -272,7 +276,15 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         
         for kecrek in enemies{
             if (combatSystem?.checkIfNodeInBetween(node1: garuda.component(ofType: SpriteComponent.self)?.node, node2: kecrek.component(ofType: SpriteComponent.self)?.node) == false){
-                garuda.targetEnemies.append(kecrek.component(ofType: SpriteComponent.self)!.node.position)
+                let pos = kecrek.component(ofType: SpriteComponent.self)!.node.position
+                garuda.targetEnemies.append(pos)
+                if (combatSystem?.distance(from: garuda.component(ofType: SpriteComponent.self)!.node.position, to: pos))!<600 && garuda.isLongDashing{
+                    slamIndicator.isHidden = false
+                    slamIndicator2.isHidden = false
+                }else{
+                    slamIndicator.isHidden = true
+                    slamIndicator2.isHidden = true
+                }
             }
             if let rangedKecrek = kecrek as? RangedEnemy {
                 if rangedKecrek.isActivated{
@@ -348,8 +360,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         case 1:
             let kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
             if let spriteComponent = kecrek.component(ofType: SpriteComponent.self)?.node {
-//                spriteComponent.name = "Kecrek"
-//                let newNode = makeNewNode(oldNode: spriteComponent)
+                //                spriteComponent.name = "Kecrek"
+                //                let newNode = makeNewNode(oldNode: spriteComponent)
                 spriteComponent.position = position
             }
             entityManager.addEntity(kecrek)
@@ -364,9 +376,9 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             }
             
             entityManager.addEntity(kecrek)
-//            entityManager.startAnimation(kecrek)
+            //            entityManager.startAnimation(kecrek)
             entityManager.addPhysic(kecrek)
-//            kecrek.shootBullet(target: garuda)
+            //            kecrek.shootBullet(target: garuda)
             
             enemies.append(kecrek)
         default:
@@ -386,7 +398,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         platform.physicsBody?.allowsRotation = false
         platform.physicsBody?.categoryBitMask = PhysicsCategory.platform
         platform.physicsBody?.collisionBitMask = PhysicsCategory.enemy | PhysicsCategory.bullet
-        platform.physicsBody?.collisionBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
+        platform.physicsBody?.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
         platform.physicsBody?.friction = 1
     }
     
@@ -437,15 +449,17 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     let platDesc = tileNode.texture?.description
                     if platDesc?.contains("Dirt_Top") == true || platDesc?.contains("Dirt_Deep") == true {
                         tileNode.physicsBody?.categoryBitMask = PhysicsCategory.platform
-                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet | PhysicsCategory.groundChecker
+                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.enemy | PhysicsCategory.bullet
+                        tileNode.physicsBody?.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
                     }else if platDesc?.contains("Spike") == true {
                         tileNode.physicsBody?.categoryBitMask = PhysicsCategory.spike
                         tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+                        tileNode.physicsBody?.contactTestBitMask = PhysicsCategory.player
                     }else if platDesc?.contains("Platform") == true {
                         tileNode.size = CGSize(width: 64, height: 24)
                         tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: tileNode.size)
                         tileNode.physicsBody?.categoryBitMask = PhysicsCategory.softPlatform
-                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.platformChecker
+                        tileNode.physicsBody?.contactTestBitMask = PhysicsCategory.platformChecker
                     }
                     tileNode.physicsBody?.affectedByGravity = false
                     tileNode.physicsBody?.isDynamic = false
@@ -531,7 +545,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             if garuda.isOnGround<2{
                 garuda.isOnGround += 1
             }
-//            print("Garuda ground: ", garuda.isOnGround)
+            //            print("Garuda ground: ", garuda.isOnGround)
         case PhysicsCategory.player | PhysicsCategory.spike:
             if !garuda.invincibility {
                 garuda.component(ofType: CombatComponent.self)?.health -= 1
@@ -543,10 +557,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 }
             }
         case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform:
-            if garuda.isOnPlatform < 2{
-                garuda.isOnPlatform += 1
-            }
-//            print("Garuda platform: ", garuda.isOnPlatform)
+            garuda.isOnPlatform += 1
+            //            print("Garuda platform: ", garuda.isOnPlatform)
             if garuda.isOnPlatform != 0{
                 garuda.component(ofType: PhysicComponent.self)?.physicBody.collisionBitMask = PhysicsCategory.platform | PhysicsCategory.softPlatform
             }
@@ -581,9 +593,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             }
             print("Garuda ground: ", garuda.isOnGround)
         case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform, PhysicsCategory.softPlatform | PhysicsCategory.platformChecker:
-            if garuda.isOnPlatform>0{       
-                garuda.isOnPlatform -= 1
-            }
+            garuda.isOnPlatform -= 1
             print("Garuda platform: ", garuda.isOnPlatform)
             if (garuda.isOnPlatform == 0){
                 garuda.component(ofType: PhysicComponent.self)?.physicBody.collisionBitMask = PhysicsCategory.platform

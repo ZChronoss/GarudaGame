@@ -34,7 +34,7 @@ class DashSystem: GKComponentSystem<MovementComponent>{
                 player.dashVelocity = CGVector.zero
                 player.component(ofType: PhysicComponent.self)?.physicBody.affectedByGravity = true
                 joystick.allowYControl = 0.0
-                joystick.allowXControl = 0.1
+                joystick.allowXControl = 0.075
             }
         }
         
@@ -71,7 +71,7 @@ class DashSystem: GKComponentSystem<MovementComponent>{
             let playerPhysics = player.component(ofType: PhysicComponent.self)?.physicBody
             playerPhysics?.velocity = CGVector.zero
             playerPhysics?.affectedByGravity = false
-            joystick.allowYControl = 0.175
+            joystick.allowYControl = 0.127
             joystick.allowXControl = 0.0
             player.isDashing = true
             player.isLongDashing = true
