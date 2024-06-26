@@ -424,6 +424,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     
                     // Give the node some physics body
                     tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: tileNode.size)
+                    tileNode.physicsBody?.usesPreciseCollisionDetection = true
                     
                     // Give some details to the physics body
                     let platDesc = tileNode.texture?.description
@@ -520,8 +521,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             bullet?.removeFromParent()
             
         case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.groundChecker | PhysicsCategory.spike:
-            garuda.isOnGround += 1
-            print("Garuda ground: ", garuda.isOnGround)
+            if garuda.isOnGround<2{
+                garuda.isOnGround += 1
+            }
+//            print("Garuda ground: ", garuda.isOnGround)
         case PhysicsCategory.player | PhysicsCategory.spike:
             if !garuda.invincibility {
                 garuda.component(ofType: CombatComponent.self)?.health -= 1
@@ -533,8 +536,10 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 }
             }
         case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform:
-            garuda.isOnPlatform += 1
-            print("Garuda platform: ", garuda.isOnPlatform)
+            if garuda.isOnPlatform < 2{
+                garuda.isOnPlatform += 1
+            }
+//            print("Garuda platform: ", garuda.isOnPlatform)
             if garuda.isOnPlatform != 0{
                 garuda.component(ofType: PhysicComponent.self)?.physicBody.collisionBitMask = PhysicsCategory.platform | PhysicsCategory.softPlatform
             }
@@ -562,11 +567,16 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         
         let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch mask{
-        case PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.spike | PhysicsCategory.groundChecker:
-            garuda.isOnGround -= 1
+        case PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.spike | PhysicsCategory.groundChecker, PhysicsCategory.groundChecker | PhysicsCategory.spike
+            :
+            if garuda.isOnGround>0{
+                garuda.isOnGround -= 1
+            }
             print("Garuda ground: ", garuda.isOnGround)
-        case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform:
-            garuda.isOnPlatform -= 1
+        case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform, PhysicsCategory.softPlatform | PhysicsCategory.platformChecker:
+            if garuda.isOnPlatform>0{       
+                garuda.isOnPlatform -= 1
+            }
             print("Garuda platform: ", garuda.isOnPlatform)
             if (garuda.isOnPlatform == 0){
                 garuda.component(ofType: PhysicComponent.self)?.physicBody.collisionBitMask = PhysicsCategory.platform

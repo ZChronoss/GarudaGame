@@ -22,6 +22,7 @@ class GroundedComponent: GKComponent {
         groundedPhysicsbody.collisionBitMask = PhysicsCategory.none
         groundedPhysicsbody.contactTestBitMask = PhysicsCategory.platform | PhysicsCategory.spike
         groundedPhysicsbody.affectedByGravity = false
+        groundedPhysicsbody.usesPreciseCollisionDetection = true
         groundHitbox.physicsBody = groundedPhysicsbody
         player.component(ofType: SpriteComponent.self)?.node.addChild(groundHitbox)
         
@@ -34,6 +35,7 @@ class GroundedComponent: GKComponent {
         platformCheckPhysics.collisionBitMask = PhysicsCategory.none
         platformCheckPhysics.contactTestBitMask = PhysicsCategory.softPlatform
         platformCheckPhysics.affectedByGravity = false
+        platformCheckPhysics.usesPreciseCollisionDetection = true
         platformHitbox.physicsBody = platformCheckPhysics
         player.component(ofType: SpriteComponent.self)?.node.addChild(platformHitbox)
     }
