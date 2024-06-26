@@ -47,7 +47,6 @@
 		5F6BB6C32C29786F006ABAFB /* GroundedComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */; };
 		5F6BB6C52C2A8F20006ABAFB /* NoFallingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C42C2A8F20006ABAFB /* NoFallingComponent.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
-		761E96E02C2572D500EF6C7C /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96DF2C2572D500EF6C7C /* HealthSystem.swift */; };
 		761E96E22C25819900EF6C7C /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96E12C25819900EF6C7C /* FlyingEnemy.swift */; };
 		76BE432A2C295BB5008E69FC /* HealthBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE43292C295BB5008E69FC /* HealthBarComponent.swift */; };
 		76F97BA92C22C2EE00950597 /* ChaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F97BA82C22C2EE00950597 /* ChaseComponent.swift */; };
@@ -95,7 +94,6 @@
 		5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedComponent.swift; sourceTree = "<group>"; };
 		5F6BB6C42C2A8F20006ABAFB /* NoFallingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoFallingComponent.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
-		761E96DF2C2572D500EF6C7C /* HealthSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
 		761E96E12C25819900EF6C7C /* FlyingEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
 		76BE43292C295BB5008E69FC /* HealthBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBarComponent.swift; sourceTree = "<group>"; };
 		76F97BA82C22C2EE00950597 /* ChaseComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaseComponent.swift; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 				5F6BB6B12C1E8F5F006ABAFB /* DashSystem.swift */,
 				760CB75C2C200F6200CCCF41 /* CombatSystem.swift */,
 				113629622C243EBD006DC20B /* BulletSystem.swift */,
-				761E96DF2C2572D500EF6C7C /* HealthSystem.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -348,7 +345,6 @@
 				113629542C22C3E6006DC20B /* StartMenuScene.swift in Sources */,
 				113629582C22D171006DC20B /* DialogueScene.swift in Sources */,
 				113629712C295827006DC20B /* GameOverNode.swift in Sources */,
-				761E96E02C2572D500EF6C7C /* HealthSystem.swift in Sources */,
 				76BE432A2C295BB5008E69FC /* HealthBarComponent.swift in Sources */,
 				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
 				5F6BB6BA2C22C575006ABAFB /* PhysicsCategory.swift in Sources */,
