@@ -404,6 +404,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                         tileNode.physicsBody?.categoryBitMask = PhysicsCategory.spike
                         tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
                     }else if platDesc?.contains("Platform") == true {
+                        tileNode.size = CGSize(width: 64, height: 24)
+                        tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: tileNode.size)
                         tileNode.physicsBody?.categoryBitMask = PhysicsCategory.softPlatform
                         tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.groundChecker
                     }
