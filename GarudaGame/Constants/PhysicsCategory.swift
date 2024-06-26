@@ -19,4 +19,5 @@ struct PhysicsCategory {
     static let platformChecker: UInt32 = 0x1 << 7
     static let enemyGroundChecker: UInt32 = 0x1 << 8
     static let spike: UInt32 = 0x1 << 9
+    static let objective: UInt32 = 0x1 << 10
 }

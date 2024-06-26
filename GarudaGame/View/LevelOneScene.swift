@@ -22,7 +22,7 @@ class LevelOneScene: BaseScene{
         summonKecrek(at: CGPoint(x: frame.midX + 650, y: frame.midY - 450), type: 1)
         summonKecrek(at: CGPoint(x: frame.midX + 1200, y: frame.midY - 450), type: 1)
         summonKecrek(at: CGPoint(x: frame.midX + 1300, y: frame.midY - 450), type: 2)
-
+        summonObjective(at: CGPoint(x: frame.midX - 1600, y: frame.midY - 480))
         
         for node in self.children {
             if (node.name == "LevelOne") {

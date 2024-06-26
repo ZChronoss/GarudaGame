@@ -34,7 +34,7 @@ class Player: GKEntity {
     let iFramesTime = 0.7
     var invincibility: Bool = false
     var isOnGround: Int = 0
-    var isOnPlatform: Bool = false
+    var isOnPlatform: Int = 0
     
     init(name: String, health: Int) {
         self.name = name

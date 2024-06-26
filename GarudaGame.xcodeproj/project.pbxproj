@@ -46,6 +46,7 @@
 		5F6BB6BF2C241D28006ABAFB /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6BE2C241D28006ABAFB /* Array.swift */; };
 		5F6BB6C32C29786F006ABAFB /* GroundedComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */; };
 		5F6BB6C52C2A8F20006ABAFB /* NoFallingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C42C2A8F20006ABAFB /* NoFallingComponent.swift */; };
+		5F6BB6C72C2BDA40006ABAFB /* Objective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BB6C62C2BDA40006ABAFB /* Objective.swift */; };
 		760CB75D2C200F6200CCCF41 /* CombatSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760CB75C2C200F6200CCCF41 /* CombatSystem.swift */; };
 		761E96E22C25819900EF6C7C /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E96E12C25819900EF6C7C /* FlyingEnemy.swift */; };
 		76BE432A2C295BB5008E69FC /* HealthBarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BE43292C295BB5008E69FC /* HealthBarComponent.swift */; };
@@ -93,6 +94,7 @@
 		5F6BB6BE2C241D28006ABAFB /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundedComponent.swift; sourceTree = "<group>"; };
 		5F6BB6C42C2A8F20006ABAFB /* NoFallingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoFallingComponent.swift; sourceTree = "<group>"; };
+		5F6BB6C62C2BDA40006ABAFB /* Objective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objective.swift; sourceTree = "<group>"; };
 		760CB75C2C200F6200CCCF41 /* CombatSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatSystem.swift; sourceTree = "<group>"; };
 		761E96E12C25819900EF6C7C /* FlyingEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
 		76BE43292C295BB5008E69FC /* HealthBarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBarComponent.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				113629422C1A1872006DC20B /* EntityManager.swift */,
 				5F6BB6AC2C1C203E006ABAFB /* Player.swift */,
 				761E96E12C25819900EF6C7C /* FlyingEnemy.swift */,
+				5F6BB6C62C2BDA40006ABAFB /* Objective.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -185,8 +188,8 @@
 				76F97BA82C22C2EE00950597 /* ChaseComponent.swift */,
 				1136295E2C24297E006DC20B /* BulletComponent.swift */,
 				5F6BB6C22C29786F006ABAFB /* GroundedComponent.swift */,
-				76BE43292C295BB5008E69FC /* HealthBarComponent.swift */,
 				5F6BB6C42C2A8F20006ABAFB /* NoFallingComponent.swift */,
+				76BE43292C295BB5008E69FC /* HealthBarComponent.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				113629432C1A1872006DC20B /* EntityManager.swift in Sources */,
 				113629752C297C92006DC20B /* AnimationState.swift in Sources */,
 				1136295F2C24297E006DC20B /* BulletComponent.swift in Sources */,
+				5F6BB6C72C2BDA40006ABAFB /* Objective.swift in Sources */,
 				113629612C242A9F006DC20B /* PositionComponent.swift in Sources */,
 				113629632C243EBD006DC20B /* BulletSystem.swift in Sources */,
 				113629502C1AD9CA006DC20B /* BaseScene.swift in Sources */,
@@ -527,7 +531,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
+				DEVELOPMENT_TEAM = RHGD2V8746;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -555,7 +559,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NRAJG6453M;
+				DEVELOPMENT_TEAM = RHGD2V8746;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

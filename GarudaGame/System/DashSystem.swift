@@ -85,7 +85,8 @@ class DashSystem: GKComponentSystem<MovementComponent>{
     }
     
     func targettedDash(player: Player, target: CGPoint){
-        let move = SKAction.move(to: target, duration: 0.1)
+        let actualPoint = CGPoint(x: target.x+1, y: target.y)
+        let move = SKAction.move(to: actualPoint, duration: 0.1)
         player.component(ofType: SpriteComponent.self)?.node.run(move)
     }
 }
