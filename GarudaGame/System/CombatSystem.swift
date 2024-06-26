@@ -17,7 +17,7 @@ class CombatSystem: GKRuleSystem {
     }
     
     func spawnHitbox(attacker: SKSpriteNode, size: CGSize, position: CGPoint) {
-        let hitbox = SKSpriteNode(color: .orange, size: size)
+        let hitbox = SKSpriteNode(color: .clear, size: size)
         hitbox.position = position
         let hitboxBody = SKPhysicsBody(rectangleOf: hitbox.size)
         hitboxBody.categoryBitMask = PhysicsCategory.hitbox
