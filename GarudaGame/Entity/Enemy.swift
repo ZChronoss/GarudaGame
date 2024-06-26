@@ -52,8 +52,16 @@ class Enemy: GKEntity {
         let noFallingComponent = NoFallingComponent(self)
         addComponent(noFallingComponent)
         
-        let idleState = IdleState(node: spriteNode, name: name)
-        let walkState = WalkState(node: spriteNode, name: name)
+        spriteNode.name = name
+        
+        let childNode = SKSpriteNode(texture: spriteNode.texture)
+        childNode.name = name
+        childNode.size = spriteNode.size
+        
+        spriteNode.texture = nil
+        spriteNode.addChild(childNode)
+        let idleState = IdleState(node: childNode, name: name)
+        let walkState = WalkState(node: childNode, name: name)
         self.enemyStateMachine = GKStateMachine(states: [idleState, walkState])
         self.enemyStateMachine.enter(IdleState.self)
     }

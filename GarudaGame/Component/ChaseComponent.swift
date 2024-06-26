@@ -44,10 +44,14 @@ class ChaseComponent: GKComponent {
                 
                 if targetPosition.x > enemyPosition.x {
                     moveX = velocity * CGFloat(seconds)
-                    enemyNode.xScale = -1
+                    if let enemyNewNode = enemyNode.childNode(withName: enemy.name){
+                        enemyNewNode.xScale = -1
+                    }
                 } else {
                     moveX = -velocity * CGFloat(seconds)
-                    enemyNode.xScale = 1
+                    if let enemyNewNode = enemyNode.childNode(withName: enemy.name){
+                        enemyNewNode.xScale = 1
+                    }
                 }
                 
                 if !isWalking {

@@ -137,7 +137,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     garuda.invincibility = true
                     Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
                         if let player = garuda.component(ofType: SpriteComponent.self)?.node{
-                            combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 150, height: 60), position: CGPoint(x: 0, y: -20))
+                            combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 150, height: 60), position: CGPoint(x: 0, y: 20))
                         }
                     }
                     Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [self] _ in
@@ -253,24 +253,41 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                 garudaAnimationStateMachine.enter(WalkState.self)
                 isGarudaWalking = true
             }
-            garuda.component(ofType: SpriteComponent.self)?.node.xScale = (garuda.playerFacing ? 1 : -1)
+            let newGaruda = garuda.component(ofType: SpriteComponent.self)?.node.childNode(withName: "Garuda")
+            newGaruda?.xScale = (garuda.playerFacing ? 1 : -1)
         }else {
             if isGarudaWalking {
-                garuda.component(ofType: SpriteComponent.self)?.node.xScale = (garuda.playerFacing ? 1 : -1)
+                if let newGaruda = garuda.component(ofType: SpriteComponent.self)?.node.childNode(withName: "Garuda") {
+                    newGaruda.xScale = (garuda.playerFacing ? 1 : -1)
+                }
+                
                 garudaAnimationStateMachine.enter(IdleState.self)
                 isGarudaWalking = false
             }
         }
     }
     
+    func makeNewNode(oldNode: SKSpriteNode) -> SKSpriteNode{
+        let newNode = SKSpriteNode(texture: oldNode.texture)
+        newNode.size = oldNode.size
+        newNode.name = oldNode.name
+        
+        oldNode.texture = nil
+        oldNode.addChild(newNode)
+        
+        return newNode
+    }
+    
     func summonGaruda(at position: CGPoint) {
         garuda = Player(name: "Garuda", health: 3)
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
+            spriteComponent.node.name = "Garuda"
+            let newNode = makeNewNode(oldNode: spriteComponent.node)
             spriteComponent.node.position = position
             
-            let garudaIdleState = IdleState(node: spriteComponent.node, name: "Garuda")
-            let garudaWalkState = WalkState(node: spriteComponent.node, name: "Garuda")
-            let garudaJumpState = JumpState(node: spriteComponent.node, name: "Garuda")
+            let garudaIdleState = IdleState(node: newNode, name: "Garuda")
+            let garudaWalkState = WalkState(node: newNode, name: "Garuda")
+            let garudaJumpState = JumpState(node: newNode, name: "Garuda")
             
             garudaAnimationStateMachine = GKStateMachine(states: [garudaIdleState, garudaWalkState, garudaJumpState])
             garudaAnimationStateMachine.enter(IdleState.self)
@@ -286,6 +303,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         case 1:
             let kecrek = Enemy(name: "Kecrek", health: 3, target: garuda)
             if let spriteComponent = kecrek.component(ofType: SpriteComponent.self)?.node {
+//                spriteComponent.name = "Kecrek"
+//                let newNode = makeNewNode(oldNode: spriteComponent)
                 spriteComponent.position = position
             }
             entityManager.addEntity(kecrek)
