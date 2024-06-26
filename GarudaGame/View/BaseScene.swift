@@ -393,7 +393,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     tileNode.size = CGSize(width: 64, height: 64)
                     
                     // Give the node some physics body
-                    tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: CGSize(width: 64, height: 64))
+                    tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: tileNode.size)
                     
                     // Give some details to the physics body
                     let platDesc = tileNode.texture?.description
@@ -403,6 +403,9 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                     }else if platDesc?.contains("Spike") == true {
                         tileNode.physicsBody?.categoryBitMask = PhysicsCategory.spike
                         tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+                    }else if platDesc?.contains("Platform") == true {
+                        tileNode.physicsBody?.categoryBitMask = PhysicsCategory.softPlatform
+                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.groundChecker
                     }
                     tileNode.physicsBody?.affectedByGravity = false
                     tileNode.physicsBody?.isDynamic = false
@@ -484,7 +487,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
             bullet?.removeAllActions()
             bullet?.removeFromParent()
             
-        case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.groundChecker | PhysicsCategory.spike:
+        case PhysicsCategory.groundChecker | PhysicsCategory.platform, PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.groundChecker | PhysicsCategory.spike,
+            PhysicsCategory.groundChecker | PhysicsCategory.softPlatform:
             garuda.isOnGround += 1
             print(garuda.isOnGround)
             //            garuda.isOnGround = true
@@ -522,7 +526,8 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         
         let mask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch mask{
-        case PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.spike | PhysicsCategory.groundChecker:
+        case PhysicsCategory.platform | PhysicsCategory.groundChecker, PhysicsCategory.spike | PhysicsCategory.groundChecker,
+            PhysicsCategory.softPlatform | PhysicsCategory.groundChecker:
             garuda.isOnGround -= 1
         case PhysicsCategory.platformChecker | PhysicsCategory.softPlatform:
             garuda.isOnPlatform = false
