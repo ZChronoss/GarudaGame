@@ -157,6 +157,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
                         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { [self] _ in
                             if let player = garuda.component(ofType: SpriteComponent.self)?.node{
                                 combatSystem?.spawnHitbox(attacker: player, size: CGSize(width: 150, height: 60), position: CGPoint(x: 0, y: 0))
+                                garudaAnimationStateMachine.enter(AttackState.self)
                             }
                         }
                         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [self] _ in
