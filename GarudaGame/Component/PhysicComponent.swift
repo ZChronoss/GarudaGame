@@ -20,6 +20,7 @@ class PhysicComponent: GKComponent {
         physicBody.categoryBitMask = bitmask
         physicBody.collisionBitMask = collision
         physicBody.contactTestBitMask = contact
+        physicBody.usesPreciseCollisionDetection = true
         super.init()
     }
     

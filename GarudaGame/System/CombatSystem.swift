@@ -25,6 +25,7 @@ class CombatSystem: GKRuleSystem {
         hitboxBody.contactTestBitMask = PhysicsCategory.enemy
         hitboxBody.isDynamic = true
         hitboxBody.affectedByGravity = false
+        hitboxBody.usesPreciseCollisionDetection = true
         hitbox.physicsBody = hitboxBody
         
         attacker.addChild(hitbox)
