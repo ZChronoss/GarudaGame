@@ -10,6 +10,12 @@ import GameplayKit
 
 class DashSystem: GKComponentSystem<MovementComponent>{
     private var lastUpdateTime: TimeInterval?
+    var scene: BaseScene?
+    
+    init(scene: SKScene) {
+        self.scene = scene as? BaseScene
+        super.init()
+    }
     
     func update(player: Player, currentTime: TimeInterval, joystick: JoystickView) {
         if player.isDashing {
@@ -20,6 +26,8 @@ class DashSystem: GKComponentSystem<MovementComponent>{
                 player.component(ofType: SpriteComponent.self)?.node.position.x += player.dashVelocity.dx * CGFloat(currentTime - (lastUpdateTime ?? currentTime))
             } else {
                 player.isDashing = false
+                scene?.slamIndicator.isHidden = true
+                scene?.slamIndicator2.isHidden = true
                 Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
                     player.isLongDashing = false
                 }
@@ -77,7 +85,8 @@ class DashSystem: GKComponentSystem<MovementComponent>{
     }
     
     func targettedDash(player: Player, target: CGPoint){
-        let move = SKAction.move(to: target, duration: 0.1)
+        let actualPoint = CGPoint(x: target.x+1, y: target.y)
+        let move = SKAction.move(to: actualPoint, duration: 0.1)
         player.component(ofType: SpriteComponent.self)?.node.run(move)
     }
 }

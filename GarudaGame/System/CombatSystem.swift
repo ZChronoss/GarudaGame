@@ -35,20 +35,22 @@ class CombatSystem: GKRuleSystem {
     }
     
     func checkIfNodeInBetween(node1: SKSpriteNode?, node2: SKSpriteNode?) -> Bool {
-        let rayStart = node1?.position
-        let rayEnd = node2?.position
-        
         var nodesInBetween: [SKNode] = []
-        
-        // Perform the raycast
-        scene.physicsWorld.enumerateBodies(alongRayStart: rayStart ?? CGPointZero, end: rayEnd ?? CGPointZero) { (body, point, normal, stop) in
-            if let node = body.node {
-                // Ensure the node is not nodeA or nodeB
-                if node.physicsBody?.categoryBitMask == PhysicsCategory.platform || node.physicsBody?.categoryBitMask == PhysicsCategory.softPlatform{
+        if let rayStart = node1?.position, let rayEnd = node2?.position{
+            if rayStart == rayEnd{
+                return false
+            }
+            // Perform the raycast
+            scene.physicsWorld.enumerateBodies(alongRayStart: rayStart, end: rayEnd) { (body, point, normal, stop) in
+                if let node = body.node {
+                    // Ensure the node is not nodeA or nodeB
+                    if node.physicsBody?.categoryBitMask == PhysicsCategory.platform || node.physicsBody?.categoryBitMask == PhysicsCategory.softPlatform {
                         nodesInBetween.append(node)
                         stop.pointee = true // Stop the enumeration if a node is found
+                    }
                 }
             }
+            
         }
         
         return !nodesInBetween.isEmpty

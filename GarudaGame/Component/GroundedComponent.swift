@@ -13,7 +13,7 @@ class GroundedComponent: GKComponent {
     init(_ player: Player) {
         super.init()
         let groundHitbox = SKSpriteNode()
-        groundHitbox.size = CGSize(width: 64, height: 10)
+        groundHitbox.size = CGSize(width: 40, height: 10)
         groundHitbox.color = .red
         groundHitbox.position.y = -50
         groundHitbox.zPosition = 99
@@ -26,7 +26,7 @@ class GroundedComponent: GKComponent {
         player.component(ofType: SpriteComponent.self)?.node.addChild(groundHitbox)
         
         let platformHitbox = SKSpriteNode()
-        platformHitbox.size = CGSize(width: 67, height: 50)
+        platformHitbox.size = CGSize(width: 40, height: 50)
         platformHitbox.position.y = -50
         platformHitbox.zPosition = 99
         let platformCheckPhysics = SKPhysicsBody(rectangleOf: platformHitbox.size)

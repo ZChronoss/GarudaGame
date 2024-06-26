@@ -13,17 +13,16 @@ class LevelOneScene: BaseScene{
     override func didMove(to view: SKView) {
         self.currentScene = "LevelOneScene"
         super.didMove(to: view)
-        summonGaruda(at: CGPoint(x: frame.midX - 250, y: frame.midY))
-//        summonKecrek(at: CGPoint(x: frame.midX + 30, y: frame.midY), type: 1)
-//        summonKecrek(at: CGPoint(x: frame.midX + 250, y: frame.midY+100), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX + 40, y: frame.midY), type: 2)
-//        summonKecrek(at: CGPoint(x: frame.midX + 1000, y: frame.midY+150), type: 2)
-//        summonKecrek(at: CGPoint(x: frame.midX + 1200, y: frame.midY+150), type: 2)
-        
-//        let platformNames = (1...5).map { "\($0)" }
-//        for name in platformNames {
-//            setupPlatform(name: name)
-//        }
+        summonGaruda(at: CGPoint(x: frame.midX - 1800, y: frame.midY - 480))
+        summonKecrek(at: CGPoint(x: frame.midX - 600, y: frame.midY - 450), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 1800, y: frame.midY + 300), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 1200, y: frame.midY + 550), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 700, y: frame.midY + 700), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX + 480, y: frame.midY + 550), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX + 650, y: frame.midY - 450), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX + 1200, y: frame.midY - 450), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX + 1300, y: frame.midY - 450), type: 2)
+        summonObjective(at: CGPoint(x: frame.midX - 1600, y: frame.midY - 480))
         
         for node in self.children {
             if (node.name == "LevelOne") {
