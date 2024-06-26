@@ -13,16 +13,26 @@ class LevelOneScene: BaseScene{
     override func didMove(to view: SKView) {
         self.currentScene = "LevelOneScene"
         super.didMove(to: view)
-        summonGaruda(at: CGPoint(x: frame.midX - 1800, y: frame.midY - 480))
-        summonKecrek(at: CGPoint(x: frame.midX - 600, y: frame.midY - 450), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX - 1800, y: frame.midY + 300), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX - 1200, y: frame.midY + 550), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX - 700, y: frame.midY + 700), type: 2)
-        summonKecrek(at: CGPoint(x: frame.midX + 480, y: frame.midY + 550), type: 2)
-        summonKecrek(at: CGPoint(x: frame.midX + 650, y: frame.midY - 450), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX + 1200, y: frame.midY - 450), type: 1)
-        summonKecrek(at: CGPoint(x: frame.midX + 1300, y: frame.midY - 450), type: 2)
-        summonObjective(at: CGPoint(x: frame.midX - 1600, y: frame.midY - 480))
+        summonGaruda(at: CGPoint(x: frame.midX - 3800, y: frame.midY - 1120))
+        
+        summonKecrek(at: CGPoint(x: frame.midX - 2700, y: frame.midY - 1150), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 3900, y: frame.midY - 340), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 3100, y: frame.midY - 90), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 2900, y: frame.midY + 190), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX - 2600, y: frame.midY + 40), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX - 1100, y: frame.midY + 100), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 1200, y: frame.midY - 1120), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 1100, y: frame.midY - 1120), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 900, y: frame.midY - 1120), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX + 220, y: frame.midY - 1120), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX - 240, y: frame.midY + 1200), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 200, y: frame.midY + 1200), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX - 160, y: frame.midY + 1200), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX + 100, y: frame.midY + 270), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX + 1200, y: frame.midY - 240), type: 2)
+        summonKecrek(at: CGPoint(x: frame.midX + 1000, y: frame.midY - 960), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX + 1500, y: frame.midY - 900), type: 1)
+        summonKecrek(at: CGPoint(x: frame.midX + 1760, y: frame.midY - 820), type: 2)
         
         for node in self.children {
             if (node.name == "LevelOne") {
