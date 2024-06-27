@@ -53,7 +53,8 @@ class Player: GKEntity {
         addComponent(animationComponent)
         
 //        Physics
-        let physicComponent = PhysicComponent(SKPhysicsBody(rectangleOf: nodeSize), bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform | PhysicsCategory.spike , contact: PhysicsCategory.enemy | PhysicsCategory.spike | PhysicsCategory.platform)
+        let playerPhysics = SKPhysicsBody(polygonFrom: UIBezierPath(roundedRect: CGRect(x: -nodeSize.width * 0.5, y: -nodeSize.height * 0.5, width: nodeSize.width, height: nodeSize.height), cornerRadius: 20).cgPath)
+        let physicComponent = PhysicComponent(playerPhysics, bitmask: PhysicsCategory.player, collision: PhysicsCategory.platform | PhysicsCategory.spike , contact: PhysicsCategory.enemy | PhysicsCategory.spike | PhysicsCategory.platform)
         addComponent(physicComponent)
         
 //        Movement

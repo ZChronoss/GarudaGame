@@ -95,7 +95,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
         longDashIndicator = createIndicator(circleRadius: 36, initialDelay: 0, repeatInterval: 1, parentNode: dashButton)
         longDashIndicator2 = createIndicator(circleRadius: 36, initialDelay: 0.3, repeatInterval: 1, parentNode: dashButton)
         
-        for i in 0..<3 {
+        for i in 0..<5 {
             let health = SKSpriteNode(imageNamed: "Heart_Full")
             health.size = CGSize(width: 50, height: 50)
             health.position = CGPoint(x: self.frame.minX + 100 + CGFloat(i) * 50, y: self.frame.maxY - 150)
@@ -341,7 +341,7 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func summonGaruda(at position: CGPoint) {
-        garuda = Player(name: "Garuda", health: 999)
+        garuda = Player(name: "Garuda", health: 5)
         if let spriteComponent = garuda.component(ofType: SpriteComponent.self) {
             spriteComponent.node.name = "Garuda"
             let newNode = makeNewNode(oldNode: spriteComponent.node)
@@ -407,55 +407,58 @@ class BaseScene: SKScene, SKPhysicsContactDelegate{
     
     /// SETUP LEVEL USING TILE MAP NODE
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
-        let tileMap = map // the tile map that we want to give physics body
-        let startLocation: CGPoint = tileMap.position // initial position of the tile map
-        let tileSize = tileMap.tileSize // the size of each tile map
-        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width // half the width of the tile map
-        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height // half height of the tile map
-        
+        let tileMap = map
+        let tileSize = tileMap.tileSize
+        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
+        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
+
         for col in 0..<tileMap.numberOfColumns {
             for row in 0..<tileMap.numberOfRows {
                 if let tileDefinition = tileMap.tileDefinition(atColumn: col, row: row) {
-                    // initialize variables
-                    let tileArray = tileDefinition.textures // stores an array of textures for a specific tile
-                    let tileTextures = tileArray[0] // first texture of tileArray
-                    let x = CGFloat(col) * tileSize.width - halfWidth + ( tileSize.width / 2 ) // X-coordinate for the current tile's position
-                    let y = CGFloat(row) * tileSize.height - halfHeight + ( tileSize.height / 2 ) // Y-coordinate for the current tile's position
-                    
-                    // Make new sprite node for the tile map
-                    
-                    let tileNode = SKSpriteNode(texture: tileTextures)
-                    print(tileNode.texture?.description.contains("Dirt_Deep") as Any)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.size = CGSize(width: 64, height: 64)
-                    
-                    // Give the node some physics body
-                    tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: tileNode.size)
-                    tileNode.physicsBody?.usesPreciseCollisionDetection = true
-                    
-                    // Give some details to the physics body
-                    let platDesc = tileNode.texture?.description
-                    if platDesc?.contains("Dirt_Top") == true || platDesc?.contains("Dirt_Deep") == true {
-                        tileNode.physicsBody?.categoryBitMask = PhysicsCategory.platform
-                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.enemy | PhysicsCategory.bullet
-                        tileNode.physicsBody?.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
-                    }else if platDesc?.contains("Spike") == true {
-                        tileNode.physicsBody?.categoryBitMask = PhysicsCategory.spike
-                        tileNode.physicsBody?.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
-                        tileNode.physicsBody?.contactTestBitMask = PhysicsCategory.player
-                    }else if platDesc?.contains("Platform") == true {
-                        tileNode.size = CGSize(width: 64, height: 24)
-                        tileNode.physicsBody = SKPhysicsBody(texture: tileTextures, size: tileNode.size)
-                        tileNode.physicsBody?.categoryBitMask = PhysicsCategory.softPlatform
-                        tileNode.physicsBody?.contactTestBitMask = PhysicsCategory.platformChecker
+                    // Determine the tile's position
+                    let x = CGFloat(col) * tileSize.width - halfWidth + (tileSize.width / 2)
+                    let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
+                    let tilePosition = CGPoint(x: x, y: y)
+
+                    // Initialize variables
+                    let tileArray = tileDefinition.textures
+                    let tileTexture = tileArray[0]
+
+                    // Create a physics body directly
+                    let physicsBody: SKPhysicsBody
+                    let platDesc = tileTexture.description
+
+                    if platDesc.contains("Dirt_Top") || platDesc.contains("Dirt_Deep") {
+                        physicsBody = SKPhysicsBody(rectangleOf: tileSize)
+                        physicsBody.categoryBitMask = PhysicsCategory.platform
+                        physicsBody.collisionBitMask = PhysicsCategory.enemy | PhysicsCategory.bullet
+                        physicsBody.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.groundChecker
+                    } else if platDesc.contains("Spike") {
+                        physicsBody = SKPhysicsBody(rectangleOf: tileSize)
+                        physicsBody.categoryBitMask = PhysicsCategory.spike
+                        physicsBody.collisionBitMask = PhysicsCategory.player | PhysicsCategory.enemy | PhysicsCategory.bullet
+                        physicsBody.contactTestBitMask = PhysicsCategory.player
+                    } else if platDesc.contains("Platform") {
+                        let platformSize = CGSize(width: tileSize.width, height: 24)
+                        physicsBody = SKPhysicsBody(rectangleOf: platformSize)
+                        physicsBody.categoryBitMask = PhysicsCategory.softPlatform
+                        physicsBody.contactTestBitMask = PhysicsCategory.platformChecker
+                    } else {
+                        // Skip tiles that don't match the criteria
+                        continue
                     }
-                    tileNode.physicsBody?.affectedByGravity = false
-                    tileNode.physicsBody?.isDynamic = false
-                    tileNode.physicsBody?.friction = 1
-                    tileNode.physicsBody?.restitution = 0
-                    //                    tileNode.zPosition = 5
-                    
-                    tileNode.position = CGPoint(x: tileNode.position.x + startLocation.x, y: tileNode.position.y + startLocation.y)
+
+                    physicsBody.usesPreciseCollisionDetection = true
+                    physicsBody.affectedByGravity = false
+                    physicsBody.isDynamic = false
+                    physicsBody.friction = 1
+                    physicsBody.restitution = 0
+
+                    let tileNode = SKSpriteNode(texture: tileTexture)
+                    tileNode.position = CGPoint(x: tilePosition.x + tileMap.position.x, y: tilePosition.y + tileMap.position.y)
+                    tileNode.physicsBody = physicsBody
+                    tileNode.size = tileSize
+
                     self.addChild(tileNode)
                 }
             }
